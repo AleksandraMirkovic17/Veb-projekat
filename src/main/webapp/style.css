@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+
 *{
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+
 }
 .backgroundFirstPage{
     background: url(firstpage.bmp) no-repeat;
@@ -17,7 +17,7 @@
     width: 100%;
     background: rgba(0, 0, 0, 0.4);
 }
-.logo{
+.logoFastFood{
     width: 140px;
     height: auto;
     padding: 20px 100px;
@@ -98,21 +98,13 @@ padding: 0 0 20px;
 text-align: center;
 font-size: 22px;
 }
-.logo{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  border-radius: 10px;
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
-}
-.logo h1{
+
+.log h1{
   text-align: center;
   padding: 20px 0;
   border-bottom: 1px solid silver;
 }
-.logo form{
+.log form{
   padding: 0 40px;
   box-sizing: border-box;
 }
@@ -129,6 +121,7 @@ form .txt_field{
   border: none;
   background: none;
   outline: none;
+  color: white;
 }
 .txt_field label{
   position: absolute;

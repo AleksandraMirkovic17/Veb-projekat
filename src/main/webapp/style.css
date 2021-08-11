@@ -10,6 +10,7 @@
     background: url(firstpage.bmp) no-repeat;
     background-size: cover;
     height: 100vh;
+    justify-content: center;
 
 }
 .navbar{
@@ -190,3 +191,99 @@ input[type="submit"]:hover{
   text-decoration: underline;
 }
 
+
+.registration_form{
+    width: 500px;
+    height: 420px;
+    background:rgba(0, 0, 0, 1);
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform:translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 25px 30px;
+    border-radius: 5px;
+    justify-content: center;
+}
+
+.registration_form .title{
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.registration_form form .user-details{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+
+.user-details .input-box{
+  margin: 15x;
+  width: calc(100% /2 - 20px);
+}
+
+form .user-details .input-box input{
+  height: 45px;
+  width: 100%
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  padding-left: 15px;
+  font-size: 16px;
+  border-bottom-width:2px;
+  transition: all, 0.3s ease; 
+}
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid{
+    border-color: #9b59b6
+}
+
+
+.user-details .input-box .letters{
+  display: block;
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 5px;
+  padding-top: 10px;
+}
+
+form .gender-details .letters{
+  font-size: 20px;
+  font-weight: 500;
+}
+
+form .gender-details .gender_selection{
+  display: flex;
+  width:  80%;
+  margin: 14px 0;
+  justify-content:  space-between;
+}
+
+.gender-details .gender_selection label{
+    display: flex;
+    align-items: center;
+}
+
+.gender-details .gender_selection .radio_button{
+  height: 15px;
+  width: 15px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  margin-right: 10px; 
+  border: 5px solid transparent;
+}
+
+#rb1:checked ~ .gender_selection label .radio_button{
+  border-color: #d9d9d9;
+    background: #9b59b6;
+}
+form input[type="radio"]{
+  display: none;
+  }
+
+form .registration_form .button{
+    margin: 45px 0;
+}

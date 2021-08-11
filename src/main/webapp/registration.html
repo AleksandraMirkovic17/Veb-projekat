@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet"  href="style.css">
+</head>
+<body>
+    <div class="backgroundFirstPage">
+        <nav class="navbar">
+            <img src="logo.png" class="logoFastFood">
+            <ul>
+                <li><a class="action" onclick="location.href='firstpage.html'" href="#">Home</a></li>
+                <li><a href="#">Registration</a></li>
+                <li><a onclick="location.href='login.html'" href="#">Log in</a></li>
+            </ul>
+        </nav>
+        <div class="registration_form">
+            <div class="title">Registration</div>
+            <form method="post">
+                <div class="user-details">
+                    <div class="input-box">
+                        <label class="letters">First name*</label>
+                        <input type="text" required placeholder="Enter your first name">
+                    </div>
+                    <div class="input-box">
+                        <label class="letters">Last name*</label>
+                        <input type="text" required placeholder="Enter your lat name">
+                    </div>
+                    <div class="input-box">
+                        <label class="letters">Date of birth*</label>
+                        <input type="date" value="1950-01-01" placeholder="dd-mm-yyyy" />
+                    </div>
+                    <div class="input-box">
+                        <label class="letters">Username*</label>
+                        <input type="text" required placeholder="Enter a unique username" />
+                    </div>
+                    <div class="input-box">
+                        <label class="letters">Password*</label>
+                        <input type="text" required placeholder="Enter your password" required="" />
+                    </div>
+                    <div class="input-box">
+                        <label class="letters">Confirm password*</label>
+                        <input type="text" required placeholder="Confirm your password" required="" />
+                    </div>
+                    <div class="gender-details" >
+                        <input type="radio" name="gender" id="rb1">
+                        <input type="radio" name="gender" id="rb2">
+                        <label class="letters">Gender</label>
+                        <div class="gender_selection">
+                            <div class="category">
+                                <label for="rb1">
+                                    <span class="radio_button"></span>
+                                    <span class="gender">Male</span>
+                                </label>
+                                 <label for="rb2">
+                                    <span class="radio_button"></span>
+                                    <span class="gender">Female</span>
+                                </label>                           
+                            </div>
+                        </div>                  
+                    </div>
+                    <div class="button">
+                        <input type="submit" value="Register">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>    
+</body>
+</html>

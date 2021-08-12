@@ -1,0 +1,6 @@
+package beans;
+
+public enum OrderState {
+	PROCESSING, PREPAIRING, READYTODELIVER, TRANSPORTING, DELIVERED, CANCELED
+
+}

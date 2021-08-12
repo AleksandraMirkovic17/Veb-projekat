@@ -1,5 +1,7 @@
 package beans;
 
-public class Manager {
+public class Manager extends User{
+	
+	public Restaurant restaurant;
 
 }

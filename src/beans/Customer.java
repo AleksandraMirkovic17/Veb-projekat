@@ -1,5 +1,5 @@
 package beans;
 
-public class Customer {
+public class Customer{
 
 }

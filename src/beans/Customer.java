@@ -1,6 +1,6 @@
 package beans;
 
-
+import java.util.ArrayList;
 
 public class Customer extends User{
 	public ArrayList<Order> allOrders;

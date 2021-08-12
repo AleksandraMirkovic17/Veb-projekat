@@ -12,6 +12,29 @@ public class Order {
 	public String customerName;
 	public OrderState orderState;
 	
+	public Order(String id, ArrayList<ShoppingChartItem> articles, Restaurant restaurant, Date dateOfOrder,
+			double price, String customerName, OrderState orderState) {
+		super();
+		this.id = id;
+		this.articles = articles;
+		this.restaurant = restaurant;
+		this.dateOfOrder = dateOfOrder;
+		this.price = price;
+		this.customerName = customerName;
+		this.orderState = orderState;
+	}
+	public ArrayList<ShoppingChartItem> getArticles() {
+		return articles;
+	}
+	public void setArticles(ArrayList<ShoppingChartItem> articles) {
+		this.articles = articles;
+	}
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 	public String getId() {
 		return id;
 	}

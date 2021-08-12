@@ -8,6 +8,5 @@ public class User {
 	private String password;
 	private String name;
 	private String surname;
-	private Date date;
-
+	private Date date; 
 }

@@ -1,6 +1,7 @@
 package beans;
 
 public class Comment {
+	public Restaurant restaurant;
 	public String text;
 	public int mark;
 	

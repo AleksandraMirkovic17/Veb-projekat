@@ -10,13 +10,14 @@ public class Restaurant {
     	 ITALIAN,BARBECUE,CHINESE
      };
      public enum Status{
-    	 OPEN,CLOSE
+    	 OPEN,CLOSED
     	 };
     public TypeOfRestaurant typeRestaurant;
     public Status status;
     public Location location;
     public ArrayList<Artical> articles = new ArrayList<Artical>();
     public ImageIcon imageRestaurant;
+    
 	public String getName() {
 		return name;
 	}

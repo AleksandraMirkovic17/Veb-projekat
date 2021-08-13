@@ -8,6 +8,7 @@ Vue.component("registration",{
          date: '',
          role: "Customer",
          confirmPassword:'',
+         gender: '',
        }
   },
   template: ` <div class="registration_form">
@@ -15,49 +16,46 @@ Vue.component("registration",{
                 <div class="user-details">
                     <div class="input-box">
                         <label class="letters">First name*</label>
-                        <input type="text" required placeholder="Enter your first name">
+                        <input type="text" required placeholder="Enter your first name" v-model="name">
                     </div>
                     <div class="input-box">
                         <label class="letters">Last name*</label>
-                        <input type="text" required placeholder="Enter your lat name">
+                        <input type="text" required placeholder="Enter your last name" v-model="surname">
                     </div>
                     <div class="input-box">
                         <label class="letters">Date of birth*</label>
-                        <input type="date" value="1950-01-01" placeholder="dd-mm-yyyy" />
+                        <input type="date" value="1950-01-01" placeholder="dd-mm-yyyy" v-model="date" />
                     </div>
                     <div class="input-box">
                         <label class="letters">Username*</label>
-                        <input type="text" required placeholder="Enter a unique username" />
+                        <input type="text" required placeholder="Enter a unique username" v-model="userName" />
                     </div>
                     <div class="input-box">
                         <label class="letters">Password*</label>
-                        <input type="text" required placeholder="Enter your password" required="" />
+                        <input type="text" required placeholder="Enter your password" required="" v-model="password"/>
                     </div>
                     <div class="input-box">
                         <label class="letters">Confirm password*</label>
-                        <input type="text" required placeholder="Confirm your password" required="" />
+                        <input type="text" required placeholder="Confirm your password" required="" v-model="confirmPassword"/>
                     </div>
-                    <div class="gender-details" >
-                        <input type="radio" name="gender" id="rb1">
-                        <input type="radio" name="gender" id="rb2">
-                        <label class="letters">Gender</label>
-                        <div class="gender_selection">
-                            <div class="category">
-                                <label for="rb1">
-                                    <span class="radio_button"></span>
-                                    <span class="gender">Male</span>
-                                </label>
-                                 <label for="rb2">
-                                    <span class="radio_button"></span>
-                                    <span class="gender">Female</span>
-                                </label>                           
-                            </div>
-                        </div>                  
-                    </div>
+                          <br>
+            <select class="gender-selection" v-model="gender" >
+               <option value="" disabled selected hidden>Gender</option>
+               <option value = "MALE">Male</option>
+               <option value = "FEMALE">Female</option>
+            </select>
+            <br>
                     <div class="button">
                         <input type="submit" value="Register">
                     </div>
                 </div>
-        </div>
+        </div>        
    `
+ ,
+ methods : {
+ 	axios.post('rest/CustomerRegistration/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender })
+ 		.then(response => {
+ 			alert('Successful customer registration!');
+ 		});		
+ }
 });

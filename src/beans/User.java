@@ -4,12 +4,14 @@ import java.util.Date;
 
 public class User{
 	public enum Roles{Administrator,Manager,Customer,Deliverer};
-	private String userName;
-	private String password;
-	private String name;
+	public enum Gender{Male, Female};
+	public String userName;
+	public String password;
+	public String name;
 	private String surname;
 	private Date date;
 	private Roles role;
+	public Gender gender;
 	public Roles getRole() {
 		return role;
 	}

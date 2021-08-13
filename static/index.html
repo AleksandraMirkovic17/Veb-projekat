@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First page</title>
-    <link rel="stylesheet"  href="css/style.css">
+    <link rel="stylesheet"  href="style.css">
 </head>
 <body>
-    <div class="backgroundFirstPage">
+    <div id="firstPage" class="backgroundFirstPage">
         <nav class="navbar">
-            <img src="slike/logo.png" class="logoFastFood">
+            <img src="logo.png" class="logoFastFood">
             <ul>
                 <li><a  href="#/">Home</a></li>
                 <li><a href="#/registration">Registration</a></li>
@@ -23,6 +23,7 @@
             <h1>Welcome to Fast Food</h1>
             <h2> Please registration or log in.</h2>
         </div>
+        <router-view></router-view>
     </div>
     
 <script src="js/vue.js"></script>
@@ -30,8 +31,7 @@
 <script src="js/axios.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/toast.js"></script>
-
-
-    
+<script src="app/app.js"></script>
+<script src="app/registration.js"></script>    
 </body>
 </html>

@@ -7,11 +7,12 @@ public class ShoppingChart {
 	public User user;
 	public double price;
 	
-	public ShoppingChart(ArrayList<ShoppingChartItem> items, User user, double price) {
+	public ShoppingChart(User user) {
 		super();
-		this.items = items;
+		this.items = new ArrayList<ShoppingChartItem>();
 		this.user = user;
-		this.price = price;
+		this.price=0;
+	
 	}
 	public ArrayList<ShoppingChartItem> getItems() {
 		return items;

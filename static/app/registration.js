@@ -46,16 +46,19 @@ Vue.component("registration",{
             </select>
             <br>
                     <div class="button">
-                        <input type="submit" value="Register">
+                        <input type="submit" value="Register" v-on:click="RegisterCustomer">
                     </div>
                 </div>
         </div>        
    `
  ,
  methods : {
+     RegisterCustomer: function(){
  	axios.post('rest/CustomerRegistration/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender })
  		.then(response => {
  			alert('Successful customer registration!');
- 		});		
+ 		})
+         .catch(() => {alert('Registration for customers is temporary unavailable')});		
  }
+}
 });

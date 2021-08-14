@@ -9,7 +9,7 @@ public class CustomerRegistrationDTO {
 	public String userName;
 	public String password;
 	public String name;
-	private String surname;
-	private Date date;
+	public String surname;
+	public String date;
 	public Gender gender;
 }

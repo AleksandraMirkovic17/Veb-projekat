@@ -6,9 +6,9 @@ Vue.component("registration",{
          name: '',
          surname: '',
          date: '',
-         role: "Customer",
+         role: "CUSTOMER",
          confirmPassword:'',
-         gender: '',
+         gender: ''
        }
   },
   template: ` <div class="registration_form">
@@ -54,7 +54,7 @@ Vue.component("registration",{
  ,
  methods : {
      RegisterCustomer: function(){
- 	axios.post('rest/CustomerRegistration/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender })
+ 	axios.post('rest/CustomerReg/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender })
  		.then(response => {
  			alert('Successful customer registration!');
  		})

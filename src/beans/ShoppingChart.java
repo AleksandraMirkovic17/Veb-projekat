@@ -14,6 +14,10 @@ public class ShoppingChart {
 		this.price=0;
 	
 	}
+	public ShoppingChart() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public ArrayList<ShoppingChartItem> getItems() {
 		return items;
 	}

@@ -11,16 +11,16 @@ import beans.Customer;
 public class CustomerDAO {
 	
 	private String path = "data/customers.json";
-	private ArrayList<Customer> customers = new ArrayList<>();
+	private ArrayList<Customer> customers = new ArrayList<Customer>();
 
 	public void addCustomer(Customer newCustomer) {
-		customers.add(newCustomer);
+		this.customers.add(newCustomer);
 		saveAll();
 	}
 
 	private void saveAll() {
 		Gson gson = new Gson();
-		String json = gson.toJson(customers);
+		String json = gson.toJson(this.customers);
 		try(PrintWriter out = new PrintWriter(path)){
 			out.println(json);
 			out.close();

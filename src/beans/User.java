@@ -3,15 +3,15 @@ package beans;
 import java.util.Date;
 
 public class User{
-	public enum Roles{Administrator,Manager,Customer,Deliverer};
-	public enum Gender{Male, Female};
+	public enum Roles{ADMINISTRATOR,MANAGER,CUSTOMER,DELIVERER};
+	
 	public String userName;
 	public String password;
 	public String name;
 	private String surname;
 	private Date date;
 	private Roles role;
-	public Gender gender;
+	public String gender;
 	public Roles getRole() {
 		return role;
 	}
@@ -48,12 +48,14 @@ public class User{
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public User(String userName, String password, String name, String surname, Date date) {
+	public User(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
 		super();
 		this.userName = userName;
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
 		this.date = date;
+		this.gender=gender;
+		this.role=role;
 	} 
 }

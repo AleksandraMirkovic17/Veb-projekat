@@ -6,10 +6,10 @@ import java.util.Date;
 import beans.User.Roles;
 
 public class Deliverer extends User{
-	public Deliverer(String userName, String password, String name, String surname, Date date) {
-		super(userName, password, name, surname, date);
+	public Deliverer(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
+		super(userName, password, name, surname, date,gender,role);
 		// TODO Auto-generated constructor stub
-		Roles role=Roles.Deliverer;
+		role=Roles.DELIVERER;
 	}
 
 	public ArrayList<Order> ordersToBeDelivered;

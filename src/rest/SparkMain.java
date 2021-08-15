@@ -24,7 +24,8 @@ public class SparkMain {
 		CustomerService customerService = new CustomerService();
 		Gson g = new Gson();
 		
-		post("rest/CustomerRegistration/", (req, res) ->{
+		post("rest/CustomerReg/", (req, res) ->{
+			System.out.print("ovde sam");
 			res.type("application/json");
 			res.status(200);
 			CustomerRegistrationDTO params = g.fromJson(req.body(), CustomerRegistrationDTO.class);

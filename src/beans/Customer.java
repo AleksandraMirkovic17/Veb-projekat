@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer extends User{
-	public ArrayList<Order> allOrders;
-	public ShoppingChart shoppingChart;
-	public int score;
-	public Customer(String userName, String password, String name, String surname, Date date) {
-		super(userName, password, name, surname, date);
-		// TODO Auto-generated constructor stub
-		Roles role=Roles.Customer;
-		this.allOrders=new ArrayList<Order>();
-		
+	private ArrayList<Order> allOrders;
+	private ShoppingChart shoppingChart;
+	private int score;
 	
+
+	public int getScore() {
+		return score;
 	}
-	
-	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	public Customer(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
+		super(userName, password, name, surname, date,gender,role);
+		role=Roles.CUSTOMER;
+		allOrders=new ArrayList<Order>();
+		shoppingChart=new ShoppingChart();
+		this.score = 0;
+
+	}
 	public ArrayList<Order> getAllOrders() {
 		return allOrders;
 	}
@@ -29,11 +35,15 @@ public class Customer extends User{
 	public void setShoppingChart(ShoppingChart shoppingChart) {
 		this.shoppingChart = shoppingChart;
 	}
-	public int getScore() {
-		return score;
-	}
-	public void setScore(int score) {
+	public Customer(String userName, String password, String name, String surname, Date date, String gender, Roles role,
+			ArrayList<Order> allOrders, ShoppingChart shoppingChart, int score) {
+		super(userName, password, name, surname, date, gender, role);
+		this.allOrders = allOrders;
+		this.shoppingChart = shoppingChart;
 		this.score = score;
 	}
+	
+	
+
 	
 }

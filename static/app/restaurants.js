@@ -1,7 +1,9 @@
 Vue.component("restaurants", {
     data: function(){
         return {
+
             restaurants = null
+
         }
     },
     template: `
@@ -21,8 +23,10 @@ Vue.component("restaurants", {
     `
     ,
     mounted(){
+
         axios
             .get('rest/restaurants')
+
             .then(response =>(this.restaurants = response.data));
     }
     ,

@@ -52,5 +52,11 @@ public class UserDAO {
 		}
 		
 	}
+	public ArrayList<User> getAllUsers(){
+		readUser();
+		return users;
+	}
+	
+	
 
 }

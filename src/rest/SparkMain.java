@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.google.gson.Gson;
 
 import dto.CustomerRegistrationDTO;
-import service.CustomerService;
+import service.UserService;
 
 import static spark.Spark.*;
 
@@ -21,7 +21,7 @@ public class SparkMain {
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 		after((req,res) -> res.type("application/json"));
 		
-		CustomerService customerService = new CustomerService();
+		UserService userService = new UserService();
 		Gson g = new Gson();
 		
 		post("rest/CustomerReg/", (req, res) ->{
@@ -29,7 +29,7 @@ public class SparkMain {
 			res.type("application/json");
 			res.status(200);
 			CustomerRegistrationDTO params = g.fromJson(req.body(), CustomerRegistrationDTO.class);
-			customerService.registerCustomer(params);
+			userService.registerCustomer(params);
 		return "OK";
 		});
 		

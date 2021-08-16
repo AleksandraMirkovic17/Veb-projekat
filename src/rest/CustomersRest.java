@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 
 import dto.CustomerRegistrationDTO;
+import dto.UserLoginDTO;
 import service.UserService;
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -24,5 +25,17 @@ public class CustomersRest {
 			userService.registerCustomer(params);
 		return "OK";
 		});
-	}
+		
+		get("rest/login", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			UserLoginDTO user = new UserLoginDTO(); 
+			user.userName = req.queryParams("userName");
+		    user.password = req.queryParams("password");
+		    System.out.println("POKUSAJ LOGOVANJA: "+user.userName+ " " + user.password);
+			
+			return "OK";
+		});
+  }
 }

@@ -11,6 +11,7 @@ import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
 import dto.CustomerRegistrationDTO;
+import dto.UserLoginDTO;
 import service.UserService;
 
 import static spark.Spark.*;
@@ -42,11 +43,23 @@ public class SparkMain {
 			ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 			restaurants.add(r1);
 			restaurants.add(r2);
-			return g.toJson(restaurants);
+			return g.toJson(restaurants);});
+
+		get("rest/login", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			UserLoginDTO user = new UserLoginDTO(); 
+			user.userName = req.queryParams("userName");
+		    user.password = req.queryParams("password");
+		    if(!userService.isExistUser(user))
+		    	return "YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!";
+		    	
+			return "OK";
 		});
 		
 		
 
-	}
+	
 
-}
+}}

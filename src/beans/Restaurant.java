@@ -16,7 +16,7 @@ public class Restaurant {
     public Status status;
     public Location location;
     public ArrayList<Artical> articles = new ArrayList<Artical>();
-    public ImageIcon imageRestaurant;
+    public String imageRestaurant;
     
 	public String getName() {
 		return name;
@@ -48,14 +48,14 @@ public class Restaurant {
 	public void setArticles(ArrayList<Artical> articles) {
 		this.articles = articles;
 	}
-	public ImageIcon getImageRestaurant() {
+	public String getImageRestaurant() {
 		return imageRestaurant;
 	}
-	public void setImageRestaurant(ImageIcon imageRestaurant) {
+	public void setImageRestaurant(String imageRestaurant) {
 		this.imageRestaurant = imageRestaurant;
 	}
 	public Restaurant(String name, TypeOfRestaurant typeRestaurant, Status status, Location location,
-			ArrayList<Artical> articles, ImageIcon imageRestaurant) {
+			ArrayList<Artical> articles, String imageRestaurant) {
 		super();
 		this.name = name;
 		this.typeRestaurant = typeRestaurant;

@@ -4,8 +4,8 @@ const login={template: '<login></login>'};
 
 const router= new VueRouter({
       mode: 'hash',
-      routes: [
-      {path: '/', component:  restaurants},
+      routes: [      
+       {path: '/', component:restaurants},
       {path: '/registration',component: registration},
       {path: '/login',component: login}
       ]

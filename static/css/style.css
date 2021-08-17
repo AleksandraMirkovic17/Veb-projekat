@@ -7,9 +7,9 @@
 
 }
 .backgroundFirstPage{
-    background: url(firstpage.bmp) no-repeat;
+    background-image: url(../firstpage.bmp);
+    background-attachment: fixed;
     background-size: cover;
-    height: 100vh;
     justify-content: center;
 
 }

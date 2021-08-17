@@ -12,7 +12,7 @@ Vue.component("registration",{
          loggedInUser: {}
        }
   },
-  template: ` <div class="registration_form">
+  template: ` <div class="registration_form clearfix">
             
                 <div class="user-details">
                     <div class="input-box">

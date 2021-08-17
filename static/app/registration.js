@@ -11,7 +11,7 @@ Vue.component("registration",{
          gender: ''
        }
   },
-  template: ` <div class="registration_form">
+  template: ` <div class="registration_form clearfix">
             
                 <div class="user-details">
                     <div class="input-box">

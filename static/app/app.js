@@ -12,5 +12,28 @@ const router= new VueRouter({
 });
 var app = new Vue({
     router,
-	el: '#firstPage'
+	el: '#firstPage',
+	data: {
+		status: 'notLoggedIn',
+		typeUser: 'anonymous',
+		loggedInUser: {}
+	},
+	mounted()
+	{
+	 axios 
+	 .get('rest/testlogin')
+	 .then(response =>
+	 {
+	 if(response.data !="Err:UserIsNotLoggedIn")
+	     {
+	       this.loggedInUser=response.data;
+	       this.status='loggedIn';
+	       this.typeUser=this.loggedInUser.role;
+	     }
+	    })
+			.catch(function (error) {
+				alert('Login for users is temporary unavailable');
+		}
+	);
+}
 });

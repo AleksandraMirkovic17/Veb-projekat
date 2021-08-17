@@ -1,6 +1,5 @@
 package beans;
 
-import javax.swing.ImageIcon;
 
 public class Artical {
 	

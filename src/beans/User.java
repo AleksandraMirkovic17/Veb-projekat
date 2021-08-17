@@ -57,5 +57,9 @@ public class User{
 		this.date = date;
 		this.gender=gender;
 		this.role=role;
+	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
 	} 
 }

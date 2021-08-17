@@ -6,9 +6,10 @@ Vue.component("registration",{
          name: '',
          surname: '',
          date: '',
-         role: "CUSTOMER",
          confirmPassword:'',
-         gender: ''
+         gender: '',
+         role:'',
+         loggedInUser: {}
        }
   },
   template: ` <div class="registration_form clearfix">
@@ -38,6 +39,14 @@ Vue.component("registration",{
                         <label class="letters">Confirm password*</label>
                         <input type="text" required placeholder="Confirm your password" required="" v-model="confirmPassword"/>
                     </div>
+                     <br>
+             <div v-if="loggedInUser.role =='ADMINISTRATOR'">
+               <select  v-model="role" >
+                  <option value="" disabled selected hidden>Role</option>
+                  <option value = "DELIVERER"> DELIVERER</option>
+                  <option value = "MANAGER"> MANAGER</option>
+               </select>
+            </div>
                           <br>
             <select class="gender-selection" v-model="gender" >
                <option value="" disabled selected hidden>Gender</option>
@@ -52,9 +61,26 @@ Vue.component("registration",{
         </div>        
    `
  ,
+ 	mounted()
+	{
+	 axios 
+	 .get('rest/testlogin')
+	 .then(response =>
+	 {
+	 if(response.data !="Err:UserIsNotLoggedIn")
+	     {
+	       this.loggedInUser=response.data;
+
+	     }
+	    })
+			.catch(function (error) {
+				alert('Login for users is temporary unavailable');
+		}
+	);
+},
  methods : {
      RegisterCustomer: function(){
- 	axios.post('rest/CustomerReg/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender })
+ 	axios.post('rest/CustomerReg/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender,"role":this.role })
  		.then(response => {
  			alert('Successful customer registration!');
  		})

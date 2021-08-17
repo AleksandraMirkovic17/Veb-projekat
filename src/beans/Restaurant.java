@@ -2,7 +2,7 @@ package beans;
 
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
+
 
 public class Restaurant {
      public String name;

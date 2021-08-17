@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import beans.Artical;
-import beans.Location;
 import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
-import dto.CustomerRegistrationDTO;
+import beans.User;
+import dto.UserRegistrationDTO;
 import dto.UserLoginDTO;
 import service.UserService;
+import spark.Session;
 
 import static spark.Spark.*;
 
@@ -31,16 +31,15 @@ public class SparkMain {
 		post("rest/CustomerReg/", (req, res) ->{
 			res.type("application/json");
 			res.status(200);
-			CustomerRegistrationDTO params = g.fromJson(req.body(), CustomerRegistrationDTO.class);
-			userService.registerCustomer(params);
+			UserRegistrationDTO params = g.fromJson(req.body(), UserRegistrationDTO.class);
+			userService.registerUser(params);
 		return "OK";
 		});
 		
 		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-			Artical a= new Artical("nesto",123.33,333,"nestooooo","nesto");
-			Location n= new Location("nesto");
+			
 			
 			Restaurant r1 = new Restaurant("Andreina kuhinja",TypeOfRestaurant.ITALIAN,Status.OPEN,null,null,"images/podrazumevani-logo-restorana.jpg");
 			Restaurant r2 = new Restaurant("Andreina kuhinja 2",TypeOfRestaurant.ITALIAN,Status.OPEN, null,null,"images/podrazumevani-logo-restorana.jpg");
@@ -63,7 +62,26 @@ public class SparkMain {
 		    user.password = req.queryParams("password");
 		    if(!userService.isExistUser(user))
 		    	return "YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!";
-		    	
-			return "OK";
+		    
+		    User loginUser=userService.loginUser(user);
+           res.cookie("userCOOKIE", loginUser.getUserName());             // set cookie with a value
+			
+			Session ss = req.session(true);
+			ss.attribute("user", loginUser);	
+			return  g.toJson(loginUser);
 		});
+		get("rest/testlogin", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			User user = ss.attribute("user");	 
+			if(user == null) {
+				System.out.println("USER IS NULL");
+				return "Err:UserIsNotLoggedIn";
+			}
+			return g.toJson(user);
+		});
+			
+			
 }}

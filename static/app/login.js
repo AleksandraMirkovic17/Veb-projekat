@@ -39,11 +39,15 @@ Vue.component("login",{
             alert('Err: YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER');
             }
             else{
-            alert('Successful user login!');
+            alert('Successful user login!')
+            window.location.href = "/";
             }
             
             })
-         .catch(() => {alert('Login for users is temporary unavailable')});	
+         .catch(() => {
+         alert('Login for users is temporary unavailable')
+         window.location.href = "/";
+         });	
   
  }}
 });      

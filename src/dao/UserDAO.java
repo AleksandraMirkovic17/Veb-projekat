@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import beans.Customer;
+
 import beans.User;
 
 public class UserDAO {
@@ -17,7 +17,7 @@ public class UserDAO {
 	private String path = "data/users.json";
 	private ArrayList<User> users = new ArrayList<>();
     
-	public void addCustomer(User newUser) {
+	public void addUser(User newUser) {
 		readUser();
 		this.users.add(newUser);
 		saveAll();

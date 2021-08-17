@@ -2,7 +2,7 @@ package beans;
 
 import java.util.Date;
 
-import beans.User.Roles;
+
 
 public class Manager extends User{
 	

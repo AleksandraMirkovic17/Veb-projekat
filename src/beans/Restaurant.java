@@ -14,10 +14,17 @@ public class Restaurant {
     	 };
     public TypeOfRestaurant typeRestaurant;
     public Status status;
-    public Location location;
-    public ArrayList<Artical> articles = new ArrayList<Artical>();
+    public Location location=new Location();
+    public ArrayList<Artical> articles= new ArrayList<Artical>();
     public String imageRestaurant;
     
+    
+	public Restaurant() {
+		super();
+		articles = new ArrayList<Artical>();
+		location=new Location();
+		
+	}
 	public String getName() {
 		return name;
 	}
@@ -64,6 +71,7 @@ public class Restaurant {
 		this.articles = articles;
 		this.imageRestaurant = imageRestaurant;
 	}
+
     
     
 }

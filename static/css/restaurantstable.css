@@ -50,10 +50,9 @@
 	float: left;
 	height: 450px;
 	border-radius: 5px;
-	background-color: rgba(255,255,255,0.5);
-	padding: 5px 10px;
-
-
+	background-color: rgba(255, 255, 255, 0.938);
+	padding: 10px 15px 10px 15px;
+	margin: 2px;
 }
 
 .content .sidebar h3{
@@ -61,7 +60,11 @@
 }
 
 .content .sidebar .text-restaurants-info{
-	padding: 5px 10px;
 	font-weight: bold;
+	padding-top: 10px;
 }
+.content .sidebar button{
+	margin-top: 10px;
+}
+
 

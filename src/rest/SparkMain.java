@@ -37,9 +37,14 @@ public class SparkMain {
 		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-			Restaurant r1 = new Restaurant("Andreina kuhinja", TypeOfRestaurant.ITALIAN , Status.OPEN, new Location() , null, "images/podrazumevani-logo-restorana.jpg");
-			Restaurant r2 = new Restaurant("Andreina kuhinja 2", TypeOfRestaurant.ITALIAN , Status.OPEN, new Location() , null, "images/podrazumevani-logo-restorana.jpg");
-			Restaurant r3 = new Restaurant("Andreina kuhinja 2", TypeOfRestaurant.CHINESE , Status.OPEN, new Location() , null, "images/podrazumevani-logo-restorana.jpg");
+			Location l1 = new Location("12.11","122","Dunavska","121bb", "Novi Sad", "21000");
+			Location l2 = new Location("12.11","122","Marinikova","1111", "Kikina", "122");
+			Location l3 = new Location("12.11","122","Main street","121bb", "Los Angeles", "21000");
+
+
+			Restaurant r1 = new Restaurant("Andreina kuhinja", TypeOfRestaurant.ITALIAN , Status.OPEN, l1 , null, "../images/podrazumevani-logo-restorana.jpg", 4.5);
+			Restaurant r2 = new Restaurant("Andreina kuhinja 2", TypeOfRestaurant.ITALIAN , Status.OPEN, l2 , null, "../images/podrazumevani-logo-restorana.jpg", 2.1);
+			Restaurant r3 = new Restaurant("Andreina kuhinja 2", TypeOfRestaurant.CHINESE , Status.OPEN, l3 , null, null, 3.7);
 
 
 			ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();

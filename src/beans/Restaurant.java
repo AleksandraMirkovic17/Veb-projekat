@@ -5,26 +5,46 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class Restaurant {
-     public String name;
-     public enum TypeOfRestaurant{
-    	 ITALIAN,BARBECUE,CHINESE
-     };
-     public enum Status{
-    	 OPEN,CLOSED
-    	 };
+    public enum TypeOfRestaurant{
+   	 ITALIAN,BARBECUE,CHINESE
+    };
+    public enum Status{
+   	 OPEN,CLOSED
+   	 };
+   	 
+    public String name;
     public TypeOfRestaurant typeRestaurant;
     public Status status;
     public Location location=new Location();
     public ArrayList<Artical> articles= new ArrayList<Artical>();
     public String imageRestaurant;
-    
+    public double rating;
     
 	public Restaurant() {
 		super();
 		articles = new ArrayList<Artical>();
-		location=new Location();
-		
+		location=new Location();		
 	}
+	public Restaurant(String name, TypeOfRestaurant typeRestaurant, Status status, Location location,
+			ArrayList<Artical> articles, String imageRestaurant, double rating) {
+		super();
+		this.name = name;
+		this.typeRestaurant = typeRestaurant;
+		this.status = status;
+		this.location = location;
+		this.articles = articles;
+		this.imageRestaurant = imageRestaurant;
+		this.rating = rating;
+	}
+	
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -61,17 +81,4 @@ public class Restaurant {
 	public void setImageRestaurant(String imageRestaurant) {
 		this.imageRestaurant = imageRestaurant;
 	}
-	public Restaurant(String name, TypeOfRestaurant typeRestaurant, Status status, Location location,
-			ArrayList<Artical> articles, String imageRestaurant) {
-		super();
-		this.name = name;
-		this.typeRestaurant = typeRestaurant;
-		this.status = status;
-		this.location = location;
-		this.articles = articles;
-		this.imageRestaurant = imageRestaurant;
-	}
-
-    
-    
 }

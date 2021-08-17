@@ -6,7 +6,7 @@ const router= new VueRouter({
       mode: 'hash',
       routes: [
       
-        {path: '/', component:restaurants},
+       {path: '/', component:restaurants},
       {path: '/registration',component: registration},
       {path: '/login',component: login}
       

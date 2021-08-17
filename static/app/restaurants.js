@@ -2,7 +2,7 @@ Vue.component("restaurants", {
     data: function(){
         return {
             restaurants: null
-        }
+
     },
     template: `
     <div class="restaurantsID">
@@ -22,7 +22,7 @@ Vue.component("restaurants", {
     ,
     mounted(){
         axios.get('rest/restaurants')
-            .then(response =>(this.restaurants = response.data));
+        .then(response =>(this.restaurants = response.data));
     }
     ,
     methods:{

@@ -43,7 +43,9 @@ public class SparkMain {
 			ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 			restaurants.add(r1);
 			restaurants.add(r2);
+			System.out.println("haahaaj");
 			return g.toJson(restaurants);});
+		
 
 		get("rest/login", (req, res) -> {
 			res.type("application/json");
@@ -57,9 +59,4 @@ public class SparkMain {
 		    	
 			return "OK";
 		});
-		
-		
-
-	
-
 }}

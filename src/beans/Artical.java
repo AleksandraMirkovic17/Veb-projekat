@@ -6,12 +6,16 @@ public class Artical {
 	
 	public String nameArtical;
 	public double price;
-	public enum Type{DISH, DRINK};
-	public Type typeArtical;
-	public Restaurant restaurant;
+	//public enum Type{DISH, DRINK};
+	//public Type typeArtical;
 	public double quantity;
 	public String description;
-	public ImageIcon image;
+	public String image;
+	
+	public Artical() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public String getNameArtical() {
 		return nameArtical;
 	}
@@ -24,18 +28,13 @@ public class Artical {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Type getTypeArtical() {
+	/*public Type getTypeArtical() {
 		return typeArtical;
 	}
 	public void setTypeArtical(Type typeArtical) {
 		this.typeArtical = typeArtical;
-	}
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
+	}*/
+	
 	public double getQuantity() {
 		return quantity;
 	}
@@ -48,19 +47,18 @@ public class Artical {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public ImageIcon getImage() {
+	public String getImage() {
 		return image;
 	}
-	public void setImage(ImageIcon image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
-	public Artical(String nameArtical, double price, Type typeArtical, Restaurant restaurant, double quantity,
-			String description, ImageIcon image) {
+	public Artical(String nameArtical, double price, double quantity,
+			String description, String image) {
 		super();
 		this.nameArtical = nameArtical;
 		this.price = price;
-		this.typeArtical = typeArtical;
-		this.restaurant = restaurant;
+		//this.typeArtical = typeArtical;
 		this.quantity = quantity;
 		this.description = description;
 		this.image = image;

@@ -44,5 +44,14 @@ public class UserService {
 		}
 		return null;
 	}
+	public boolean UsernameExists(String username) {
+		boolean exists = false;
+		ArrayList<User> users=userDAO.getAllUsers();
+		for(User u : users)
+			if(username.equals(u.userName))
+				exists=true;
+		return exists;
+	}
+	
 }
 	

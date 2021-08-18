@@ -22,8 +22,8 @@
                 <li><a href="#/">Add restaurant</a></li>
                 </ul>
                 </li>
-                <li><a v-if="status=='loggedIn'" href="#/">Log out</a></li>
-                <li><a v-if="status=='notLoggedIn'"  href="#/registration">Registration</a></li>
+                <li><a v-if="status=='loggedIn'"  v-on:click="logout" href="#/">Log out</a></li>
+                <li><a v-if="status=='notLoggedIn'"   href="#/registration">Registration</a></li>
                 <li><a v-if="status=='notLoggedIn'"  href="#/login">Log in</a></li>
             </ul>
         </nav>

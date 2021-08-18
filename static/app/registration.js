@@ -9,7 +9,10 @@ Vue.component("registration",{
          confirmPassword:'',
          gender: '',
          role:'',
-         loggedInUser: {}
+         loggedInUser: {},
+         allFilled: "OK",
+         userNameUnique: "OK",
+         correctRepeatedPassword: "OK"
        }
   },
   template: ` <div class="registration_form clearfix">
@@ -55,7 +58,7 @@ Vue.component("registration",{
             </select>
             <br>
                     <div class="button">
-                        <input type="submit" value="Register" v-on:click="RegisterCustomer">
+                        <input type="submit" value="Register" v-on:click="Validation">
                     </div>
                 </div>
         </div>        
@@ -70,7 +73,6 @@ Vue.component("registration",{
 	 if(response.data !="Err:UserIsNotLoggedIn")
 	     {
 	       this.loggedInUser=response.data;
-
 	     }
 	    })
 			.catch(function (error) {
@@ -79,12 +81,89 @@ Vue.component("registration",{
 	);
 },
  methods : {
+     Validation: function(){
+
+         if(this.name == ''){
+            this.allFilled='You must enter your name!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.surname == ''){
+            this.allFilled='You must enter your surname!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.date == ''){
+            this.allFilled='Please select your birthday!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.userName==''){
+            this.allFilled='You must enter a username!';
+            alert(this.allFilled);
+            return false;
+        }
+         if(this.gender == ''){
+            this.allFilled='Please select your gender!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.password == ''){
+            this.allFilled='Please enter a password!';
+            alert(this.allFilled);
+
+             return false;
+         }
+         if(this.password != this.confirmPassword){
+            this.correctRepeatedPassword='Passwords should be same!';
+            alert(this.correctRepeatedPassword);
+             return false;
+         }
+
+         axios.post('rest/usernameExists', this.userName)
+            .then(response=>{
+                if(response.data===true){
+                    this.userNameUnique = 'There is a user with the same username, please enter a unique username!';
+                    alert(this.userNameUnique);
+                    return false;
+                }
+                else{
+                    this.RegisterCustomer();
+                }
+
+            }).catch()
+         
+     },
      RegisterCustomer: function(){
  	axios.post('rest/CustomerReg/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender,"role":this.role })
  		.then(response => {
- 			alert('Successful customer registration!');
- 		})
-         .catch(() => {alert('Registration for customers is temporary unavailable')});		
- }
+                alert('Successful customer registration!');
+
+                axios.get('rest/login',{
+                    params:
+                    {
+                    userName: this.userName,
+                    password: this.password
+                    }
+                })
+             .then(response => {
+                    if (response.data == 'YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!') {
+                    alert('Err: YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER');
+                    }
+                    else{
+                    alert('Successful user login!')
+                    window.location.href = "/";
+                    }
+                    
+                    })
+               .catch(() => {
+                    alert('Login for users is temporary unavailable')
+                    window.location.href = "/"});
+        })
+        .catch(() => {
+            alert('Registration for customers is temporary unavailable!')
+            window.location.href = "/";
+            });	
+    }
 }
 });

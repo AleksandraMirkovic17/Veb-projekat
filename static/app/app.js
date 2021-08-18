@@ -35,5 +35,25 @@ var app = new Vue({
 				alert('Login for users is temporary unavailable');
 		}
 	);
-}
+	},
+	methods :
+	{
+		logout: function () {			
+			axios.get('rest/logout')
+				.then(response => {
+					if (response.data === 'OK') {
+						alert(this.loggedInUser.name+" you are successfully logged out!");
+						this.status ="notLoggedIn";
+						this.typeUser='anonymous';
+						this.loggedInUser={};
+					}
+				})
+				.catch(function (error) {
+					alert('You are unable to logout from your pofile!');
+				}
+				);
+
+		}
+	}
+
 });

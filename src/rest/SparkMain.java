@@ -36,6 +36,13 @@ public class SparkMain {
 		return "OK";
 		});
 		
+		post("rest/usernameExists", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String username = g.fromJson(req.body(), String.class);
+		return userService.UsernameExists(username);
+		});
+		
 		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
@@ -88,6 +95,20 @@ public class SparkMain {
 			}
 			return g.toJson(user);
 		});
+		
+		get("rest/logout", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			User loggedInUser = ss.attribute("user");
+			ss.invalidate();
+			System.out.println("See you soon "+loggedInUser.userName+"!");
+			
+			
+			return "OK";
+		});
+		
+
 			
 			
 }}

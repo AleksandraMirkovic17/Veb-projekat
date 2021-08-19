@@ -193,17 +193,17 @@ input[type="submit"]:hover{
 
 
 .registration_form{
-    width: 500px;
-    height: 420px;
+    width: 450px;
+    height: 550px;
     background:rgba(0, 0, 0, 1);
     color: #fff;
     top: 50%;
     left: 50%;
-    position: absolute;
-    transform:translate(-50%,-50%);
     box-sizing: border-box;
     padding: 25px 30px;
     border-radius: 5px;
+    margin-top: 2%;
+    margin-left: 35%;
     justify-content: center;
 }
 
@@ -266,16 +266,11 @@ form .gender-details .gender_selection{
   border: 5px solid transparent;
 }
 
-#rb1:checked ~ .gender_selection label .radio_button{
-  border-color: #d9d9d9;
-    background: #9b59b6;
-}
-form input[type="radio"]{
-  display: none;
-  }
+
 
 form .registration_form .button{
     margin: 45px 0;
+    margin-top: 20px;
 }
 .dropDown{
 	

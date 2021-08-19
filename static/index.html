@@ -18,8 +18,8 @@
                 <ul v-if="loggedInUser.role=='ADMINISTRATOR'">
                 <li><a  href="#/registration">Registration</a>
                 </li>
-                <li><a href="#/">Review User</a></li>
-                <li><a href="#/">Add restaurant</a></li>
+                <li><a href="#/">Review Users</a></li>
+                <li><a href="#/addrestaurant">Add restaurant</a></li>
                 </ul>
                 </li>
                 <li><a v-if="status=='loggedIn'"  v-on:click="logout" href="#/">Log out</a></li>

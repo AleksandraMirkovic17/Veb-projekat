@@ -8,7 +8,7 @@ Vue.component("registration",{
          date: '',
          confirmPassword:'',
          gender: '',
-         role:'',
+         role:"CUSTOMER",
          loggedInUser: {},
          allFilled: "OK",
          userNameUnique: "OK",
@@ -16,7 +16,8 @@ Vue.component("registration",{
        }
   },
   template: ` <div class="registration_form clearfix">
-            
+            <div v-if="loggedInUser.role!='ADMINISTRATOR'"><h3>Register</h3></div>
+            <div v-if="loggedInUser.role=='ADMINISTRATOR'"><h3>Register a new manager or deliverer</h3></div>
                 <div class="user-details">
                     <div class="input-box">
                         <label class="letters">First name*</label>
@@ -44,6 +45,7 @@ Vue.component("registration",{
                     </div>
                      <br>
              <div v-if="loggedInUser.role =='ADMINISTRATOR'">
+             <label class="letters">Select role:*</label>
                <select  v-model="role" >
                   <option value="" disabled selected hidden>Role</option>
                   <option value = "DELIVERER"> DELIVERER</option>
@@ -51,6 +53,8 @@ Vue.component("registration",{
                </select>
             </div>
                           <br>
+                          <label class="letters">Select gender*</label>
+
             <select class="gender-selection" v-model="gender" >
                <option value="" disabled selected hidden>Gender</option>
                <option value = "MALE">Male</option>
@@ -138,7 +142,7 @@ Vue.component("registration",{
  	axios.post('rest/CustomerReg/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender,"role":this.role })
  		.then(response => {
                 alert('Successful customer registration!');
-
+                if(this.loggedInUser.role===""){
                 axios.get('rest/login',{
                     params:
                     {
@@ -159,6 +163,7 @@ Vue.component("registration",{
                .catch(() => {
                     alert('Login for users is temporary unavailable')
                     window.location.href = "/"});
+               }
         })
         .catch(() => {
             alert('Registration for customers is temporary unavailable!')

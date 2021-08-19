@@ -16,6 +16,18 @@ public class UserDAO {
 	
 	private String path = "data/users.json";
 	private ArrayList<User> users = new ArrayList<>();
+	public static UserDAO userDAO= null;
+	
+	private UserDAO(){
+		
+	}
+	
+	public static UserDAO getInstance() {
+		if(userDAO == null) {
+			userDAO = new UserDAO();
+		}
+		return userDAO;
+	}
     
 	public void addUser(User newUser) {
 		readUser();

@@ -6,7 +6,7 @@ Vue.component("restaurants", {
                 name: "",
                 location: "",
                 rating: 0,
-                type: "",
+                type: "ALL",
                 onlyopened: false
             },
             selected_restaurants: {}
@@ -56,7 +56,7 @@ Vue.component("restaurants", {
         <div class="restaurants-type">
             <p class="text-restaurants-info">Type</p>
             <select class="restaurants-type-selection" v-model="search_params.type">
-				<option selected value="ALL">ALL</option>
+				<option value="ALL" selected>ALL</option>
 				<option value="CHINESE">CHINESE</option>
 				<option value="ITALIAN">ITALIAN</option>
 				<option value="BARBECUE">BARBECUE</option>
@@ -92,8 +92,9 @@ Vue.component("restaurants", {
 				 type: this.search_params.type,
 				 onlyopened: this.search_params.onlyopened
 			} })
-				.then(response => (this.restaurants = response.data)).catch(function (error) {
-					alert('Something is wrong!');
+				.then(response => (this.restaurants = response.data))
+                    .catch(function (error) {
+					    alert('Something is wrong with searching for restaurants!');
 				});	
 
 		}

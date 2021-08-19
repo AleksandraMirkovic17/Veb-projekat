@@ -11,8 +11,11 @@ import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
 import beans.User;
+import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
+import dto.SearchForRestaurantsParamsDTO;
 import dto.UserLoginDTO;
+import service.RestaurantService;
 import service.UserService;
 import spark.Session;
 
@@ -26,6 +29,7 @@ public class SparkMain {
 		after((req,res) -> res.type("application/json"));
 		
 		UserService userService = new UserService();
+		RestaurantService restaurantService = new RestaurantService();
 		Gson g = new Gson();
 		
 		post("rest/CustomerReg/", (req, res) ->{
@@ -61,6 +65,8 @@ public class SparkMain {
 			restaurants.add(r1);
 			restaurants.add(r2);
 			restaurants.add(r3);
+			RestaurantDAO restDao = RestaurantDAO.getInstance();
+			restDao.addAll(restaurants);
 			System.out.println("haahaaj");
 			return g.toJson(restaurants);
 			});
@@ -106,6 +112,19 @@ public class SparkMain {
 			
 			
 			return "OK";
+		});
+		
+		get("rest/searchRestaurants", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String name = req.queryParams("name");
+			String location= req.queryParams("location");
+			String rating = req.queryParams("rating");
+			String type = req.queryParams("type");
+			String onlyopened = req.queryParams("onlyopened");
+			SearchForRestaurantsParamsDTO parametres = new SearchForRestaurantsParamsDTO(name, location, rating, type, onlyopened);
+			ArrayList<Restaurant> searchedRestaurants = restaurantService.searchRestaurants(parametres);
+			return g.toJson(searchedRestaurants);
 		});
 		
 

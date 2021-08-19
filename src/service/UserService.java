@@ -18,14 +18,16 @@ public class UserService {
 	
 	
 	public UserService() {
-		this.userDAO = new UserDAO();
+		this.userDAO = UserDAO.getInstance();
 	}
+	
 	public void registerUser(UserRegistrationDTO parametersForRegistration) throws ParseException {
 	    SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
 	    Date date = formatter2.parse(parametersForRegistration.date);
 		User newUser = new User(parametersForRegistration.userName, parametersForRegistration.password, parametersForRegistration.name, parametersForRegistration.surname, date,parametersForRegistration.gender,parametersForRegistration.role);
 		userDAO.addUser(newUser);
 	}
+	
 	public boolean isExistUser(UserLoginDTO user)
 	{
 		ArrayList<User> users=userDAO.getAllUsers();
@@ -35,6 +37,7 @@ public class UserService {
 		}
 		return false;
 	}
+	
 	public User loginUser(UserLoginDTO user)
 	{
 		ArrayList<User> users=userDAO.getAllUsers();
@@ -44,6 +47,7 @@ public class UserService {
 		}
 		return null;
 	}
+	
 	public boolean UsernameExists(String username) {
 		boolean exists = false;
 		ArrayList<User> users=userDAO.getAllUsers();

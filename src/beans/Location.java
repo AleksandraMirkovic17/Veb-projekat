@@ -4,7 +4,7 @@ package beans;
 
 public class Location {
    
-	public String logitude;
+	public String longitude;
 	public String latitude;
 	public String street;
 	public String houseNumber;
@@ -19,7 +19,7 @@ public class Location {
 	public Location(String logitude, String latitude, String street, String houseNumber, String city,
 			String postalCode) {
 		super();
-		this.logitude = logitude;
+		this.longitude = logitude;
 		this.latitude = latitude;
 		this.street = street;
 		this.houseNumber = houseNumber;
@@ -27,12 +27,12 @@ public class Location {
 		this.postalCode = postalCode;
 	}
 
-	public String getLogitude() {
-		return logitude;
+	public String getLongitude() {
+		return longitude;
 	}
 
-	public void setLogitude(String logitude) {
-		this.logitude = logitude;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 	public String getLatitude() {

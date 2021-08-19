@@ -16,6 +16,11 @@
 	float:left;
 }
 
+.content .main-content .sorting
+{
+	color: whitesmoke;
+}
+
 .content .main-content .post{
 	width: 95%;
 	height: 270px;
@@ -42,6 +47,7 @@
 .content .main-content .all-restaurants-title{
 	margin: 20px;
 	color: whitesmoke;
+	background-color: salmon;
 }
 
 .content .sidebar
@@ -66,5 +72,7 @@
 .content .sidebar button{
 	margin-top: 10px;
 }
+
+
 
 

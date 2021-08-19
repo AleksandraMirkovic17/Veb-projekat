@@ -9,7 +9,9 @@ Vue.component("restaurants", {
                 type: "ALL",
                 onlyopened: false
             },
-            selected_restaurants: {}
+            selected_restaurants: {},
+            sortType:"name",
+            sortDirection:"ascending",
             }
 
     },
@@ -18,6 +20,19 @@ Vue.component("restaurants", {
         <div class="content clearfix">
 		<div class="main-content">
 			<h1 class="all-restaurants-title">Preview of all restaurants</h1>
+            <div class="sorting"> 
+                <h4 class="sorting-title">Sort by</h4>
+                <select name="sortby" v-on:change="sort" v-model="sortType">
+                    <option value="name">Name</option>
+                    <option value="location">Location</option>
+                    <option value="rating">Rating</option>
+                </select>
+                <select name="sortdirection" v-on:change="sort" v-model="sortDirection">
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
+
+            </div>
             <div v-for="r in restaurants" class="restaurantsDiv">
 			<div class="post">
 				<img :src="restaurantImageLogo(r)" class="post-image">
@@ -97,6 +112,28 @@ Vue.component("restaurants", {
 					    alert('Something is wrong with searching for restaurants!');
 				});	
 
-		}
+		},
+        sort: function(){
+            if(this.sortType == "name"){
+                if(this.sortDirection=="ascending"){
+                    this.restaurants.sort((a, b) => (a.name.toUpperCase() > b.name.toUpperCase()) ? 1 : ((b.name.toUpperCase() > a.name.toUpperCase()) ? -1 : 0));
+                }else{
+                    this.restaurants.sort((b, a) => (a.name.toUpperCase() > b.name.toUpperCase()) ? 1 : ((b.name.toUpperCase() > a.name.toUpperCase()) ? -1 : 0));
+                }
+            } else if(this.sortType == "location"){
+                if(this.sortDirection=="ascending"){
+                    this.restaurants.sort((a, b) => (a.location.city.toUpperCase() > b.location.city.toUpperCase()) ? 1 : ((b.location.city.toUpperCase() > a.location.city.toUpperCase()) ? -1 : 0));
+                }else{
+                    this.restaurants.sort((b, a) => (a.location.city.toUpperCase() > b.location.city.toUpperCase()) ? 1 : ((b.location.city.toUpperCase() > a.location.city.toUpperCase()) ? -1 : 0));
+                }
+            } else if(this.sortType == "rating"){
+                if(this.sortDirection=="ascending"){
+                    this.restaurants.sort((a, b) => (a.rating > b.rating) ? 1 : ((b.rating > a.rating) ? -1 : 0));
+                }else{
+                    this.restaurants.sort((b, a) => (a.rating > b.rating) ? 1 : ((b.rating > a.rating) ? -1 : 0));
+                }
+            }
+
+        }
     }  
 });

@@ -1,13 +1,15 @@
 const restaurants={template: '<restaurants></restaurants>'};
 const registration={template: '<registration></registration>'};
 const login={template: '<login></login>'};
+const addrestaurant={template:'<addrestaurant></addrestaurant>'}
 
 const router= new VueRouter({
       mode: 'hash',
       routes: [      
        {path: '/', component:restaurants},
       {path: '/registration',component: registration},
-      {path: '/login',component: login}
+      {path: '/login',component: login},
+	  {path: '/addrestaurant', component: addrestaurant}
       ]
 });
 var app = new Vue({

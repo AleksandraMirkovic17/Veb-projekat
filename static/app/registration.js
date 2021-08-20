@@ -169,6 +169,59 @@ Vue.component("registration",{
             alert('Registration for customers is temporary unavailable!')
             window.location.href = "/";
             });	
-    }
+    },
+        Validation: function(){
+
+         if(this.name == ''){
+            this.allFilled='You must enter your name!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.surname == ''){
+            this.allFilled='You must enter your surname!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.date == ''){
+            this.allFilled='Please select your birthday!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.userName==''){
+            this.allFilled='You must enter a username!';
+            alert(this.allFilled);
+            return false;
+        }
+         if(this.gender == ''){
+            this.allFilled='Please select your gender!';
+            alert(this.allFilled);
+             return false;
+         }
+         if(this.password == ''){
+            this.allFilled='Please enter a password!';
+            alert(this.allFilled);
+
+             return false;
+         }
+         if(this.password != this.confirmPassword){
+            this.correctRepeatedPassword='Passwords should be same!';
+            alert(this.correctRepeatedPassword);
+             return false;
+         }
+
+         axios.post('rest/usernameExists', this.userName)
+            .then(response=>{
+                if(response.data===true){
+                    this.userNameUnique = 'There is a user with the same username, please enter a unique username!';
+                    alert(this.userNameUnique);
+                    return false;
+                }
+                else{
+                    this.RegisterCustomer();
+                }
+
+            }).catch()
+         
+     }
 }
 });

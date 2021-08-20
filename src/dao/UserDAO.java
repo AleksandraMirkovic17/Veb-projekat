@@ -68,6 +68,19 @@ public class UserDAO {
 		readUser();
 		return users;
 	}
+
+	public void changeUser(String userName, User changedUser) {
+		ArrayList<User> allUsers = getAllUsers();
+		for(int i=0; i<allUsers.size(); i++) {
+			if(allUsers.get(i).getUserName().equals(userName)) {
+				allUsers.set(i, changedUser);
+				break;
+			}
+		}
+		this.users = allUsers;
+		saveAll();
+		
+	}
 	
 	
 

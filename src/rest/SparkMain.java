@@ -13,6 +13,8 @@ import beans.Restaurant.TypeOfRestaurant;
 import beans.User;
 import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
+import dto.CheckRestourantNameDTO;
+import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.UserLoginDTO;
 import service.RestaurantService;
@@ -37,6 +39,7 @@ public class SparkMain {
 			res.status(200);
 			UserRegistrationDTO params = g.fromJson(req.body(), UserRegistrationDTO.class);
 			userService.registerUser(params);
+			System.out.println(params);
 		return "OK";
 		});
 		
@@ -47,27 +50,21 @@ public class SparkMain {
 		return userService.UsernameExists(username);
 		});
 		
+		get("rest/RestourantsNameExists", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String name= req.queryParams("name");
+			System.out.println("SparkMain provera poklapanja imena restorana "+name);
+		return restaurantService.NameExists(name);
+		});
+		
+		
+		
 		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-			Location l1 = new Location("12.11","122","Dunavska","121bb", "Novi Sad", "21000");
-			Location l2 = new Location("12.11","122","Marinikova","1111", "Kikina", "122");
-			Location l3 = new Location("12.11","122","Main street","121bb", "Los Angeles", "21000");
-
-
-			Restaurant r1 = new Restaurant("Andreina kuhinja", TypeOfRestaurant.ITALIAN , Status.OPEN, l1 , null, "../images/podrazumevani-logo-restorana.jpg", 4.5);
-			Restaurant r2 = new Restaurant("Andreina kuhinja 2", TypeOfRestaurant.ITALIAN , Status.OPEN, l2 , null, "../images/podrazumevani-logo-restorana.jpg", 2.1);
-			Restaurant r3 = new Restaurant("Andreina kuhinja 2", TypeOfRestaurant.CHINESE , Status.OPEN, l3 , null, null, 3.7);
-
-
-
-			ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
-			restaurants.add(r1);
-			restaurants.add(r2);
-			restaurants.add(r3);
-			RestaurantDAO restDao = RestaurantDAO.getInstance();
-			restDao.addAll(restaurants);
-			System.out.println("haahaaj");
+			ArrayList<Restaurant> restaurants = restaurantService.getAll();
+			System.out.println("Ucitali smo sve restorane");
 			return g.toJson(restaurants);
 			});
 		
@@ -125,6 +122,25 @@ public class SparkMain {
 			SearchForRestaurantsParamsDTO parametres = new SearchForRestaurantsParamsDTO(name, location, rating, type, onlyopened);
 			ArrayList<Restaurant> searchedRestaurants = restaurantService.searchRestaurants(parametres);
 			return g.toJson(searchedRestaurants);
+		});
+		
+		get("rest/freeMenagers", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ArrayList<User> freeMenagers = userService.searchFreeMenagers();
+			if(freeMenagers.size()==0) {
+				freeMenagers = null;
+			}
+			return g.toJson(freeMenagers);
+		});
+		
+		post("rest/registerRestaurant/", (req,res)->{
+			res.type("application/json");
+			res.status(200);
+			RestaurantRegistrationDTO params = g.fromJson(req.body(), RestaurantRegistrationDTO.class);
+			restaurantService.registerRestaurant(params);
+			System.out.println(params);
+		return "OK";
 		});
 		
 

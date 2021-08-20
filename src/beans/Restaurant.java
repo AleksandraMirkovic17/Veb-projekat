@@ -26,13 +26,13 @@ public class Restaurant {
 		location=new Location();		
 	}
 	public Restaurant(String name, TypeOfRestaurant typeRestaurant, Status status, Location location,
-			ArrayList<Artical> articles, String imageRestaurant, double rating) {
+			ArrayList<Artical> arrayList, String imageRestaurant, double rating) {
 		super();
 		this.name = name;
 		this.typeRestaurant = typeRestaurant;
 		this.status = status;
 		this.location = location;
-		this.articles = articles;
+		this.articles = arrayList;
 		this.imageRestaurant = imageRestaurant;
 		this.rating = rating;
 	}

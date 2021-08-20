@@ -1,0 +1,167 @@
+.restaurant-registration{
+	margin: 0;
+	padding: 0;
+	background-position: center;
+	background-size: cover;
+	font-family: sans-serif;
+    color: #FFFFFF;
+	margin-top: 30px ;
+}
+
+.restaurant-registration .regrest{
+	width: 800px;
+	background-color: rgb(0,0,0,0.6);
+		margin: auto;
+        color: #FFFFFF;
+		padding: 10px 0px 10px 0px;
+        text-align: center;
+        border-radius: 15px 15px 0px 0px;
+        width: 650px;
+}
+
+.restaurant-registration .main{
+    background-color: rgb(0,0,0,0.5);
+    width: 650px;
+    margin: auto;
+    padding: 7px;
+}
+
+.restaurant-registration .main .name{
+    width: 100%;
+    margin-left: 25px;
+    margin-top: 20px;
+    width: 125px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.restaurant-registration .main .restaurantsname{
+    position: relative;
+    left: 200px;
+    top: -37px;
+    line-height: 40px;
+    border-radius: 6px;
+    padding: 0 22px;
+    font-size: 16px;
+}
+
+.restaurant-registration .main .restaurants-type-selection{
+    position: relative;
+    left: 200px;
+    top: -37px;
+    line-height: 40px;
+    border-radius: 6px;
+    padding: 0 22px;
+    font-size: 16px;
+}
+
+.restaurant-registration .main .input{
+    position: relative;
+    left: 200px;
+    top: -37px;
+    line-height: 40px;
+    border-radius: 6px;
+    padding: 0 22px;
+    font-size: 16px;
+}
+
+.restaurant-registration .main .nameselection{
+    width: 100%;
+    margin-left: 25px;
+    width: 125px;
+    font-size: 18px;
+    font-weight: 700;
+    top: -150px;
+}
+
+.restaurant-registration .container{
+    display: list-item;
+    box-sizing: border-box;
+    place-items: center;
+    text-align: center;
+}
+
+.restaurant-registration .container .wrapper{
+    position: relative;
+    height: 200px;
+    width: 200px;
+    border-radius: 10px;
+    border: 2px dashed #c2cdda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+}
+
+.restaurant-registration .container .wrapper .image{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restaurant-registration .container .wrapper .image img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.restaurant-registration .container .wrapper .icon{
+    font-size: 100px;
+    color: whitesmoke;
+}
+
+.restaurant-registration .container .wrapper .text{
+    font-size: 20px;
+    font-weight: 500;
+    color: whitesmoke;
+}
+
+.restaurant-registration .container .wrapper #cancel-btn{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: whitesmoke;
+}
+
+.restaurant-registration .container .wrapper .file-name{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    color: whitesmoke;
+    padding: 8px 0;
+    font-size: 18px;
+    background: black;
+}
+
+.restaurant-registration .container #custom-btn{
+    margin-top: 30px;
+    margin-right: 600px;
+    width: 200px;
+    height: 35px;
+    display: block;
+    border: none;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.registation-form{
+    position: relative;
+    max-width: 150px;
+}
+
+.restaurant-registration-m {
+    display: flex;
+}
+.selection-second{
+    margin-top: -100px;
+}
+

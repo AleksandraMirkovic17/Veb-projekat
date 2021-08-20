@@ -12,6 +12,23 @@ public class User{
 	private Date date;
 	private Roles role;
 	public String gender;
+	public String restaurant; //if menager
+	
+	public User(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.date = date;
+		this.gender=gender;
+		this.role=role;
+	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	} 
+	
 	public Roles getRole() {
 		return role;
 	}
@@ -48,18 +65,16 @@ public class User{
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public User(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
-		super();
-		this.userName = userName;
-		this.password = password;
-		this.name = name;
-		this.surname = surname;
-		this.date = date;
-		this.gender=gender;
-		this.role=role;
+	public String getGender() {
+		return gender;
 	}
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	} 
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getRestaurant() {
+		return restaurant;
+	}
+	public void setRestaurant(String restaurant) {
+		this.restaurant = restaurant;
+	}
 }

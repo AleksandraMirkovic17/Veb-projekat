@@ -6,6 +6,8 @@
 	font-family: sans-serif;
     color: #FFFFFF;
 	margin-top: 30px ;
+    position: relative;
+    display: table;
 }
 
 .restaurant-registration .regrest{
@@ -146,11 +148,8 @@
     height: 35px;
     display: block;
     border: none;
-    border-radius: 25px;
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
     cursor: pointer;
 }
 .registation-form{
@@ -161,7 +160,11 @@
 .restaurant-registration-m {
     display: flex;
 }
-.selection-second{
-    margin-top: -100px;
+
+.menagersel{
+    position: absolute;
+    margin-top: 20px;
+    margin-right: 200px;
 }
+
 

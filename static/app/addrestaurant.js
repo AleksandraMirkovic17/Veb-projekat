@@ -26,7 +26,11 @@ Vue.component("addrestaurant",{
             gender:"",
 
             allFilled: "",
-            nameUnique:""
+            nameUnique:"",
+
+            image: null,
+            imagePreview: null,
+            file:''
 
             
         }
@@ -48,15 +52,16 @@ Vue.component("addrestaurant",{
         <h2 class="nameselection">Manager</h2>
         <div class="input selection">
             <div v-if="newMenagerAdded==false">
-                <select v-model=menager id="menagerslist" class="input selection-second">
+                <select v-model=menager id="menagerslist" class="input selection menagersel">
                     <option v-for="m in freemenagers" v-bind:value="m.userName">
                         {{m.name}} {{m.surname}}
                     </option>
                 </select>
             </div>
             <div v-else-if="newMenagerAdded==true">
-            <input type=text disabled placeholder="this.firstname this.lastname">
-            </input>
+            <select>
+                <option selected>{{this.firstname}} {{this.surname}}</option>
+            </select>
             </div>
         <button v-if="freemenagers==null" v-on:click=MenagerRequired id="addmenager">Add new</button>
         </div>
@@ -78,7 +83,7 @@ Vue.component("addrestaurant",{
         <div class="container input">
             <div class="wrapper">
                 <div class="image">
-                    <img src="">
+                    <img :src=this.imagePreview >
                 </div>
                 <div class="content">
                     <i class="fas fa-cloud-upload-alt"></i>
@@ -86,10 +91,8 @@ Vue.component("addrestaurant",{
 
                 </div>
                 <div id="cancel-btn"><i class="fas fa-times">x</i></div>
-            <div class="file-name"><i class="fas fa-times">File name here</i></div>
-            </div>
-            
-            <input id="custom-btn" type="file" >
+            </div>           
+            <input id="custom-btn" type="file" @change="imageSelected">
         </div>
         </div class="button">
         <input type="submit" value="Register" v-on:click=ValidationRestaurant>
@@ -264,17 +267,21 @@ Vue.component("addrestaurant",{
         axios.post('rest/registerRestaurant/', {"name":this.name, "menager":this.menager, 
                                 "type":this.type, "latitude":this.latitude, "longitude":this.longitude, 
                                 "street":this.street,"houseNumber":this.houseNumber, "city":this.city,
-                                "postalCode":this.postalCode,"imageRestaurant":this.imageRestaurant })
+                                "postalCode":this.postalCode,"imageRestaurant": this.imageRestaurant })
         .then(response => {
                alert('Successful restaurant registration!');
+                       //upload an image
+
                this.emptyFields();
         });
+
     },
     emptyFields: function(){
         this.name = "";
         this.type = "ITALIAN";
         this.freemenagers = null;
         this.imageRestaurant= "";
+        this.imagePreview="",
         this.menager= "no";
         this.latitude= "";
         this.longitude= "";
@@ -296,8 +303,19 @@ Vue.component("addrestaurant",{
 
         this.allFilled = "";
         this.nameUnique= "";
+    },
+    imageSelected: function(e){
+        const file = e.target.files[0];
+        this.imagePreview = URL.createObjectURL(file);
+        this.onUpload(file);
+    },
+    onUpload: function(file){
+        const reader= new FileReader();
+        reader.onload = (e) =>{
+            this.imageRestaurant = e.target.result;
+        }
+        reader.readAsDataURL(file);
     }
-
 }
 }
 );

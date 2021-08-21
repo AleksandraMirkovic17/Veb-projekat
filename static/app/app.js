@@ -1,7 +1,8 @@
 const restaurants={template: '<restaurants></restaurants>'};
 const registration={template: '<registration></registration>'};
 const login={template: '<login></login>'};
-const addrestaurant={template:'<addrestaurant></addrestaurant>'}
+const addrestaurant={template:'<addrestaurant></addrestaurant>'};
+const managersrestaurant={template:'<managersrestaurant><managersrestaurant/>'}
 
 const router= new VueRouter({
       mode: 'hash',
@@ -9,7 +10,8 @@ const router= new VueRouter({
        {path: '/', component:restaurants},
       {path: '/registration',component: registration},
       {path: '/login',component: login},
-	  {path: '/addrestaurant', component: addrestaurant}
+	  {path: '/addrestaurant', component: addrestaurant},
+	  {path: '/managersrestaurant', component: managersrestaurant}
       ]
 });
 var app = new Vue({
@@ -34,7 +36,7 @@ var app = new Vue({
 	     }
 	    })
 			.catch(function (error) {
-				alert('Login for users is temporary unavailable');
+				alert('Login for users is temporary unavailable, please come back later!');
 		}
 	);
 	},

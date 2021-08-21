@@ -14,14 +14,24 @@
         <nav class="navbar">
             <img  src="logo.png" class="logoFastFood">
             <ul>
-                <li><a v-if="loggedInUser.role=='ADMINISTRATOR'" href="#/">{{loggedInUser.userName}}</a></li>
-                <li><a  href="#/">Meni</a>
-                <ul v-if="loggedInUser.role=='ADMINISTRATOR'">
-                <li><a  href="#/registration">Registration</a>
+                <li><a v-if="loggedInUser.role=='ADMINISTRATOR'" href="#/">{{loggedInUser.userName}}</a>
+                    
+
+                <li><a>Menu</a>
+                    <ul v-if="loggedInUser.role=='ADMINISTRATOR'"  class="functionlist">
+                        <li><a  href="#/registration">Registration</a></li>
+                        <li><a href="#/">Review Users</a></li>
+                        <li><a href="#/addrestaurant">Add restaurant</a></li>
+                    </ul>
+                    <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant!=null" class="functionlist">
+                        <li><a  href="#/menagersrestaurant">See {{loggedInUser.restaurant}}</a></li>
+                        <li><a href="#/">See orders</a></li>
+                        <li><a href="#/">See customers</a></li>
+                    </ul>
+                    <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant==null" class="functionlist">
+                        <li style="color:whitesmoke; word-spacing: 0%;">Not connected with restaurants</li>
+                    </ul>
                 </li>
-                <li><a href="#/">Review Users</a></li>
-                <li><a href="#/addrestaurant">Add restaurant</a></li>
-                </ul>
                 </li>
                 <li><a v-if="status=='loggedIn'"  v-on:click="logout" href="#/">Log out</a></li>
                 <li><a v-if="status=='notLoggedIn'"   href="#/registration">Registration</a></li>

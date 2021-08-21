@@ -123,4 +123,16 @@ public class RestaurantService {
         return restaurantWithoutImage;
 	}
 
+	public Restaurant getByName(String restaurantsName) {
+		ArrayList<Restaurant> allRestaurants = restaurantDAO.getAllRestaurants();
+		Restaurant ret = null;
+		for(Restaurant r : allRestaurants ) {
+			if(r.getName().equals(restaurantsName)) {
+				ret=r;
+				break;
+			}
+		}
+		return ret;
+	}
+
 }

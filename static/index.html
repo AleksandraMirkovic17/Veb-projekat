@@ -24,8 +24,8 @@
                         <li><a href="#/addrestaurant">Add restaurant</a></li>
                     </ul>
                     <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant!=null" class="functionlist">
-                        <li><a  href="#/menagersrestaurant">See {{loggedInUser.restaurant}}</a></li>
-                        <li><a href="#/">See orders</a></li>
+                        <li><a  href="#/managersrestaurant">See {{loggedInUser.restaurant}}</a></li>
+                        <li><a href="#/">See ordersdd</a></li>
                         <li><a href="#/">See customers</a></li>
                     </ul>
                     <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant==null" class="functionlist">
@@ -49,10 +49,10 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/toast.js"></script>
 <script src="app/registration.js"></script>    
-<script src="app/addrestaurant.js"></script>    
+<script src="app/addrestaurant.js"></script>  
+<script src="app/menagersrestaurant.js"></script>
 <script src="app/login.js"></script>  
 <script src="app/restaurants.js"></script>
-
 <script src="app/app.js"></script>
 
 </body>

@@ -77,4 +77,16 @@ public class User{
 	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
+	public User(String userName, String password, String name, String surname, Date date, Roles role, String gender,
+			String restaurant) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.date = date;
+		this.role = role;
+		this.gender = gender;
+		this.restaurant = restaurant;
+	}
 }

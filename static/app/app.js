@@ -2,7 +2,7 @@ const restaurants={template: '<restaurants></restaurants>'};
 const registration={template: '<registration></registration>'};
 const login={template: '<login></login>'};
 const addrestaurant={template:'<addrestaurant></addrestaurant>'};
-const managersrestaurant={template:'<managersrestaurant><managersrestaurant/>'}
+const managersrestaurant={template:'<managersrestaurant></managersrestaurant>'}
 
 const router= new VueRouter({
       mode: 'hash',

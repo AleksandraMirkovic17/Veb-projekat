@@ -19,6 +19,7 @@ Vue.component("login",{
           <span></span>
           <label>Password</label>
         </div>
+        <div class="pass">Forgot Password?</div>
         <input type="submit" value="Login"  v-on:click="LoginUser">
         <div class="signup_link">
           Not a member? <a href="#/registration">Signup</a>

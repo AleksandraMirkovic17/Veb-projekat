@@ -81,22 +81,30 @@ public class SparkMain {
 		    	return "YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!";
 		    
 		    User loginUser=userService.loginUser(user);
-           res.cookie("userCOOKIE", loginUser.getUserName());             // set cookie with a value
+		    res.cookie("userCOOKIE", loginUser.getUserName());             // set cookie with a value
 			
 			Session ss = req.session(true);
-			ss.attribute("user", loginUser);	
+			ss.attribute("user", loginUser);
+			System.out.println("SparkMain napravljena je sesija!");
+			User proveraSesije = ss.attribute("user");
+			System.out.println("SparkMain provera sesije, korisnik "+proveraSesije.getUserName()+" uspesno zakacen na sesiju!");
 			return  g.toJson(loginUser);
 		});
+		
 		get("rest/testlogin", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			
 			Session ss = req.session(true);
-			User user = ss.attribute("user");	 
+			User user = ss.attribute("user");	
 			if(user == null) {
-				System.out.println("USER IS NULL");
+				System.out.println("Test main: USER IS NULL (while testing testlogin)");
 				return "Err:UserIsNotLoggedIn";
+			}else {
+				System.out.println("TestMain testiranje testlogina, korisnik "+ user.getUserName()+" je ulogovan na aplikaciju!");
+
 			}
+			System.out.println(g.toJson(user));
 			return g.toJson(user);
 		});
 		
@@ -133,6 +141,20 @@ public class SparkMain {
 				freeMenagers = null;
 			}
 			return g.toJson(freeMenagers);
+		});
+		
+		get("rest/loadrestmanager/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String restaurantsName = req.queryParams("restaurantname");
+			Restaurant restaurant = restaurantService.getByName(restaurantsName);
+			if(restaurant == null) {
+				System.out.println("SparkMain-restaurant does not exists!");
+				return "NotExsists";
+			}else {
+				System.out.println("SparkMain"+restaurant.toString());
+			}
+			return g.toJson(restaurant);
 		});
 		
 		post("rest/registerRestaurant/", (req,res)->{

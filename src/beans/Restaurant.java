@@ -15,8 +15,8 @@ public class Restaurant {
     public String name;
     public TypeOfRestaurant typeRestaurant;
     public Status status;
-    public Location location=new Location();
-    public ArrayList<Artical> articles= new ArrayList<Artical>();
+    public Location location;
+    public ArrayList<Artical> articles;
     public String imageRestaurant;
     public double rating;
     

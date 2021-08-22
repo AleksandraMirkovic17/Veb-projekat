@@ -1,6 +1,5 @@
 package beans;
 
-import java.util.Date;
 
 public class User{
 	public enum Roles{ADMINISTRATOR,MANAGER,CUSTOMER,DELIVERER};
@@ -84,6 +83,18 @@ public class User{
 		return restaurant;
 	}
 	public void setRestaurant(String restaurant) {
+		this.restaurant = restaurant;
+	}
+	public User(String userName, String password, String name, String surname, String date, Roles role, String gender,
+			String restaurant) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.date = date;
+		this.role = role;
+		this.gender = gender;
 		this.restaurant = restaurant;
 	}
 }

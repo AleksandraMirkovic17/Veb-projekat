@@ -11,6 +11,7 @@ import java.util.Date;
 
 import dao.UserDAO;
 import dto.UserRegistrationDTO;
+import dto.ChangeProfilUserDTO;
 import dto.UserLoginDTO;
 
 public class UserService {
@@ -22,10 +23,9 @@ public class UserService {
 	}
 	
 	public void registerUser(UserRegistrationDTO parametersForRegistration) throws ParseException {
-	    SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
-	    Date date = formatter2.parse(parametersForRegistration.date);
+
 	    System.out.println("User service stanje"+parametersForRegistration.role);
-		User newUser = new User(parametersForRegistration.userName, parametersForRegistration.password, parametersForRegistration.name, parametersForRegistration.surname, date,parametersForRegistration.gender,parametersForRegistration.role);
+		User newUser = new User(parametersForRegistration.userName, parametersForRegistration.password, parametersForRegistration.name, parametersForRegistration.surname, parametersForRegistration.date,parametersForRegistration.gender,parametersForRegistration.role);
 		userDAO.addUser(newUser);
 	}
 	
@@ -52,17 +52,22 @@ public class UserService {
 	public boolean UsernameExists(String username) {
 		boolean exists = false;
 		ArrayList<User> users=userDAO.getAllUsers();
+		
+		if(users !=null)
+		{
 		for(User u : users)
 			if(username.equals(u.userName)) {
 				exists=true;
 				break;
 			}
+		}
 		return exists;
 	}
 
 	public ArrayList<User> searchFreeMenagers() {
 		ArrayList<User> freeMenagers = new ArrayList<User>();
 		ArrayList<User> allUsers = userDAO.getAllUsers();
+		
 		for(User u : allUsers) {
 			if(u.getRole()==Roles.MANAGER && (u.getRestaurant()==null || u.getRestaurant()=="" )) {
 				freeMenagers.add(u);
@@ -82,6 +87,19 @@ public class UserService {
 		}
 		
 	}
-	
+	public boolean ChangeUserInformation(ChangeProfilUserDTO user,User oldUser)
+	 {
+		ArrayList<User> allUsers = userDAO.getAllUsers();
+		for(User u : allUsers)
+		{
+			if(u.getUserName().equals(oldUser.userName))
+			{
+				User newUser=new User(user.userName,oldUser.password,user.name,user.surname,user.date,user.gender,oldUser.getRole());
+				userDAO.changeUser(u.getUserName(), newUser);
+				return true;
+			}	
+		}
+		return false;
+	 }
 }
 	

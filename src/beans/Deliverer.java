@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 public class Deliverer extends User{
-	public Deliverer(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
+	public Deliverer(String userName, String password, String name, String surname, String date,String gender,Roles role) {
 		super(userName, password, name, surname, date,gender,role);
 		// TODO Auto-generated constructor stub
 		role=Roles.DELIVERER;

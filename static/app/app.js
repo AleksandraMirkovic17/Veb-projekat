@@ -2,7 +2,8 @@ const restaurants={template: '<restaurants></restaurants>'};
 const registration={template: '<registration></registration>'};
 const login={template: '<login></login>'};
 const addrestaurant={template:'<addrestaurant></addrestaurant>'};
-const managersrestaurant={template:'<managersrestaurant><managersrestaurant/>'}
+const managersrestaurant={template:'<managersrestaurant><managersrestaurant/>'};
+const profile={template: '<profile></profile>'};
 
 const router= new VueRouter({
       mode: 'hash',
@@ -11,7 +12,8 @@ const router= new VueRouter({
       {path: '/registration',component: registration},
       {path: '/login',component: login},
 	  {path: '/addrestaurant', component: addrestaurant},
-	  {path: '/managersrestaurant', component: managersrestaurant}
+	  {path: '/managersrestaurant', component: managersrestaurant},
+	  {path: '/profile',component: profile}
       ]
 });
 var app = new Vue({

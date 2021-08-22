@@ -9,12 +9,13 @@ public class User{
 	public String password;
 	public String name;
 	private String surname;
-	private Date date;
+
+	private String date;
 	private Roles role;
 	public String gender;
 	public String restaurant; //if menager
 	
-	public User(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
+	public User(String userName, String password, String name, String surname, String date,String gender,Roles role) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -23,6 +24,14 @@ public class User{
 		this.date = date;
 		this.gender=gender;
 		this.role=role;
+	}
+	public User(String userName, String name, String surname, String date, String gender) {
+		super();
+		this.userName = userName;
+		this.name = name;
+		this.surname = surname;
+		this.date = date;
+		this.gender = gender;
 	}
 	public User() {
 		super();
@@ -59,10 +68,10 @@ public class User{
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public String getGender() {

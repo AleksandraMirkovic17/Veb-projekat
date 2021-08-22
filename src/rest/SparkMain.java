@@ -13,6 +13,7 @@ import beans.Restaurant.TypeOfRestaurant;
 import beans.User;
 import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
+import dto.ChangeProfilUserDTO;
 import dto.CheckRestourantNameDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
@@ -143,7 +144,25 @@ public class SparkMain {
 		return "OK";
 		});
 		
+		put("rest/ChangeInformation/", (req,res)->{
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			
+			ChangeProfilUserDTO params = g.fromJson(req.body(), ChangeProfilUserDTO.class);
+	
+			if(userService.UsernameExists(params.userName) && !user.userName.equals(params.userName))
+			{
+				return "Username exists";
+			}
+			else if(userService.ChangeUserInformation(params,user))
+			{
+				
+				return "OK";
+			}
 
-			
-			
-}}
+		return "Err:SomethingIsWrong";
+		});	
+		}
+	}

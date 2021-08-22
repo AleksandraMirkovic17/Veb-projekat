@@ -9,7 +9,9 @@
 .backgroundFirstPage{
     background-image: url(../firstpage.bmp);
     background-attachment: fixed;
-    background-size: cover;
+    background-size:  cover;
+  object-fit: cover;
+    min-height: 100vh;
     justify-content: center;
 
 }
@@ -79,6 +81,7 @@
 }
 .log{
     width: 320px;
+
     height: 420px;
     margin-top: 20%;
     background:rgba(0, 0, 0, 1);
@@ -202,8 +205,10 @@ input[type="submit"]:hover{
 
 
 .registration_form{
+	object-fit: cover;
+
     width: 450px;
-    height: 550px;
+    height: 650px;
     background:rgba(0, 0, 0, 0.6);
     color: #fff;
     top: 50%;
@@ -214,6 +219,7 @@ input[type="submit"]:hover{
     margin-top: 2%;
     margin-left: 35%;
     justify-content: center;
+    
 }
 
 .registration_form .title{

@@ -16,7 +16,7 @@ public class Customer extends User{
 	public void setScore(int score) {
 		this.score = score;
 	}
-	public Customer(String userName, String password, String name, String surname, Date date,String gender,Roles role) {
+	public Customer(String userName, String password, String name, String surname, String date,String gender,Roles role) {
 		super(userName, password, name, surname, date,gender,role);
 		role=Roles.CUSTOMER;
 		this.allOrders=new ArrayList<Order>();

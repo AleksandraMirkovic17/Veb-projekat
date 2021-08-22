@@ -2,7 +2,8 @@ Vue.component("login",{
    data: function(){
          return{
          userName: '',
-         password: ''
+         password: '',
+         allFilled:'OK'
          }
       },
   template:
@@ -26,6 +27,16 @@ Vue.component("login",{
     </div> `,
     methods: {
     LoginUser: function(){
+      if(this.userName==''){
+            this.allFilled='You must enter a username!';
+            alert(this.allFilled);
+            return false;
+        }
+         if(this.password == ''){
+            this.allFilled='You must enter a password!';
+            alert(this.allFilled);
+             return false;
+         }
     axios.get('rest/login',{
     params:
     {

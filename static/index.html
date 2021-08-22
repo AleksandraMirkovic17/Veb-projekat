@@ -8,6 +8,7 @@
     <link href="css/style.css" rel="stylesheet"  href="style.css">
 	<link href="css/restaurantstable.css" rel="stylesheet" type="text/css"/>
     <link href="css/registerrestaurant.css" rel="stylesheet" type="text/css"/>
+       <link href="css/profil.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <div id="firstPage" class="backgroundFirstPage">
@@ -15,7 +16,12 @@
             <img  src="logo.png" class="logoFastFood">
             <ul>
                 <li><a v-if="loggedInUser.role=='ADMINISTRATOR'" href="#/">{{loggedInUser.userName}}</a>
-                    
+                    <ul class="functionlist">
+                        <li><a  href="#/profile">Change profile</a></li>
+                        <li><a href="#/password">Change password</a></li>
+                       
+                    </ul>
+                 </li>
 
                 <li><a>Menu</a>
                     <ul v-if="loggedInUser.role=='ADMINISTRATOR'"  class="functionlist">
@@ -32,7 +38,7 @@
                         <li style="color:whitesmoke; word-spacing: 0%;">Not connected with restaurants</li>
                     </ul>
                 </li>
-                </li>
+             
                 <li><a v-if="status=='loggedIn'"  v-on:click="logout" href="#/">Log out</a></li>
                 <li><a v-if="status=='notLoggedIn'"   href="#/registration">Registration</a></li>
                 <li><a v-if="status=='notLoggedIn'"  href="#/login">Log in</a></li>
@@ -48,11 +54,12 @@
 <script src="js/axios.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/toast.js"></script>
+
 <script src="app/registration.js"></script>    
 <script src="app/addrestaurant.js"></script>    
 <script src="app/login.js"></script>  
 <script src="app/restaurants.js"></script>
-
+<script src="app/profile.js"></script>
 <script src="app/app.js"></script>
 
 </body>

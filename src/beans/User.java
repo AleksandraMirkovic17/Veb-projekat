@@ -10,7 +10,7 @@ public class User{
 	private String surname;
 
 	private String date;
-	private Roles role;
+	public Roles role;
 	public String gender;
 	public String restaurant; //if menager
 	

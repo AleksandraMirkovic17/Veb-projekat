@@ -79,6 +79,14 @@ public class SparkMain {
 			return g.toJson(restaurants);
 			});
 		
+		get("rest/seeUsers", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ArrayList<User> users = userService.getAllWithoutAdministrator();
+			
+			return g.toJson(users);
+			});
+		
 
 		get("rest/login", (req, res) -> {
 			res.type("application/json");

@@ -10,6 +10,7 @@
     <link href="css/registerrestaurant.css" rel="stylesheet" type="text/css"/>
     <link href="css/managersrestaurant.css" rel="stylesheet" type="text/css"/>
     <link href="css/profil.css" rel="stylesheet" type="text/css"/>
+    <link href="css/seeUsers.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <div id="firstPage" class="backgroundFirstPage">
@@ -27,7 +28,7 @@
                 <li><a>Menu</a>
                     <ul v-if="loggedInUser.role=='ADMINISTRATOR'"  class="functionlist">
                         <li><a  href="#/registration">Registration</a></li>
-                        <li><a href="#/">Review Users</a></li>
+                        <li><a href="#/seeUsers">See Users</a></li>
                         <li><a href="#/addrestaurant">Add restaurant</a></li>
                     </ul>
                     <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant!=null" class="functionlist">
@@ -62,6 +63,7 @@
 <script src="app/login.js"></script>  
 <script src="app/restaurants.js"></script>
 <script src="app/profile.js"></script>
+<script src="administrator/seeUsers.js"></script>
 <script src="app/app.js"></script>
 
 </body>

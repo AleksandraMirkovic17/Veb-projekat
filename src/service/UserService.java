@@ -1,6 +1,7 @@
 package service;
 
 
+import beans.Restaurant;
 import beans.User;
 import beans.User.Roles;
 
@@ -112,6 +113,19 @@ public class UserService {
 			}
 		}
 		return ret;
+	}
+	public ArrayList<User> getAllWithoutAdministrator() {
+		ArrayList<User> allUsers = userDAO.getAllUsers();
+		for(User u : allUsers) {
+			if(u.role.equals(Roles.ADMINISTRATOR)) {
+				allUsers.remove(u);
+				break;
+			}
+		
+		}
+			
+			
+		return allUsers;
 	}
 }
 	

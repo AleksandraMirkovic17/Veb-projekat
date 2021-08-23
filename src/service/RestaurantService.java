@@ -17,6 +17,8 @@ import beans.Restaurant;
 import beans.User;
 import beans.Restaurant.Status;
 import dao.RestaurantDAO;
+import dto.AddingArticalToRestaurantDTO;
+import dto.ChangeRestaurantsStatusDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import spark.utils.StringUtils;
@@ -85,7 +87,6 @@ public class RestaurantService {
 	}
 
 	public void registerRestaurant(RestaurantRegistrationDTO params) {
-	    System.out.println("Restaurant service stanje"+params.city);
 	    Location restaurantsLocation = new Location(params.longitude, params.latitude, params.street, params.houseNumber, params.city, params.postalCode);
 	    Restaurant newRestaurant = new Restaurant(params.name, params.type, Status.OPEN, restaurantsLocation, new ArrayList<Artical>(), 
 	    										"", 0.0);
@@ -134,5 +135,72 @@ public class RestaurantService {
 		}
 		return ret;
 	}
+
+	public void changeRestaurantStatus(ChangeRestaurantsStatusDTO params) {
+		Restaurant r = getByName(params.restaurantName);
+		r.setStatus(params.newStatus);
+		restaurantDAO.changeRestaurant(params.restaurantName, r);	
+	}
+
+	public Boolean ArticalExists(String articalName, String restaurantName) {
+		Boolean exists = false;
+		Restaurant restaurant = getByName(restaurantName);
+		for(Artical a : restaurant.articles) {
+			if(a.getNameArtical().equals(articalName)) {
+				exists=true;
+			}
+		}
+		return exists;
+	}
+
+	public void addArticleToRestaurant(AddingArticalToRestaurantDTO params) {
+		Restaurant r = getByName(params.restaurant);
+		Artical newArtical = new Artical(params.nameArtical, Double.parseDouble(params.price), params.type, 
+				params.restaurant, covertToDoubleValue(params.quantity), params.description, null);
+		newArtical = saveArticalsImage(newArtical, params.image);
+		r.articles.add(newArtical);
+		restaurantDAO.changeRestaurant(r.name, r);
+				
+		
+	}
+	
+	public Artical saveArticalsImage(Artical articalWithoutImage, String image) {
+		String imageString = image.split(",")[1];		
+		BufferedImage imageDone = null;
+        byte[] imageByte;
+        imageByte = Base64.getDecoder().decode(imageString);
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+        try {
+			imageDone = ImageIO.read(bis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        try {
+			bis.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+        String imagePathName= "Images/"+ articalWithoutImage.getRestaurant() +"+"+ articalWithoutImage.getNameArtical()+ ".png";
+       
+        try {
+        	File outputfile = new File(new File("./static").getCanonicalPath()+File.separator+imagePathName);
+			ImageIO.write(imageDone, "png", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        articalWithoutImage.setImage(imagePathName);
+        return articalWithoutImage;
+	}
+
+	private double covertToDoubleValue(String quantity) {
+		if(quantity==null || quantity=="") {
+			return -1;
+		}else {
+			return Double.parseDouble(quantity);
+		}
+	}
+	
+
 
 }

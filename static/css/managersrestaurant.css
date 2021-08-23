@@ -1,0 +1,122 @@
+.manager-content{
+	width: 90%;
+	margin: 30px auto 30px;
+	color: whitesmoke;
+}
+
+.manager-content .restaurant-info{
+	width: 100%;
+	float:left;
+}
+
+.manager-content .restaurant-info .post{
+	width: 95%;
+	height: 300px;
+	margin: 10px auto;
+	background-color: rgb(0,0,0,0.9);
+	border-radius: 5px;
+	margin: 20px;
+}
+
+.manager-content .restaurant-info .post .post-image{
+	width: 40%;
+	height: 100%;
+	float: left;
+}
+
+.manager-content .add-article{
+	width: 100%;
+	float:left;
+
+}
+
+.manager-content .add-article .post{
+	width: 95%;
+	background-color: rgb(0,0,0,0.6);
+	height: 300px;
+	margin: 10px auto;
+	border-radius: 5px;
+	margin: 20px;
+}
+
+.manager-content .add-article .post .article-image{
+	width: 40%;
+	height: 100%;
+	float: left;
+	border-radius: 10px;
+}
+
+.manager-content .add-article .post .wrapper{
+	position: relative;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 40%;
+    height: 100%;
+    float: left;
+}
+
+.manager-content .add-article .post .button1{
+    width: 100px;
+}
+
+.manager-content .add-article .post .wrapper .article-image{
+	position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.manager-content .add-article .post .wrapper .article-image img{
+	height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.manager-content .add-article .post .wrapper .article-image .file-name{
+	position: absolute;
+    bottom: 0px;
+    width: 100%;
+    color: whitesmoke;
+    padding: 8px 0;
+    font-size: 18px;
+    background: black;
+}
+
+.manager-content .show-articles{
+	width: 70%;
+	float:left;
+}
+
+.manager-content .show-articles .post{
+	width: 95%;
+	background-color: rgb(0,0,0,0.6);
+	height: 250px;
+	margin: 10px auto;
+	border-radius: 5px;
+	margin: 20px;
+}
+
+.manager-content .show-articles .post .post-image{
+	width: 40%;
+	height: 100%;
+	float: left;
+}
+
+.manager-content .sidebar .wrapp{
+	width: 25%;
+	float:left;
+	height: 450px;
+	border-radius: 5px;
+	background-color: rgb(0,0,0,0.6);
+	padding: 10px 15px 10px 15px;
+	margin: 2px;
+}
+
+
+
+

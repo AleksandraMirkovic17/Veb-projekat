@@ -11,9 +11,12 @@ import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
 import beans.User;
+import beans.User.Roles;
 import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
+import dto.AddingArticalToRestaurantDTO;
 import dto.ChangeProfilUserDTO;
+import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
@@ -55,8 +58,15 @@ public class SparkMain {
 			res.type("application/json");
 			res.status(200);
 			String name= req.queryParams("name");
-			System.out.println("SparkMain provera poklapanja imena restorana "+name);
 		return restaurantService.NameExists(name);
+		});
+		
+		get("rest/ArticalNameExists", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String articalName = req.queryParams("name");
+			String restaurantName = req.queryParams("restaurantname");
+		return restaurantService.ArticalExists(articalName, restaurantName);
 		});
 		
 		
@@ -104,7 +114,6 @@ public class SparkMain {
 				System.out.println("TestMain testiranje testlogina, korisnik "+ user.getUserName()+" je ulogovan na aplikaciju!");
 
 			}
-			System.out.println(g.toJson(user));
 			return g.toJson(user);
 		});
 		
@@ -166,6 +175,14 @@ public class SparkMain {
 		return "OK";
 		});
 		
+		post("rest/addArticle/", (req,res) ->{
+			res.type("application/json");
+			res.status(200);
+			AddingArticalToRestaurantDTO params = g.fromJson(req.body(), AddingArticalToRestaurantDTO.class);
+			restaurantService.addArticleToRestaurant(params);
+		return "OK";
+		});
+		
 		put("rest/ChangeInformation/", (req,res)->{
 			res.type("application/json");
 			res.status(200);
@@ -186,5 +203,26 @@ public class SparkMain {
 
 		return "Err:SomethingIsWrong";
 		});	
+		
+		put("rest/changerestaurantstatus", (req,res) ->{
+			String ret="";
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			
+			ChangeRestaurantsStatusDTO params = g.fromJson(req.body(), ChangeRestaurantsStatusDTO.class);
+			System.out.println(params.restaurantName+" "+ params.newStatus.toString());
+			User manager = userService.getByRestaurant(params.restaurantName);
+			
+
+			if(user.getRole()!=Roles.MANAGER || manager == null || !manager.getUserName().equals(user.getUserName())) {
+				System.out.println("You don't have a permission to change restaurant's status");
+				ret = "Err:No permission";
+			}
+			restaurantService.changeRestaurantStatus(params);
+			ret = "OK";
+			return ret;
+		});
 		}
 	}

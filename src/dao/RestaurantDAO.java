@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Restaurant;
+import beans.User;
 
 public class RestaurantDAO {
 
@@ -69,6 +70,18 @@ public class RestaurantDAO {
 	public ArrayList<Restaurant> getAllRestaurants(){
 		readRestaurants();
 		return restaurants;
+	}
+	
+	public void changeRestaurant(String name, Restaurant changedRestaurant) {
+		ArrayList<Restaurant> allRestaurants = getAllRestaurants();
+		for(int i=0; i<allRestaurants.size(); i++) {
+			if(allRestaurants.get(i).getName().equals(name)) {
+				allRestaurants.set(i, changedRestaurant);
+			}
+		}
+		this.restaurants = allRestaurants;
+		saveAll();
+		
 	}
 	
 }

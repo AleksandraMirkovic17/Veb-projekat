@@ -101,5 +101,17 @@ public class UserService {
 		}
 		return false;
 	 }
+
+	public User getByRestaurant(String restaurantName) {
+		User ret = null;
+		ArrayList<User> allUsers= userDAO.getAllUsers();
+		for(User u : allUsers) {
+			if (u.getRole()== Roles.MANAGER && u.getRestaurant().equals(restaurantName)) {
+				ret = u;
+				break;
+			}
+		}
+		return ret;
+	}
 }
 	

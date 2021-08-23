@@ -5,8 +5,9 @@ public class Artical {
 	
 	public String nameArtical;
 	public double price;
-	//public enum Type{DISH, DRINK};
-	//public Type typeArtical;
+	public enum ArticalType{DISH, DRINK};
+	public ArticalType type;
+	public String restaurant;
 	public double quantity;
 	public String description;
 	public String image;
@@ -27,13 +28,29 @@ public class Artical {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	/*public Type getTypeArtical() {
-		return typeArtical;
+	public Artical(String nameArtical, double price, ArticalType type, String restaurant, double quantity,
+			String description, String image) {
+		super();
+		this.nameArtical = nameArtical;
+		this.price = price;
+		this.type = type;
+		this.restaurant = restaurant;
+		this.quantity = quantity;
+		this.description = description;
+		this.image = image;
 	}
-	public void setTypeArtical(Type typeArtical) {
-		this.typeArtical = typeArtical;
-	}*/
-	
+	public ArticalType getType() {
+		return type;
+	}
+	public void setType(ArticalType type) {
+		this.type = type;
+	}
+	public String getRestaurant() {
+		return restaurant;
+	}
+	public void setRestaurant(String restaurant) {
+		this.restaurant = restaurant;
+	}
 	public double getQuantity() {
 		return quantity;
 	}

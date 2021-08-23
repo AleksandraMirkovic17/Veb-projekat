@@ -97,4 +97,9 @@ public class User{
 		this.gender = gender;
 		this.restaurant = restaurant;
 	}
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", password=" + password + ", name=" + name + ", surname=" + surname
+				+ ", date=" + date + ", role=" + role + ", gender=" + gender + ", restaurant=" + restaurant + "]";
+	}
 }

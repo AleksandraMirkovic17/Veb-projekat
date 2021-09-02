@@ -18,6 +18,7 @@ import beans.User;
 import beans.Restaurant.Status;
 import dao.RestaurantDAO;
 import dto.AddingArticalToRestaurantDTO;
+import dto.ChangeArticalDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
@@ -152,6 +153,18 @@ public class RestaurantService {
 		}
 		return exists;
 	}
+	
+	public boolean ArticalExists(String oldName, String articalName, String restaurantName) {
+		Boolean exists = false;
+		Restaurant restaurant = getByName(restaurantName);
+		for(Artical a : restaurant.articles) {
+			if(a.getNameArtical().equals(articalName) && (!articalName.equals(oldName))) {
+				exists=true;
+				break;
+			}
+		}
+		return exists;
+	}
 
 	public void addArticleToRestaurant(AddingArticalToRestaurantDTO params) {
 		Restaurant r = getByName(params.restaurant);
@@ -200,6 +213,28 @@ public class RestaurantService {
 			return Double.parseDouble(quantity);
 		}
 	}
+
+	public void changeArtical(ChangeArticalDTO params) {
+		Restaurant restaurant = getByName(params.restaurant);
+		Artical changedArtical = new Artical(params.newNameArtical, Double.parseDouble(params.price), params.type,
+				params.restaurant, covertToDoubleValue(params.quantity), params.description, null);
+		if(params.oldImage.equals("")) {
+			changedArtical = saveArticalsImage(changedArtical, params.newImage);
+			System.out.print("old image empty");
+		}else {
+			changedArtical.setImage(params.oldImage);
+			System.out.print("old image is not empty");
+		}
+		for(int i=0; i<restaurant.articles.size(); i++) {
+			if(restaurant.articles.get(i).getNameArtical().equals(params.oldNameArtical)){
+				restaurant.articles.set(i, changedArtical);
+				break;
+			}
+		}
+		restaurantDAO.changeRestaurant(restaurant.name, restaurant);		
+	}
+
+
 	
 
 

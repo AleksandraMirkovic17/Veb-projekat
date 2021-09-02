@@ -15,6 +15,7 @@ import beans.User.Roles;
 import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
 import dto.AddingArticalToRestaurantDTO;
+import dto.ChangeArticalDTO;
 import dto.ChangeProfilUserDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
@@ -67,6 +68,15 @@ public class SparkMain {
 			String articalName = req.queryParams("name");
 			String restaurantName = req.queryParams("restaurantname");
 		return restaurantService.ArticalExists(articalName, restaurantName);
+		});
+		
+		get("rest/ChangeArticalNameExists", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String oldName = req.queryParams("oldname");
+			String articalName = req.queryParams("name");
+			String restaurantName = req.queryParams("restaurantname");
+		return restaurantService.ArticalExists(oldName, articalName, restaurantName);
 		});
 		
 		
@@ -231,6 +241,19 @@ public class SparkMain {
 			restaurantService.changeRestaurantStatus(params);
 			ret = "OK";
 			return ret;
+		});
+		
+		put("rest/changeartical", (req, res) ->{
+			System.out.println("Test main changing artical!");
+			String ret="";
+			res.type("application/json");
+			res.status(200);
+			
+			ChangeArticalDTO params = g.fromJson(req.body(), ChangeArticalDTO.class);
+			System.out.println(params);
+			restaurantService.changeArtical(params);
+			ret="OK";
+			return ret;		
 		});
 		}
 	}

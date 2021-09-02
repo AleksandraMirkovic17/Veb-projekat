@@ -32,6 +32,7 @@ Vue.component("restaurants", {
                 </select>
 
             </div>
+
       <div class="wrapper">
         <div class="title">
             <h4><span>fresh food for good health</span>our menu</h4>
@@ -50,11 +51,11 @@ Vue.component("restaurants", {
 						<p>{{r.status}}</p>
 						<p>{{r.rating}}</p>
 					</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+				</div>			
+			</div>
+		</div>
+	</div>
+
     <div class="sidebar">
         <h3 class="search-title">Searh restaurants</h3>
         <div class="restaurants-name">
@@ -85,7 +86,13 @@ Vue.component("restaurants", {
         <button v-on:click="searchRestaurants">Search</button>       
     </div>		
 
+    
+    </div>
+      
         </div>
+  </div>
+
+           
     </div>
     `,
     mounted(){
@@ -135,6 +142,9 @@ Vue.component("restaurants", {
                 }
             }
 
+        },
+        showrestaurant: function(restaurant){
+            window.location.href = "#/onerestaurant/"+restaurant.name;
         }
     }  
 });

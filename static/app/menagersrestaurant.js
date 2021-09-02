@@ -17,7 +17,18 @@ Vue.component("managersrestaurant",{
         imagePreview: null,
         file:'',
         allFilled:'',
-        nameUnique:''
+        nameUnique:'',
+
+        editartical:'none',
+        editarticalobj: null,
+        editarticalnewname:'',
+        editarticalnewprice:'',
+        editarticalnewtype:'',
+        editarticalnewdescription:'',
+        editarticalnewquantity:'',
+        editarticalnewimage:'',
+        editarticalImagePreview: null,
+        editarticalimage: null
         }
         
     },
@@ -96,7 +107,7 @@ Vue.component("managersrestaurant",{
     <div class="show-articles">
         <h3>List of articles</h3>
         <div v-for="a in thisrestaurant.articles">
-            <div class="post">
+            <div class="post" v-if="editartical!=a.nameArtical">
             <img :src="loadLogoArtical(a)" class="post-image">
                 <h2>
                     {{a.nameArtical}}
@@ -107,9 +118,52 @@ Vue.component("managersrestaurant",{
                 <p>Type: {{a.type}} </p>
                 <p>Description: {{a.description}} </p>
                 <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
+                <div v-if="editartical=='none'">
+                    <button v-on:click="editart(a)">Edit</button>
+                </div>
                    
                 </p>
-            </div>     
+            </div>
+
+            <div class="post" v-else-if="editartical==a.nameArtical">
+                <div class="wrapper">
+                    <div class="article-image">
+                    <img :src=editarticalImagePreview class="post-image">
+                    </div>
+                </div> 
+            <h4>Edit article</h4>
+            <div class="input">
+                <label>Name*</label>
+                <input type="text" placeholder=this.editarticalnewname v-model="editarticalnewname">					
+            </div>
+            <div class="input">
+                <label>Price*</label>
+                <input type="number" min=0 name="" v-model="editarticalnewprice">					
+            </div>
+            <div class="input">
+                <label>Type*</label>
+                <select v-model="editarticalnewtype">
+                    <option value="DISH">DISH</option>
+                    <option value="DRINK">DRINK</option>
+                </select>
+            </div>
+            <div class="input">
+                <label>Quantity</label>
+                <input type="number" v-model="editarticalnewquantity" min="0" name="">					
+            </div>
+            <div class="input">
+                <label>Description</label>
+                <textarea v-model="editarticalnewdescription"></textarea>
+            </div>
+            <div class="input">
+                <label>Photo*</label>
+                <input type="file" name="" @change="editImageSelected">              
+            </div>
+            <div class="buttons">
+                <button v-on:click="cancelediting">Cancel</button>
+                <button v-on:click="saveediting">Save</button>
+            </div>
+            </div>  
         </div>   
     </div>
     <div class="sidebar">
@@ -141,6 +195,16 @@ Vue.component("managersrestaurant",{
 
     },
     methods:{
+        editart: function(r){
+            this.editartical = r.nameArtical;
+            this.editarticalobj = r;
+            this.editarticalnewname = r.nameArtical;
+            this.editarticalnewprice = r.price;
+            this.editarticalnewdescription = r.description;
+            this.editarticalnewquantity = r.quantity;
+            this.editarticalnewimage = r.image;
+            this.editarticalnewtype = r.type;
+        },
         restaurantImageLogo: function(r){
             if(r.imageRestaurant === 'None'){
                 return "../images/podrazumevani-logo-restorana.jpg";
@@ -159,10 +223,9 @@ Vue.component("managersrestaurant",{
             .then(responsee =>
                 {
                     if(responsee.data != "NotExsists"){
-                        alert("aa")
-
                         this.thisrestaurant = responsee.data;
                         this.openclosed = this.thisrestaurant.status;
+                        alert("Restaurant successfully found!");
                     }
                     else{
                         alert("The restaurant you are looking no loger exsists!")
@@ -240,6 +303,19 @@ Vue.component("managersrestaurant",{
             }
             reader.readAsDataURL(file);
         },
+        editImageSelected: function(e){
+            const file= e.target.files[0];
+            this.editarticalImagePreview = URL.createObjectURL(file);
+            this.onEditUpload(file);
+        },
+        onEditUpload: function(file){
+            const reader= new FileReader();
+            reader.onload = (e) =>{
+                this.editarticalimage = e.target.result;
+                this.editarticalnewimage='';
+            }
+            reader.readAsDataURL(file);
+        },
         statusUpload: function(){
             axios.put("rest/changerestaurantstatus", {restaurantName: this.thisrestaurant.name, newStatus: this.openclosed})
             .then(response =>
@@ -260,6 +336,63 @@ Vue.component("managersrestaurant",{
             } else{
                 return r.image;
             }
+        },
+        cancelediting: function(){
+            this.editartical ='none';
+            this.editarticalobj= null;
+            this.editarticalnewname='';
+            this.editarticalnewprice='';
+            this.editarticalnewtype='';
+            this.editarticalnewdescription='';
+            this.editarticalnewquantity= '';
+            this.editarticalnewimage='';
+            this.editarticalImagePreview= null;
+            this.editarticalimage= null;
+        },
+        saveediting: function(){
+            if(this.editarticalnewname=='' || this.editarticalnewprice=='' || this.editarticalnewtype=='' || (this.editarticalnewimage=='' && (this.editarticalimage=='' || this.editarticalimage==null))){
+                alert("You must enter all required fields!");
+                return;
+            }
+            axios.get('rest/ChangeArticalNameExists', {
+                params:
+                   {
+                       oldname : this.editartical,
+                       name : this.editarticalnewname,
+                       restaurantname: this.thisrestaurant.name
+                   }
+            })
+               .then(response=>{
+                   if(response.data===true){
+                       this.nameUnique = 'There is an artical with the same name in the restaurant, please choose another name';
+                       alert(this.nameUnique);
+                       return false;
+                   }
+                   else{
+                       this.saveArtical();
+                   }
+                   
+               }).catch()
+        },
+        saveArtical: function(){
+            axios.put('rest/changeartical', {"oldNameArtical":this.editartical, 
+                                            "newNameArtical": this.editarticalnewname,
+                                            "price":this.editarticalnewprice, 
+                                            "type":this.editarticalnewtype, 
+                                            "restaurant":this.thisrestaurant.name,
+                                            "quantity":this.editarticalnewquantity, 
+                                            "description":this.editarticalnewdescription,
+                                            "oldImage": this.editarticalnewimage,
+                                            "newImage":this.editarticalimage })
+                .then(response => {
+                    alert('The artical is successfully changed!');
+                    this.loadRestaurant();
+                    this.cancelediting();
+                })
+                .catch(() => {
+                    alert('Changing an artical is temporary unavailable!')
+                    });	
+
         }
         
     }

@@ -62,6 +62,15 @@ public class SparkMain {
 		return restaurantService.NameExists(name);
 		});
 		
+		get("rest/getRestaurantByName", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String name = req.queryParams("name");
+			System.out.println("Looking for restaurant "+name);
+			Restaurant restaurant = restaurantService.getByName(name);
+			return g.toJson(restaurant);
+		});
+		
 		get("rest/ArticalNameExists", (req, res) -> {
 			res.type("application/json");
 			res.status(200);

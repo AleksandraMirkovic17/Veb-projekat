@@ -34,12 +34,10 @@ Vue.component("restaurants", {
 
             </div>
             <div v-for="r in restaurants" class="restaurantsDiv">
-			<div class="post">
+			<div class="post" v-on:click="showrestaurant(r)">
 				<img :src="restaurantImageLogo(r)" class="post-image">
 				<div class="post-preview">
-					<h2><a href=""> 
-						{{r.name}}
-					</a></h2>
+					<h2> {{r.name}}</h2>
 					&nbsp;
 					<p class="preview-text">
                         <p>{{r.location.street}} {{r.location.houseNumber}}, {{r.location.city}}</p>
@@ -47,8 +45,7 @@ Vue.component("restaurants", {
 						<p>{{r.status}}</p>
 						<p>{{r.rating}}</p>
 					</p>
-				</div>
-				
+				</div>			
 			</div>
 		</div>
 
@@ -134,6 +131,9 @@ Vue.component("restaurants", {
                 }
             }
 
+        },
+        showrestaurant: function(restaurant){
+            window.location.href = "#/onerestaurant/"+restaurant.name;
         }
     }  
 });

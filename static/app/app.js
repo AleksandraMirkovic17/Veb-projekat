@@ -5,6 +5,7 @@ const addrestaurant={template:'<addrestaurant></addrestaurant>'}
 const profile={template: '<profile></profile>'}
 const managersrestaurant={template:'<managersrestaurant></managersrestaurant>'}
 const seeUsers={template:'<seeUsers></seeUsers>'}
+const onerestaurant={template:'<onerestaurant></onerestaurant>'}
 
 
 const router= new VueRouter({
@@ -16,7 +17,8 @@ const router= new VueRouter({
 	  {path: '/addrestaurant', component: addrestaurant},
 	  {path: '/managersrestaurant', component: managersrestaurant},
 	  {path: '/profile',component: profile},
-	  {path: '/seeUsers',component: seeUsers}
+	  {path: '/seeUsers',component: seeUsers},
+	  {path: '/onerestaurant/:name', component: onerestaurant}
       ]
 });
 var app = new Vue({

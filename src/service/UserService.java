@@ -3,6 +3,7 @@ package service;
 
 import beans.Restaurant;
 import beans.User;
+import beans.Restaurant.Status;
 import beans.User.Roles;
 
 import java.text.ParseException;
@@ -13,6 +14,8 @@ import java.util.Date;
 import dao.UserDAO;
 import dto.UserRegistrationDTO;
 import dto.ChangeProfilUserDTO;
+import dto.SearchForRestaurantsParamsDTO;
+import dto.SearchUsersDTO;
 import dto.UserLoginDTO;
 
 public class UserService {
@@ -21,6 +24,30 @@ public class UserService {
 	
 	public UserService() {
 		this.userDAO = UserDAO.getInstance();
+	}
+	
+	
+	public ArrayList<User> searchUsers(SearchUsersDTO parametres) {
+		
+		ArrayList<User> users= new ArrayList<User>();
+		ArrayList<User> searchUsers= new ArrayList<>();
+
+		if(parametres.role.equals(Roles.ALL))
+		{
+			users=getAllWithoutAdministrator();
+		}
+		else
+		{
+			users=userDAO.getAllUsersRole(parametres.role);
+		}
+
+		for(User u : users)
+		{
+			if(u.name.contains(parametres.name) && u.surname.contains(parametres.surname) && u.userName.contains(parametres.userName)) searchUsers.add(u);
+		}
+		
+		return searchUsers;
+		
 	}
 	
 	public void registerUser(UserRegistrationDTO parametersForRegistration) throws ParseException {

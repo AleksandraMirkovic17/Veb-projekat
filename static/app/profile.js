@@ -36,7 +36,7 @@ Vue.component("profile",{
             <br>
            <div class="name">
             <label >Select gender:</label>
-
+     
             <select class="gender-selection" v-model="loggedInUser.gender" v-bind:disabled="mode=='TRUE'">
                <option value="" disabled selected hidden>Gender</option>
                <option value = "MALE">Male</option>

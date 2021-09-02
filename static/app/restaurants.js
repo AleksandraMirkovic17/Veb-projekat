@@ -16,10 +16,9 @@ Vue.component("restaurants", {
 
     },
     template: `
-    <div class="restaurantsID">
+        <div class="restaurantsID">
         <div class="content clearfix">
 		<div class="main-content">
-			<h1 class="all-restaurants-title">Preview of all restaurants</h1>
             <div class="sorting"> 
                 <h4 class="sorting-title">Sort by</h4>
                 <select name="sortby" v-on:change="sort" v-model="sortType">
@@ -33,11 +32,15 @@ Vue.component("restaurants", {
                 </select>
 
             </div>
-            <div v-for="r in restaurants" class="restaurantsDiv">
-			<div class="post">
-				<img :src="restaurantImageLogo(r)" class="post-image">
-				<div class="post-preview">
-					<h2><a href=""> 
+      <div class="wrapper">
+        <div class="title">
+            <h4><span>fresh food for good health</span>our menu</h4>
+        </div>
+        <div  v-for="r in restaurants" class="menu">
+            <div class="single-menu">
+                <img :src="restaurantImageLogo(r)" class="post-image" width="150" height="150">
+                <div class="menu-content">
+                    <h2><a href=""> 
 						{{r.name}}
 					</a></h2>
 					&nbsp;
@@ -47,13 +50,11 @@ Vue.component("restaurants", {
 						<p>{{r.status}}</p>
 						<p>{{r.rating}}</p>
 					</p>
-				</div>
-				
-			</div>
-		</div>
-
-
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
     <div class="sidebar">
         <h3 class="search-title">Searh restaurants</h3>
         <div class="restaurants-name">

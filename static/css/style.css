@@ -7,10 +7,9 @@
 
 }
 .backgroundFirstPage{
-    background-image: url(../firstpage.bmp);
     background-attachment: fixed;
     background-size:  cover;
-  object-fit: cover;
+    object-fit: cover;
     min-height: 100vh;
     justify-content: center;
 

@@ -6,26 +6,32 @@ Vue.component("login",{
          allFilled:'OK'
          }
       },
-  template:
-  ` <div class="log">
-        <img src="loginAvatar.bmp" class="avatar">
-        <h1>Login Here</h1>
-        <div class="txt_field">
-          <input type="text" required v-model="userName">
-          <span></span>
-          <label>Username</label>
+  template: `
+  <div class="main">
+  <div class="profil">
+           <h3>Log in</h3>
+           <br>
+           <br>
+           <div class="profilm">
+            <div class="name">
+                <label c>Username:</label>
+                <input type="text" required placeholder="Enter a unique username" v-model="userName" />
+            </div>
+            <br>
+            <br>
+               <div class="name">
+                <label c>Password:</label>
+                <input type="text" required placeholder="Enter a password" v-model="password"/>
+            </div>
+
+            <br>
+            <div>
+                <input class="button" type="submit" value="Login" v-on:click="LoginUser" >
+            </div>
         </div>
-        <div class="txt_field">
-          <input type="password" required v-model="password">
-          <span></span>
-          <label>Password</label>
-        </div>
-        <div class="pass">Forgot Password?</div>
-        <input type="submit" value="Login"  v-on:click="LoginUser">
-        <div class="signup_link">
-          Not a member? <a href="#/registration">Signup</a>
-        </div>
-    </div> `,
+</div>
+ 
+  </div> `,
     methods: {
     LoginUser: function(){
       if(this.userName==''){

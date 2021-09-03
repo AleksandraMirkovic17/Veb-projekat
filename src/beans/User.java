@@ -2,12 +2,12 @@ package beans;
 
 
 public class User{
-	public enum Roles{ADMINISTRATOR,MANAGER,CUSTOMER,DELIVERER};
+	public enum Roles{ADMINISTRATOR,MANAGER,CUSTOMER,DELIVERER,ALL};
 	
 	public String userName;
 	public String password;
 	public String name;
-	private String surname;
+	public String surname;
 
 	private String date;
 	public Roles role;

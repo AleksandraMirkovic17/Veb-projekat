@@ -22,6 +22,7 @@ import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
+import dto.SearchUsersDTO;
 import dto.UserLoginDTO;
 import service.RestaurantService;
 import service.ShoppingChartService;
@@ -108,6 +109,19 @@ public class SparkMain {
 			
 			return g.toJson(users);
 			});
+		
+		get("rest/searchUsers", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String name = req.queryParams("name");
+			String surname= req.queryParams("surname");
+			String role = req.queryParams("role");
+			String userName = req.queryParams("userName");
+			
+			SearchUsersDTO parametres = new SearchUsersDTO(name, userName, Roles.valueOf(role), surname);
+			ArrayList<User> searchUsers = userService.searchUsers(parametres);
+			return g.toJson(searchUsers);
+		});
 		
 
 		get("rest/login", (req, res) -> {

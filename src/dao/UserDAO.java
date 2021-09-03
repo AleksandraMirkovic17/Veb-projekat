@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 import beans.User;
+import beans.User.Roles;
 
 public class UserDAO {
 	
@@ -67,6 +68,20 @@ public class UserDAO {
 	public ArrayList<User> getAllUsers(){
 		readUser();
 		return users;
+	}
+	public ArrayList<User> getAllUsersRole(Roles role){
+		ArrayList<User> allUsers=getAllUsers();
+		ArrayList<User> search=new ArrayList<>();
+
+		for(User u:allUsers)
+		{
+			if(u.role.equals(role))
+			{
+				search.add(u);
+			}
+		}
+
+		return search;
 	}
 
 	public void changeUser(String userName, User changedUser) {

@@ -14,6 +14,7 @@ import java.util.Date;
 import dao.UserDAO;
 import dto.UserRegistrationDTO;
 import dto.ChangeProfilUserDTO;
+import dto.ChangeProfileUsersDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.SearchUsersDTO;
 import dto.UserLoginDTO;
@@ -129,6 +130,21 @@ public class UserService {
 		}
 		return false;
 	 }
+	
+	public boolean ChangeUserInformationUsers(ChangeProfileUsersDTO user,String userName1)
+	 {
+		ArrayList<User> allUsers = userDAO.getAllUsers();
+		for(User u : allUsers)
+		{
+			if(u.getUserName().equals(userName1))
+			{
+				User newUser=new User(user.userName,u.password,user.name,user.surname,user.date,user.gender,u.getRole());
+				userDAO.changeUser(userName1, newUser);
+				return true;
+			}	
+		}
+		return false;
+	 }
 
 	public User getByRestaurant(String restaurantName) {
 		User ret = null;
@@ -148,11 +164,26 @@ public class UserService {
 				allUsers.remove(u);
 				break;
 			}
-		
 		}
-			
-			
+						
 		return allUsers;
 	}
+	public Boolean DeleteUser(String userName)
+	{
+		ArrayList<User> allUsers = userDAO.getAllUsers();
+		for(User u : allUsers)
+		{
+			if(u.getUserName().equals(userName))
+			{
+				
+				User newUser=new User(u.userName,u.password,u.name,u.surname,u.date,u.getRole(),u.gender,true);
+				
+				userDAO.changeUser(userName, newUser);
+				return true;
+			}	
+		}
+		return false;
+	}
+	
 }
 	

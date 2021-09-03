@@ -6,13 +6,29 @@ public class User{
 	
 	public String userName;
 	public String password;
+	
 	public String name;
 	public String surname;
 
-	private String date;
+	public String date;
 	public Roles role;
 	public String gender;
 	public String restaurant; //if menager
+	public Boolean logicalDeletion;
+	
+	
+	public User(String userName, String password, String name, String surname, String date, Roles role, String gender,
+			 Boolean logicalDeletion) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.date = date;
+		this.role = role;
+		this.gender = gender;
+		this.logicalDeletion = logicalDeletion;
+	}
 	
 	public User(String userName, String password, String name, String surname, String date,String gender,Roles role) {
 		super();
@@ -23,6 +39,7 @@ public class User{
 		this.date = date;
 		this.gender=gender;
 		this.role=role;
+		this.logicalDeletion=false;
 	}
 	public User(String userName, String name, String surname, String date, String gender) {
 		super();

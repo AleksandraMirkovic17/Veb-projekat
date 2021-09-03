@@ -14,6 +14,7 @@ import beans.User;
 import beans.User.Roles;
 import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
+import dto.AddItemToChartDTO;
 import dto.AddingArticalToRestaurantDTO;
 import dto.ChangeArticalDTO;
 import dto.ChangeProfilUserDTO;
@@ -23,6 +24,7 @@ import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.UserLoginDTO;
 import service.RestaurantService;
+import service.ShoppingChartService;
 import service.UserService;
 import spark.Session;
 
@@ -37,6 +39,7 @@ public class SparkMain {
 		
 		UserService userService = new UserService();
 		RestaurantService restaurantService = new RestaurantService();
+		ShoppingChartService shoppingChartService = new ShoppingChartService();
 		Gson g = new Gson();
 		
 		post("rest/CustomerReg/", (req, res) ->{
@@ -207,6 +210,15 @@ public class SparkMain {
 			res.status(200);
 			AddingArticalToRestaurantDTO params = g.fromJson(req.body(), AddingArticalToRestaurantDTO.class);
 			restaurantService.addArticleToRestaurant(params);
+		return "OK";
+		});
+		
+		post("rest/addToChart", (req, res)->{
+			res.type("application/json");
+			res.status(200);
+			AddItemToChartDTO params = g.fromJson(req.body(), AddItemToChartDTO.class);
+			System.out.println(params);
+			shoppingChartService.addItemsToShoppingChart(params);
 		return "OK";
 		});
 		

@@ -86,7 +86,10 @@ Vue.component("restaurants", {
     `,
     mounted(){
         axios.get('rest/restaurants')
-        .then(response =>(this.restaurants = response.data));
+        .then(response =>(this.restaurants = response.data))
+        .catch(function (error) {
+            alert('Something is wrong with loading the restaurants!');
+    });	
     },
     methods:{
         restaurantImageLogo: function(r){

@@ -2,7 +2,12 @@ Vue.component("onerestaurant",{
     data : function(){
         return{
             loggedInUser: null,
-            thisrestaurant: null
+            thisrestaurant: null,
+            articles:'',
+            sortType: "name",
+            sortDirection: "ascending",
+            showDishes: true,
+            showDrinks: true
         }
 
     },
@@ -25,8 +30,8 @@ Vue.component("onerestaurant",{
             </div>
             <div class="show-articles">
             <h3>List of articles</h3>
-                <div v-for="a in thisrestaurant.articles">
-                        <div class="post">
+                <div v-for="a in articles">
+                        <div class="post" v-if="filtered(a)">
                         <img :src="loadLogoArtical(a)" class="post-image">
                             <h2>
                                 {{a.nameArtical}}
@@ -47,6 +52,30 @@ Vue.component("onerestaurant",{
                         </div>               
                 </div>   
             </div>
+            <div class="sidebar">
+            <div class="wrapp">
+                <h3>Filter articles</h3>
+                <div class="sorting"> 
+                    <h4 class="sorting-title">Sort by</h4>
+                    <select name="sortby" v-on:change="sortartical" v-model="sortType">
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                    </select>
+                    <select name="sortdirection" v-on:change="sortartical" v-model="sortDirection">
+                        <option value="ascending">Ascending</option>
+                        <option value="descending">Descending</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <h4 class="sorting-title">Show me</h4>
+                    
+                    <input type="checkbox" v-model="showDishes" value="dish" checked><label> Dishes</label>
+                    <br>
+                    <input type="checkbox" v-model="showDrinks" value="drink" checked><label> Drinks</label>
+                </div>
+            </div>
+            
+        </div>
     </div>
     `
     ,
@@ -68,6 +97,7 @@ Vue.component("onerestaurant",{
           )
             .then(response => {
               this.thisrestaurant = response.data;
+              this.articles = this.thisrestaurant.articles;
             });
     },
     methods:{
@@ -85,7 +115,49 @@ Vue.component("onerestaurant",{
       labelTotalPrice.innerHTML = totalPrice.toString();
     },
     addToChart: function(artical){
+        let inputQuantity = document.getElementById(artical.nameArtical+'q');
+        let totalQuatity = inputQuantity.value;
 
+        axios.post('rest/addToChart', {
+            restaurant: this.thisrestaurant.name,
+            nameArtical: artical.nameArtical,
+            quantity: totalQuatity,
+            username: this.loggedInUser.userName
+          }).then(response => {
+            if (response.data == 'OK') {
+              alert('Item added to chart successfully!');
+              inputQuantity.value = 0;
+              this.calculatePrice(artical);
+            } else {
+              alert(response.data);
+            }
+          }).catch(error => {
+            alert('Adding items to chart is temporary unavailable!');
+          });
+
+    },
+    sortartical: function(){
+        if(this.sortType == "name"){
+            if(this.sortDirection=="ascending"){
+                this.articles.sort((a, b) => (a.nameArtical.toUpperCase() > b.nameArtical.toUpperCase()) ? 1 : ((b.nameArtical.toUpperCase() > a.nameArtical.toUpperCase()) ? -1 : 0));
+            }else{
+                this.articles.sort((b, a) => (a.nameArtical.toUpperCase() > b.nameArtical.toUpperCase()) ? 1 : ((b.nameArtical.toUpperCase() > a.nameArtical.toUpperCase()) ? -1 : 0));
+            }
+        } else if(this.sortType == "price"){
+            if(this.sortDirection=="ascending"){
+                this.articles.sort((a, b) => (a.price > b.price) ? 1 : ((b.price > a.price) ? -1 : 0));
+            }else{
+                this.articles.sort((b, a) => (a.price > b.price) ? 1 : ((b.price > a.price) ? -1 : 0));
+            }
+        }
+    },
+    filtered: function(artical){
+        if((this.showDishes && artical.type=='DISH') || (this.showDrinks && artical.type=='DRINK')){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
 

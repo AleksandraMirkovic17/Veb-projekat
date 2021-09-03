@@ -18,6 +18,7 @@ import dto.AddItemToChartDTO;
 import dto.AddingArticalToRestaurantDTO;
 import dto.ChangeArticalDTO;
 import dto.ChangeProfilUserDTO;
+import dto.ChangeProfileUsersDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
 import dto.RestaurantRegistrationDTO;
@@ -227,6 +228,67 @@ public class SparkMain {
 		return "OK";
 		});
 		
+
+		put("rest/DeleteUser/", (req,res)->{
+			res.type("application/json");
+			res.status(200);
+			ChangeProfileUsersDTO params = g.fromJson(req.body(), ChangeProfileUsersDTO.class);
+			System.out.print(params.toString());
+			if(userService.DeleteUser(params.userName)) 
+			{
+
+				ArrayList<User> users=userService.getAllWithoutAdministrator();
+				return g.toJson(users);
+			}
+				
+			
+			return "Err";
+		});
+		
+		put("rest/ChangeInformationUsers/", (req,res)->{
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			
+			
+			ChangeProfileUsersDTO params = g.fromJson(req.body(), ChangeProfileUsersDTO.class);
+			
+			System.out.print(params.toString());
+			
+			if(params.userName.equals(params.userName1))
+			{
+				if(userService.ChangeUserInformationUsers(params,params.userName1))
+				{
+					ArrayList<User> users=userService.getAllWithoutAdministrator();
+					return g.toJson(users);
+				}
+				else
+				{
+					return "ERR";
+				}
+					
+			}
+			else
+			{
+				if(userService.UsernameExists(params.userName))
+				{
+					return "Username exists";
+				}
+				else if(userService.ChangeUserInformationUsers(params,params.userName1))
+				{
+					ArrayList<User> users=userService.getAllWithoutAdministrator();
+					return g.toJson(users);
+				}
+				else
+				{
+					return "ERR";
+				}
+	
+			}
+		});	
+		
+
 		post("rest/addToChart", (req, res)->{
 			res.type("application/json");
 			res.status(200);
@@ -236,6 +298,7 @@ public class SparkMain {
 		return "OK";
 		});
 		
+
 		put("rest/ChangeInformation/", (req,res)->{
 			res.type("application/json");
 			res.status(200);
@@ -243,6 +306,7 @@ public class SparkMain {
 			User user = ss.attribute("user");
 			
 			ChangeProfilUserDTO params = g.fromJson(req.body(), ChangeProfilUserDTO.class);
+			 
 	
 			if(userService.UsernameExists(params.userName) && !user.userName.equals(params.userName))
 			{

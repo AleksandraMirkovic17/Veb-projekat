@@ -67,7 +67,14 @@ public class UserDAO {
 	}
 	public ArrayList<User> getAllUsers(){
 		readUser();
-		return users;
+		
+		ArrayList<User> users1=new ArrayList<User>();
+		for(User u : users)
+		{
+			if(!u.logicalDeletion) users1.add(u);
+		}
+			
+		return users1;
 	}
 	public ArrayList<User> getAllUsersRole(Roles role){
 		ArrayList<User> allUsers=getAllUsers();

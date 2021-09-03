@@ -10,6 +10,7 @@ import beans.Location;
 import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
+import beans.ShoppingChart;
 import beans.User;
 import beans.User.Roles;
 import dao.RestaurantDAO;
@@ -19,6 +20,7 @@ import dto.AddingArticalToRestaurantDTO;
 import dto.ChangeArticalDTO;
 import dto.ChangeProfilUserDTO;
 import dto.ChangeProfileUsersDTO;
+import dto.ChangeQuantityInCartDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
 import dto.RestaurantRegistrationDTO;
@@ -160,6 +162,15 @@ public class SparkMain {
 
 			}
 			return g.toJson(user);
+		});
+		
+		get("rest/getShoppingCart", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			User loggedInUser = ss.attribute("user");
+			ShoppingChart sc = ShoppingChartService.getInstance().getByUsername(loggedInUser.getUserName());
+			return g.toJson(sc);
 		});
 		
 		get("rest/logout", (req, res) -> {
@@ -343,7 +354,6 @@ public class SparkMain {
 		});
 		
 		put("rest/changeartical", (req, res) ->{
-			System.out.println("Test main changing artical!");
 			String ret="";
 			res.type("application/json");
 			res.status(200);
@@ -353,6 +363,28 @@ public class SparkMain {
 			restaurantService.changeArtical(params);
 			ret="OK";
 			return ret;		
+		});
+		
+		put("rest/changeQuantityInShoppingCart", (req, res)-> {
+			String ret="";
+			res.type("application/json");
+			res.status(200);
+			
+			ChangeQuantityInCartDTO params = g.fromJson(req.body(), ChangeQuantityInCartDTO.class);
+			shoppingChartService.changeQuantity(params);
+			ret="OK";
+			return ret;	
+		});
+		
+		put("rest/DeleteInShoppingCart", (req, res)-> {
+			String ret="";
+			res.type("application/json");
+			res.status(200);
+			
+			ChangeQuantityInCartDTO params = g.fromJson(req.body(), ChangeQuantityInCartDTO.class);
+			shoppingChartService.deleteArtical(params);
+			ret="OK";
+			return ret;	
 		});
 		}
 	}

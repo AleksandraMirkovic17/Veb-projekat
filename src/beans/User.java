@@ -9,9 +9,12 @@ public class User{
 	
 	public String name;
 	public String surname;
+	
 
 	public String date;
 	public Roles role;
+	public double discount;
+
 	public String gender;
 	public String restaurant; //if menager
 	public Boolean logicalDeletion;
@@ -113,6 +116,13 @@ public class User{
 		this.role = role;
 		this.gender = gender;
 		this.restaurant = restaurant;
+	}
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 	@Override
 	public String toString() {

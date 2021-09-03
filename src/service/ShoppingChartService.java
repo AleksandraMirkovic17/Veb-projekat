@@ -5,6 +5,7 @@ import beans.ShoppingChart;
 import beans.ShoppingChartItem;
 import dao.ShoppingChartDAO;
 import dto.AddItemToChartDTO;
+import dto.ChangeQuantityInCartDTO;
 
 public class ShoppingChartService {
 	public static ShoppingChartService shoppingChartService = null;
@@ -66,6 +67,10 @@ public class ShoppingChartService {
 		
 		
 	}
+	
+	public ShoppingChart getByUsername(String username) {
+		return chartDAO.getByUsername(username);
+	}
 
 	private double calculateTotalPrice(ShoppingChart shoppingChart) {
 		double totalPrice = 0.0;
@@ -73,6 +78,32 @@ public class ShoppingChartService {
 			totalPrice+= si.artical.price*si.quantity;
 		}
 		return totalPrice;
+	}
+
+	public void changeQuantity(ChangeQuantityInCartDTO params) {
+		ShoppingChart sc = getByUsername(params.username);
+		for(int i=0; i<sc.items.size(); i++) {
+			if(sc.items.get(i).artical.nameArtical.equals(params.articalname) && sc.items.get(i).artical.restaurant.equals(params.restaurantname)) {
+				ShoppingChartItem si = sc.items.get(i);
+				si.setQuantity(params.quantity);
+				sc.items.set(i, si);
+				chartDAO.changeShoppingChart(params.username, sc);
+				break;
+			}
+		}
+		
+	}
+
+	public void deleteArtical(ChangeQuantityInCartDTO params) {
+		ShoppingChart sc = getByUsername(params.username);
+		for(int i=0; i<sc.items.size(); i++) {
+			if(sc.items.get(i).artical.nameArtical.equals(params.articalname) && sc.items.get(i).artical.restaurant.equals(params.restaurantname)) {
+				sc.items.remove(i);
+				chartDAO.changeShoppingChart(params.username, sc);
+				break;
+			}
+		}
+		
 	}
 
 }

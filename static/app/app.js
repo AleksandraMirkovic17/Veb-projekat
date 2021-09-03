@@ -6,19 +6,21 @@ const profile={template: '<profile></profile>'}
 const managersrestaurant={template:'<managersrestaurant></managersrestaurant>'}
 const seeUsers={template:'<seeUsers></seeUsers>'}
 const onerestaurant={template:'<onerestaurant></onerestaurant>'}
+const shoppingcart={template:'<shoppingcart></shoppingcart>'}
 
 
 const router= new VueRouter({
       mode: 'hash',
       routes: [      
-       {path: '/', component:restaurants},
+      {path: '/', component:restaurants},
       {path: '/registration',component: registration},
       {path: '/login',component: login},
 	  {path: '/addrestaurant', component: addrestaurant},
 	  {path: '/managersrestaurant', component: managersrestaurant},
 	  {path: '/profile',component: profile},
 	  {path: '/seeUsers',component: seeUsers},
-	  {path: '/onerestaurant/:name', component: onerestaurant}
+	  {path: '/onerestaurant/:name', component: onerestaurant},
+	  {path: '/shoppingcart', component: shoppingcart}
       ]
 });
 var app = new Vue({

@@ -21,9 +21,18 @@ import dto.UserLoginDTO;
 
 public class UserService {
 	private UserDAO userDAO;
+	public static UserService userService= null;
+	public static UserService getInstance() {
+		if(userService == null) {
+			userService = new UserService();
+		}
+		return userService;
+	}
+	
 	
 	
 	public UserService() {
+		userService = this;
 		this.userDAO = UserDAO.getInstance();
 	}
 	
@@ -55,6 +64,9 @@ public class UserService {
 
 	    System.out.println("User service stanje"+parametersForRegistration.role);
 		User newUser = new User(parametersForRegistration.userName, parametersForRegistration.password, parametersForRegistration.name, parametersForRegistration.surname, parametersForRegistration.date,parametersForRegistration.gender,parametersForRegistration.role);
+		if(newUser.getRole()==Roles.CUSTOMER) {
+			ShoppingChartService.getInstance().addNewShoppingChart(newUser.getUserName());
+		}
 		userDAO.addUser(newUser);
 	}
 	
@@ -125,6 +137,9 @@ public class UserService {
 			{
 				User newUser=new User(user.userName,oldUser.password,user.name,user.surname,user.date,user.gender,oldUser.getRole());
 				userDAO.changeUser(u.getUserName(), newUser);
+				if (oldUser.getRole() == Roles.CUSTOMER && !(oldUser.getUserName().equals(user.userName))) {
+					ShoppingChartService.getInstance().changeUserName(oldUser.getUserName(), user.userName);
+				}
 				return true;
 			}	
 		}

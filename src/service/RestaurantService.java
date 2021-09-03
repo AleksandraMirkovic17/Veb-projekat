@@ -27,11 +27,17 @@ import spark.utils.StringUtils;
 
 public class RestaurantService {
 	private RestaurantDAO restaurantDAO;
-	private UserService userService;
+	
+	public static RestaurantService restaurantService = null;
+	public static RestaurantService getInstance() {
+		if(restaurantService == null) {
+			restaurantService = new RestaurantService();
+		}
+		return restaurantService;
+	}
 
 	public RestaurantService() {
 		this.restaurantDAO = RestaurantDAO.getInstance();
-		this.userService = new UserService();
 	}
 
 	public ArrayList<Restaurant> searchRestaurants(SearchForRestaurantsParamsDTO parametres) {
@@ -93,7 +99,7 @@ public class RestaurantService {
 	    										"", 0.0);
 	    newRestaurant = saveRestaurantsLogoImage(newRestaurant, params.imageRestaurant);
 		restaurantDAO.addRestaurant(newRestaurant);
-		userService.addRestaurantForMenager(params.menager, params.name);	
+		UserService.getInstance().addRestaurantForMenager(params.menager, params.name);	
 	}
 	
 	public Restaurant saveRestaurantsLogoImage(Restaurant restaurantWithoutImage, String image) {
@@ -232,6 +238,18 @@ public class RestaurantService {
 			}
 		}
 		restaurantDAO.changeRestaurant(restaurant.name, restaurant);		
+	}
+
+	public Artical getArticalByName(String restaurant, String nameArtical) {
+		Artical ret = null;
+		Restaurant rest = getByName(restaurant);
+		for(Artical a : rest.articles) {
+			if(a.getNameArtical().equals(nameArtical)) {
+				ret = a;
+				break;
+			}
+		}
+		return ret;
 	}
 
 

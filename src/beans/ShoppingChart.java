@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class ShoppingChart {
 	public ArrayList<ShoppingChartItem> items;
-	public User user;
+	public String username;
 	public double price;
 	
-	public ShoppingChart(User user) {
+	public ShoppingChart(String username) {
 		super();
 		this.items = new ArrayList<ShoppingChartItem>();
-		this.user = user;
+		this.username = username;
 		this.price=0;
 	
 	}
@@ -24,11 +24,11 @@ public class ShoppingChart {
 	public void setItems(ArrayList<ShoppingChartItem> items) {
 		this.items = items;
 	}
-	public User getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(String username) {
+		this.username = username;
 	}
 	public double getPrice() {
 		return price;

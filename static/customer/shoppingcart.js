@@ -58,7 +58,7 @@ Vue.component("shoppingcart",{
               <div class="total-value final-value" id="basket-total">{{shoppingcart.price * ((100-loggedUser.discount)/100)}}</div>
             </div>
             <div class="summary-checkout">
-              <button class="checkout-cta">Checkout</button>
+              <button v-on:click="checkout()" class="checkout-cta">Checkout</button>
             </div>
           </div>
         </aside>
@@ -149,6 +149,22 @@ Vue.component("shoppingcart",{
                     alert('Getting shopping cart is not possible!');
                     return;
                     });	
+        },
+        checkout: function(){
+            if(this.loggedUser.role!='CUSTOMER'){
+                alert("You don't have the permission to checkout!")
+                return;
+            }
+            axios.post('rest/checkout', this.loggedUser.userName)
+            .then(response=>{
+                if(response.data!="Error"){
+                    this.updateShoppingCart();
+                }
+            })
+            .catch(() => {
+                alert('Checkout is temporary unavailable!');
+                return;
+                });	
         }
 
     }

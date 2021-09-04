@@ -13,6 +13,7 @@
     <link href="css/seeUsers.css" rel="stylesheet" type="text/css"/>
 
     <link href="css/restaurant.css" rel="stylesheet" type="text/css"/>
+    <link href="css/shoppingcart.css" rel="stylesheet" href="">
 
     <link href="css/onerestaurant.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="libraries/v6.6.1-dist/ol.css">
@@ -46,7 +47,7 @@
                         <li style="color:whitesmoke; word-spacing: 0%;">Not connected with restaurants</li>
                     </ul>
                     <ul v-else-if="loggedInUser.role=='CUSTOMER'" class="functionlist">
-                        <li><a href="#/shoppingchart">Shopping chart</a></li>
+                        <li><a href="#/shoppingcart">Shopping cart</a></li>
                         <li><a href="#/customersorders">See orders</a></li>
 
                     </ul>
@@ -76,6 +77,7 @@
 <script src="app/restaurants.js"></script>
 <script src="app/profile.js"></script>
 <script src="administrator/seeUsers.js"></script>
+<script src="customer/shoppingcart.js"></script>
 <script src="app/app.js"></script>
 <script src="libraries/v6.6.1-dist/ol.js"></script>
 

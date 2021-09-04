@@ -27,6 +27,7 @@ import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.SearchUsersDTO;
 import dto.UserLoginDTO;
+import service.OrderService;
 import service.RestaurantService;
 import service.ShoppingChartService;
 import service.UserService;
@@ -306,6 +307,15 @@ public class SparkMain {
 			AddItemToChartDTO params = g.fromJson(req.body(), AddItemToChartDTO.class);
 			System.out.println(params);
 			shoppingChartService.addItemsToShoppingChart(params);
+		return "OK";
+		});
+		
+		post("rest/checkout", (req, res)->{
+			res.type("application/json");
+			res.status(200);
+			String username = g.fromJson(req.body(), String.class);
+			System.out.println(username+"is at checkout!");
+			OrderService.getInstance().makeAnOrder(username);
 		return "OK";
 		});
 		

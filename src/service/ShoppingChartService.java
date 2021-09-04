@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+
 import beans.Artical;
 import beans.ShoppingChart;
 import beans.ShoppingChartItem;
@@ -87,6 +89,7 @@ public class ShoppingChartService {
 				ShoppingChartItem si = sc.items.get(i);
 				si.setQuantity(params.quantity);
 				sc.items.set(i, si);
+				sc.setPrice(calculateTotalPrice(sc));
 				chartDAO.changeShoppingChart(params.username, sc);
 				break;
 			}
@@ -99,10 +102,19 @@ public class ShoppingChartService {
 		for(int i=0; i<sc.items.size(); i++) {
 			if(sc.items.get(i).artical.nameArtical.equals(params.articalname) && sc.items.get(i).artical.restaurant.equals(params.restaurantname)) {
 				sc.items.remove(i);
+				sc.setPrice(calculateTotalPrice(sc));
 				chartDAO.changeShoppingChart(params.username, sc);
 				break;
 			}
 		}
+		
+	}
+
+	public void emptyShoppingCart(String username) {
+		ShoppingChart sc = getByUsername(username);
+		sc.items = new ArrayList<ShoppingChartItem>();
+		sc.price = 0.0;
+		chartDAO.changeShoppingChart(username, sc);
 		
 	}
 

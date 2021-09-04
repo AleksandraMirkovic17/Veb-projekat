@@ -172,6 +172,19 @@ public class UserService {
 		}
 		return ret;
 	}
+	
+	public User getByUsername(String username) {
+		User ret = null;
+		ArrayList<User> allUsers= userDAO.getAllUsers();
+		for(User u : allUsers) {
+			if (u.getUserName().equals(username)) {
+				ret = u;
+				break;
+			}
+		}
+		return ret;
+	}
+	
 	public ArrayList<User> getAllWithoutAdministrator() {
 		ArrayList<User> allUsers = userDAO.getAllUsers();
 		for(User u : allUsers) {

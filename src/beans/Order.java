@@ -6,34 +6,31 @@ import java.util.Date;
 public class Order {
 	public String id;
 	public ArrayList<ShoppingChartItem> articles;
-	public Restaurant restaurant;
-	public Date dateOfOrder;
+	public String restaurant;
+	public String date;
 	public double price;
-	public String customerName;
+	public double priceWithDiscount;
+	public String fullName;
+	public String username;
+	public String deliverer;
 	public OrderState orderState;
-	
-	public Order(String id, ArrayList<ShoppingChartItem> articles, Restaurant restaurant, Date dateOfOrder,
-			double price, String customerName, OrderState orderState) {
+	public Order(String id, ArrayList<ShoppingChartItem> articles, String restaurant, String date, double price,
+			double priceWithDiscount, String fullName, String username, String deliverer, OrderState orderState) {
 		super();
 		this.id = id;
 		this.articles = articles;
 		this.restaurant = restaurant;
-		this.dateOfOrder = dateOfOrder;
+		this.date = date;
 		this.price = price;
-		this.customerName = customerName;
+		this.priceWithDiscount = priceWithDiscount;
+		this.fullName = fullName;
+		this.username = username;
+		this.deliverer = deliverer;
 		this.orderState = orderState;
 	}
-	public ArrayList<ShoppingChartItem> getArticles() {
-		return articles;
-	}
-	public void setArticles(ArrayList<ShoppingChartItem> articles) {
-		this.articles = articles;
-	}
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public Order() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	public String getId() {
 		return id;
@@ -41,11 +38,23 @@ public class Order {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Date getDateOfOrder() {
-		return dateOfOrder;
+	public ArrayList<ShoppingChartItem> getArticles() {
+		return articles;
 	}
-	public void setDateOfOrder(Date dateOfOrder) {
-		this.dateOfOrder = dateOfOrder;
+	public void setArticles(ArrayList<ShoppingChartItem> articles) {
+		this.articles = articles;
+	}
+	public String getRestaurant() {
+		return restaurant;
+	}
+	public void setRestaurant(String string) {
+		this.restaurant = string;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 	public double getPrice() {
 		return price;
@@ -53,11 +62,29 @@ public class Order {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public String getCustomerName() {
-		return customerName;
+	public double getPriceWithDiscount() {
+		return priceWithDiscount;
 	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setPriceWithDiscount(double priceWithDiscount) {
+		this.priceWithDiscount = priceWithDiscount;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getDeliverer() {
+		return deliverer;
+	}
+	public void setDeliverer(String deliverer) {
+		this.deliverer = deliverer;
 	}
 	public OrderState getOrderState() {
 		return orderState;
@@ -65,6 +92,15 @@ public class Order {
 	public void setOrderState(OrderState orderState) {
 		this.orderState = orderState;
 	}
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", articles=" + articles + ", restaurant=" + restaurant + ", date=" + date
+				+ ", price=" + price + ", priceWithDiscount=" + priceWithDiscount + ", fullName=" + fullName
+				+ ", username=" + username + ", deliverer=" + deliverer + ", orderState=" + orderState + "]";
+	}
+	
+	
+	
 	
 
 }

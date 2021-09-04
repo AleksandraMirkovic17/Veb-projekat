@@ -142,7 +142,7 @@ Vue.component("registration",{
  	axios.post('rest/CustomerReg/', {"userName":this.userName, "name":this.name, "surname":this.surname, "password":this.password, "date":this.date, "gender":this.gender,"role":this.role })
  		.then(response => {
                 alert('Successful customer registration!');
-                if(this.loggedInUser.role===""){
+                if(this.role==="CUSTOMER"){
                 axios.get('rest/login',{
                     params:
                     {
@@ -150,7 +150,7 @@ Vue.component("registration",{
                     password: this.password
                     }
                 })
-             .then(response => {
+               .then(response => {
                     if (response.data == 'YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!') {
                     alert('Err: YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER');
                     }

@@ -52,6 +52,7 @@ public class OrderService {
 				LocalDateTime now = LocalDateTime.now();
 				newOrder.setDate(now.toString());
 				newOrder.setFullName(user.getName()+' '+user.getSurname());
+				newOrder.setUsername(username);
 				newOrder.setOrderState(OrderState.PROCESSING);
 				newOrder.setRestaurant(si.getArtical().getRestaurant());
 				orders.put(si.artical.restaurant, newOrder);

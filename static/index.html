@@ -24,7 +24,7 @@
         <nav class="navbar">
             <img  src="logo.png" class="logoFastFood">
             <ul>
-                <li><a v-if="loggedInUser.role=='ADMINISTRATOR'" href="#/">{{loggedInUser.userName}}</a>
+                <li><a v-if="status=='loggedIn'" href="#/">{{loggedInUser.userName}}</a>
                     <ul class="functionlist">
                         <li><a  href="#/profile">Change profile</a></li>
                         <li><a href="#/password">Change password</a></li>

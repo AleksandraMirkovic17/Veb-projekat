@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import beans.Location;
+import beans.Order;
 import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
@@ -23,6 +24,7 @@ import dto.ChangeProfileUsersDTO;
 import dto.ChangeQuantityInCartDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
+import dto.NextStateDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.SearchUsersDTO;
@@ -128,13 +130,11 @@ public class SparkMain {
 		});
 		
 
-		get("rest/login", (req, res) -> {
+		post("rest/login", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			
-			UserLoginDTO user = new UserLoginDTO(); 
-			user.userName = req.queryParams("userName");
-		    user.password = req.queryParams("password");
+			UserLoginDTO user = g.fromJson(req.body(), UserLoginDTO.class);
 		    if(!userService.isExistUser(user))
 		    	return "YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!";
 		    
@@ -223,6 +223,15 @@ public class SparkMain {
 			return g.toJson(restaurant);
 		});
 		
+		get("rest/getManagersOrders" , (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String restaurantsName = req.queryParams("restaurant");
+			ArrayList<Order> orders = OrderService.getInstance().getByRestaurant(restaurantsName);
+			System.out.println("pokusavam da pokupim narudzbine" +orders);
+			return g.toJson(orders);
+		});
+		
 		post("rest/registerRestaurant/", (req,res)->{
 			res.type("application/json");
 			res.status(200);
@@ -255,6 +264,15 @@ public class SparkMain {
 				
 			
 			return "Err";
+		});
+		
+		put("rest/nextorderstate", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			NextStateDTO params = g.fromJson(req.body(), NextStateDTO.class);
+			System.out.println("Menjamo stanje porudzbine: " + params.id);
+			OrderService.getInstance().goToNextState(params.id);
+			return "OK";
 		});
 		
 		put("rest/ChangeInformationUsers/", (req,res)->{

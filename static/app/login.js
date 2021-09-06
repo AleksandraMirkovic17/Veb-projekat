@@ -44,12 +44,9 @@ Vue.component("login",{
             alert(this.allFilled);
              return false;
          }
-    axios.get('rest/login',{
-    params:
-    {
-       userName: this.userName,
-       password: this.password
-    }
+    axios.post('rest/login',{
+      "password":this.password, 
+      "userName":this.userName
   })
   .then(response => {
           if (response.data == 'YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!') {

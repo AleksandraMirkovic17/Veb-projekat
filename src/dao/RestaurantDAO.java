@@ -43,7 +43,7 @@ public class RestaurantDAO {
 		    
 			java.lang.reflect.Type restaurantsarray = new TypeToken<ArrayList<Restaurant>>(){}.getType();
 			Gson gson = new Gson();
-				
+			
 			restaurants = gson.fromJson(json, restaurantsarray);
 		     
 		} catch (Exception e) {

@@ -46,8 +46,8 @@ public class UserDAO {
 		    
 			java.lang.reflect.Type usersarray = new TypeToken<ArrayList<User>>(){}.getType();
 			Gson gson = new Gson();
-				
-			users = gson.fromJson(json, usersarray);
+			
+			users = gson.fromJson(json, usersarray);					
 		     
 		} catch (Exception e) {
 			e.printStackTrace();

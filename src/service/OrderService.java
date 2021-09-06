@@ -74,5 +74,57 @@ public class OrderService {
 		v.setPriceWithDiscount(priceDiscounted);
 		OrdersDAO.getInstance().addOrder(v);
 	}
+	public ArrayList<Order> getByRestaurant(String restaurant){
+		ArrayList<Order> restaurantsOrders = new ArrayList<Order>();
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getRestaurant().equals(restaurant)) {
+				restaurantsOrders.add(o);
+			}
+		}		
+		return restaurantsOrders;
+	}
+	
+	public ArrayList<Order> getByCustomer(String username){
+		ArrayList<Order> customersOrders = new ArrayList<Order>();
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getUsername().equals(username)) {
+				customersOrders.add(o);
+			}
+		}		
+		return customersOrders;
+	}
+	public void goToNextState(String orderId) {
+		Order order = GetById(orderId);
+		if(order == null) {
+			System.out.println("Ne postoji porudzbina sa prosledjenim Id!");
+		}else {
+			order.setOrderState(getNextState(order.getOrderState()));
+			OrdersDAO.getInstance().changeOrder(orderId, order);
+		}
+		
+	}
+	
+	private OrderState getNextState(OrderState orderState) {
+		OrderState nextState = OrderState.CANCELED;
+		if(orderState.equals(OrderState.PROCESSING)) nextState = OrderState.PREPAIRING;
+		else if(orderState.equals(OrderState.PREPAIRING)) nextState = OrderState.READYTODELIVER;
+		else if(orderState.equals(OrderState.READYTODELIVER)) nextState = OrderState.TRANSPORTING;
+		else if(orderState.equals(OrderState.TRANSPORTING)) nextState = OrderState.DELIVERED;
+		return nextState;
+	}
+	public Order GetById(String orderId) {
+		// TODO Auto-generated method stub
+		Order ret = null;
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getId().equals(orderId)) {
+				ret = o;
+				break;
+			}
+		}
+		return ret;
+	}
 
 }

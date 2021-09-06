@@ -13,7 +13,8 @@
     <link href="css/seeUsers.css" rel="stylesheet" type="text/css"/>
 
     <link href="css/restaurant.css" rel="stylesheet" type="text/css"/>
-    <link href="css/shoppingcart.css" rel="stylesheet" href="">
+    <link href="css/shoppingcart.css" rel="stylesheet"  type="text/css"/>
+    <link href="css/managersorders.css" rel="stylesheet"  type="text/css"/>
 
     <link href="css/onerestaurant.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="libraries/v6.6.1-dist/ol.css">
@@ -40,7 +41,7 @@
                     </ul>
                     <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant!=null" class="functionlist">
                         <li><a  href="#/managersrestaurant">See {{loggedInUser.restaurant}}</a></li>
-                        <li><a href="#/">See orders</a></li>
+                        <li><a href="#/managersorders">See orders</a></li>
                         <li><a href="#/">See customers</a></li>
                     </ul>
                     <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant==null" class="functionlist">
@@ -77,6 +78,7 @@
 <script src="app/restaurants.js"></script>
 <script src="app/profile.js"></script>
 <script src="administrator/seeUsers.js"></script>
+<script src="manager/managersorders.js"></script>
 <script src="customer/shoppingcart.js"></script>
 <script src="app/app.js"></script>
 <script src="libraries/v6.6.1-dist/ol.js"></script>

@@ -104,7 +104,6 @@ public class SparkMain {
 			res.type("application/json");
 			res.status(200);
 			ArrayList<Restaurant> restaurants = restaurantService.getAll();
-			System.out.println("Ucitali smo sve restorane");
 			return g.toJson(restaurants);
 			});
 		

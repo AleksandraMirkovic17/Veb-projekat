@@ -2,13 +2,21 @@ Vue.component("managersorders",{
     data: function(){
           return{
             loggedUser: null,
-            orders: null
+            orders: null,
+            pricefrom:'',
+            priceto:'',
+            sortType: "date",
+            sortDirection: "descending",
+            state: 'ALL',
+            fromDate: '',
+            toDate: ''
           }
        },
    template: `
+   <div class="managersorder">
    <div class="order">
-   <header class="card-header"> All orders from {{loggedUser.restaurant}} </header>
-   <div v-for="order in orders" class="order1">
+   <header class="card-header"><h1> All orders from {{loggedUser.restaurant}} </h1></header>
+   <div v-for="order in orders" v-if="filter(order)" class="order1">
     <article class="card">
         <div class="card-body">
             <h6>Order ID: {{order.id}}</h6>
@@ -50,8 +58,56 @@ Vue.component("managersorders",{
         </div>
     </article>
 </div>
-
-   </div> `,
+   </div>
+   <div class="sidebar">
+ <h1>Search</h1>
+ <table>
+  <tr>
+       <td>Price from:</td>
+       <td><input type="number" min="0" v-model="pricefrom"/></td>
+  </tr>
+  <tr>
+       <td>Price up to:</td>
+       <td><input type="number" min="0" v-model="priceto"/></td>
+  </tr>
+  <hr>
+    <tr>
+       <td>From date:</td>
+       <td><input type="date" min="0" v-model="fromDate"/></td>
+  </tr>
+  <tr>
+       <td>To date:</td>
+       <td><input type="date" min="0" v-model="toDate"/></td>
+  </tr>
+ </table>
+ <p class="sortby">Sort by</p>
+ <select name="sortby" v-on:change="sort" v-model="sortType">
+ <option value="price">Price</option>
+ <option value="date">Date</option>
+</select>
+<select name="sortdirection" v-on:change="sort" v-model="sortDirection">
+ <option value="ascending">Ascending</option>
+ <option value="descending">Descending</option>
+</select>
+<p class="sortby">Filter</p>
+<table>
+<tr>
+<td>Show me states</td>
+<td>
+<select name="sortdirection" v-model="state">
+ <option value="ALL">All</option>
+ <option value="PROCESSING">Processing</option>
+ <option value="PREPAIRING">Prepairing</option>
+ <option value="READYTODELIVER">Ready to be delivered</option>
+ <option value="TRANSPORTING">Transporting</option>
+ <option value="DELIVERED">Delivered</option>
+ <option value="CANCELED">Canceled</option>
+</select>
+</td>
+</tr>
+</table>
+</div> 
+</div>`,
    mounted () {
     axios.get('rest/testlogin')
     .then(response =>
@@ -67,6 +123,7 @@ Vue.component("managersorders",{
                     })
                     .then(responsee =>{
                         this.orders = responsee.data;
+                        this.sort();
                     })
                     .catch(function(error){
                         alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");
@@ -154,6 +211,32 @@ Vue.component("managersorders",{
                     .catch(function(error){
                         alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");
                     }); 
+        },
+        filter: function(order){
+            if((this.pricefrom == '' || order.priceWithDiscount>=this.pricefrom)
+             && (this.priceto == '' || order.priceWithDiscount<=this.priceto)
+             && (this.state=='ALL' || order.orderState==this.state) 
+             && (this.fromDate=="" || order.date>=this.fromDate)
+             && (this.toDate=="" || order.date<=this.toDate)){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        sort: function(){
+            if(this.sortType == "date"){
+                if(this.sortDirection=="ascending"){
+                    this.orders.sort((a, b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+                }else{
+                    this.orders.sort((b, a) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+                }
+            } else if(this.sortType == "price"){
+                if(this.sortDirection=="ascending"){
+                    this.orders.sort((a, b) => (a.priceWithDiscount > b.priceWithDiscount) ? 1 : ((b.priceWithDiscount > a.priceWithDiscount) ? -1 : 0));
+                }else{
+                    this.orders.sort((b, a) => (a.priceWithDiscount > b.priceWithDiscount) ? 1 : ((b.priceWithDiscount > a.priceWithDiscount) ? -1 : 0));
+                }
+            }
         }
          
 

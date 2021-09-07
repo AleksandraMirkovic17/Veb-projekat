@@ -24,11 +24,13 @@ import dto.ChangeProfileUsersDTO;
 import dto.ChangeQuantityInCartDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
+import dto.CompeteToDeliverDTO;
 import dto.NextStateDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.SearchUsersDTO;
 import dto.UserLoginDTO;
+import service.OrderCompetingService;
 import service.OrderService;
 import service.RestaurantService;
 import service.ShoppingChartService;
@@ -98,8 +100,7 @@ public class SparkMain {
 		return restaurantService.ArticalExists(oldName, articalName, restaurantName);
 		});
 		
-		
-		
+				
 		get("rest/restaurants", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
@@ -128,6 +129,14 @@ public class SparkMain {
 			return g.toJson(searchUsers);
 		});
 		
+		get("rest/getreadyorders", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String username = req.queryParams("username");
+			ArrayList<Order> readyOrders = OrderService.getInstance().getReadyOrdersForDeliverer(username);
+			return g.toJson(readyOrders);
+		});
+		
 
 		post("rest/login", (req, res) -> {
 			res.type("application/json");
@@ -146,6 +155,15 @@ public class SparkMain {
 			User proveraSesije = ss.attribute("user");
 			System.out.println("SparkMain provera sesije, korisnik "+proveraSesije.getUserName()+" uspesno zakacen na sesiju!");
 			return  g.toJson(loginUser);
+		});
+		
+		post("rest/competetodeliver", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			
+			CompeteToDeliverDTO params = g.fromJson(req.body(), CompeteToDeliverDTO.class);
+			OrderCompetingService.getInstance().addDeliverToOrder(params);
+			return "OK";
 		});
 		
 		get("rest/testlogin", (req, res) -> {

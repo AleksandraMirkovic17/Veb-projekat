@@ -50,7 +50,10 @@
                     <ul v-else-if="loggedInUser.role=='CUSTOMER'" class="functionlist">
                         <li><a href="#/shoppingcart">Shopping cart</a></li>
                         <li><a href="#/customersorders">See orders</a></li>
-
+                    </ul>
+                    <ul v-else-if="loggedInUser.role=='DELIVERER'" class="functionlist">
+                        <li><a href="#/deliverersorders">See your orders</a></li>
+                        <li><a href="#/readyorders">See ready orders</a></li>
                     </ul>
                 </li>
              
@@ -80,6 +83,8 @@
 <script src="administrator/seeUsers.js"></script>
 <script src="manager/managersorders.js"></script>
 <script src="customer/shoppingcart.js"></script>
+<script src="deliverer/deliverersorders.js"></script>
+<script src="deliverer/readyorders.js"></script>
 <script src="app/app.js"></script>
 <script src="libraries/v6.6.1-dist/ol.js"></script>
 

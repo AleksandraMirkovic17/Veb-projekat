@@ -8,6 +8,8 @@ const seeUsers={template:'<seeUsers></seeUsers>'}
 const onerestaurant={template:'<onerestaurant></onerestaurant>'}
 const shoppingcart={template:'<shoppingcart></shoppingcart>'}
 const managersorders={template:'<managersorders></managersorders>'}
+const readyorders = {template: '<readyorders></readyorders>'}
+const deliverersorders = {template: '<deliverersorders></deliverersorders>'}
 
 
 const router= new VueRouter({
@@ -22,7 +24,9 @@ const router= new VueRouter({
 	  {path: '/seeUsers',component: seeUsers},
 	  {path: '/onerestaurant/:name', component: onerestaurant},
 	  {path: '/shoppingcart', component: shoppingcart},
-	  {path: '/managersorders', component: managersorders}
+	  {path: '/managersorders', component: managersorders},
+	  {path: '/readyorders', component: readyorders},
+	  {path: '/deliverersorders', component: deliverersorders}
       ]
 });
 var app = new Vue({

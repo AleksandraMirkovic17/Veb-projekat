@@ -1,4 +1,4 @@
-Vue.component("managersorders",{
+Vue.component("deliverersorders",{
     data: function(){
           return{
             loggedUser: null,
@@ -84,8 +84,6 @@ Vue.component("managersorders",{
  <select name="sortby" v-on:change="sort" v-model="sortType">
  <option value="price">Price</option>
  <option value="date">Date</option>
- <option value="restaurant">Restaurant</option>
-
 </select>
 <select name="sortdirection" v-on:change="sort" v-model="sortDirection">
  <option value="ascending">Ascending</option>
@@ -126,7 +124,6 @@ Vue.component("managersorders",{
                     .then(responsee =>{
                         this.orders = responsee.data;
                         this.sort();
-                        this.orders = this.orders;
                     })
                     .catch(function(error){
                         alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");

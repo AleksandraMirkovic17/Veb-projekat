@@ -18,6 +18,7 @@ import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
 import dto.AddItemToChartDTO;
 import dto.AddingArticalToRestaurantDTO;
+import dto.ApproveDisapproveDelivererDTO;
 import dto.ChangeArticalDTO;
 import dto.ChangeProfilUserDTO;
 import dto.ChangeProfileUsersDTO;
@@ -26,6 +27,7 @@ import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
 import dto.CompeteToDeliverDTO;
 import dto.NextStateDTO;
+import dto.OrdersForManagerDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.SearchUsersDTO;
@@ -138,6 +140,30 @@ public class SparkMain {
 			return g.toJson(readyOrders);
 		});
 		
+		get("rest/getdeliverersorders", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String username = req.queryParams("username");
+			ArrayList<Order> deliverersorder = OrderService.getInstance().getByDeliverer(username);
+			return g.toJson(deliverersorder);
+		});
+		
+		get("rest/getrestaurantstypedeliverer", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String username = req.queryParams("username");
+			String typerequired = req.queryParams("restaurantstyperequired");
+			return g.toJson(OrderService.getInstance().getOrdersByRestaurantsTypeDeliverer(username, typerequired));
+		});
+		
+		get("rest/getrestaurantstype", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String username = req.queryParams("username");
+			String typerequired = req.queryParams("restaurantstyperequired");
+			return g.toJson(OrderService.getInstance().getOrdersByRestaurantsType(username, typerequired));
+		});
+		
 
 		post("rest/login", (req, res) -> {
 			res.type("application/json");
@@ -164,6 +190,22 @@ public class SparkMain {
 			
 			CompeteToDeliverDTO params = g.fromJson(req.body(), CompeteToDeliverDTO.class);
 			OrderCompetingService.getInstance().addDeliverToOrder(params);
+			return "OK";
+		});
+		
+		post("rest/approvedeliverer", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			ApproveDisapproveDelivererDTO params = g.fromJson(req.body(), ApproveDisapproveDelivererDTO.class);
+			OrderCompetingService.getInstance().approveDeliverer(params);
+			return "OK";
+		});
+		
+		post("rest/disapprovedeliverer", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			ApproveDisapproveDelivererDTO params = g.fromJson(req.body(), ApproveDisapproveDelivererDTO.class);
+			OrderCompetingService.getInstance().disapproveDeliverer(params);
 			return "OK";
 		});
 		
@@ -197,10 +239,18 @@ public class SparkMain {
 			res.status(200);
 			Session ss = req.session(true);
 			User loggedInUser = ss.attribute("user");
-			ArrayList<Order> orders=orderService.getOrders(loggedInUser);
-			
+			ArrayList<Order> orders= OrderService.getInstance().getByCustomer(loggedInUser.getUserName());			
 			return g.toJson(orders);
 		});
+		
+		get("rest/getManagersOrders" , (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String restaurantsName = req.queryParams("restaurant");
+			ArrayList<OrdersForManagerDTO> orders = OrderService.getInstance().getOrdersForManager(restaurantsName);
+			return g.toJson(orders);
+		});
+		
 		get("rest/logout", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
@@ -250,14 +300,7 @@ public class SparkMain {
 			return g.toJson(restaurant);
 		});
 		
-		get("rest/getManagersOrders" , (req, res) ->{
-			res.type("application/json");
-			res.status(200);
-			String restaurantsName = req.queryParams("restaurant");
-			ArrayList<Order> orders = OrderService.getInstance().getByRestaurant(restaurantsName);
-			System.out.println("pokusavam da pokupim narudzbine" +orders);
-			return g.toJson(orders);
-		});
+
 		
 		post("rest/registerRestaurant/", (req,res)->{
 			res.type("application/json");

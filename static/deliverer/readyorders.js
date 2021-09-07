@@ -10,7 +10,9 @@ Vue.component("readyorders",{
             state: 'ALL',
             fromDate: '',
             toDate: '',
-            restaurant:''
+            restaurant:'',
+            typeofrestaurant: 'ALL',
+            isTypeOk: true
           }
        },
    template: `
@@ -102,12 +104,19 @@ Vue.component("readyorders",{
 <td>
 <select name="sortdirection" v-model="state">
  <option value="ALL">All</option>
- <option value="PROCESSING">Processing</option>
- <option value="PREPAIRING">Prepairing</option>
- <option value="READYTODELIVER">Ready to be delivered</option>
  <option value="TRANSPORTING">Transporting</option>
  <option value="DELIVERED">Delivered</option>
- <option value="CANCELED">Canceled</option>
+</select>
+</td>
+</tr>
+<tr>
+<td>Type of restaurant</td>
+<td>
+<select name="sortdirection" v-model="typeofrestaurant" v-on:change="getType()">
+ <option value="ALL">All</option>
+ <option value="BARBECUE">Barbecue</option>
+ <option value="ITALIAN">Italian</option>
+ <option value="CHINESE">Chinese</option>
 </select>
 </td>
 </tr>
@@ -179,7 +188,7 @@ Vue.component("readyorders",{
          },
          aktivno5: function(stanje){
             if( stanje=='DELIVERED'){
-                return false;
+                return true;
             }
             return false;
          },
@@ -214,6 +223,27 @@ Vue.component("readyorders",{
                         alert("It is impossible to load ready orders - Server error!");
                     }); 
         },
+        getType : function(){
+            if(this.typeofrestaurant == "ALL"){
+                this.loadorders();
+            }
+            else{
+            axios
+            .get("rest/getrestaurantstype", 
+            {
+                params : {
+                    username : this.loggedUser.userName,
+                    restaurantstyperequired : this.typeofrestaurant
+                }
+            })
+            .then(response =>{
+                this.orders= response.data;
+            })
+            .catch(function(error){
+                alert("It is impossible to get the type of the restaurant! Server error!")
+            })
+        }
+        },
         filter: function(order){
             if((this.pricefrom == '' || order.priceWithDiscount>=this.pricefrom)
              && (this.priceto == '' || order.priceWithDiscount<=this.priceto)
@@ -222,7 +252,8 @@ Vue.component("readyorders",{
              && (this.toDate=="" || order.date<=this.toDate)
              && (this.restaurant=="" || (order.restaurant.toUpperCase()).includes(this.restaurant.toUpperCase()))){
                 return true;
-            }else{
+             }
+            else{
                 return false;
             }
         },

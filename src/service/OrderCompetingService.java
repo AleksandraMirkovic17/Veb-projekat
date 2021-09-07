@@ -22,6 +22,7 @@ import beans.ShoppingChartItem;
 import beans.User;
 import dao.OrderCompetingDAO;
 import dao.OrdersDAO;
+import dto.ApproveDisapproveDelivererDTO;
 import dto.CompeteToDeliverDTO;
 
 public class OrderCompetingService {
@@ -68,6 +69,15 @@ public class OrderCompetingService {
 			oc.deliverers.add(params.username);
 		}
 		OrderCompetingDAO.getInstance().changeOrderCompeting(params.id, oc);		
+	}
+	public void approveDeliverer(ApproveDisapproveDelivererDTO params) {
+		OrderCompetingDAO.getInstance().deleteOrderCompeting(params.id);
+		OrderService.getInstance().addDelivererToOrder(params);
+	}
+	public void disapproveDeliverer(ApproveDisapproveDelivererDTO params) {
+		OrderCompeting oc = getById(params.id);
+		oc.disapproveddeliverers.add(params.deliverer);
+		OrderCompetingDAO.getInstance().changeOrderCompeting(params.id, oc);	
 	}
 
 

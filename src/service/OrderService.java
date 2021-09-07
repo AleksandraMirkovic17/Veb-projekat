@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Order;
@@ -22,6 +23,8 @@ import beans.ShoppingChartItem;
 import beans.User;
 import dao.OrderCompetingDAO;
 import dao.OrdersDAO;
+import dto.ApproveDisapproveDelivererDTO;
+import dto.OrdersForManagerDTO;
 
 public class OrderService {
 	public static OrdersDAO ordersDAO=new OrdersDAO();
@@ -93,7 +96,6 @@ public class OrderService {
 			}
 				
 		}
-
 		return userOrders;
 	}
 	
@@ -161,6 +163,76 @@ public class OrderService {
 			}
 		}
 		return readyOrders;
+	}
+	
+	public ArrayList<Order> getOrdersByRestaurantsType(String username, String typerequired) {
+		ArrayList<Order> orderForDeliverer = getReadyOrdersForDeliverer(username);
+		ArrayList<Order> orderByTypeForDeliverer = new ArrayList<Order>();
+		for(Order o : orderForDeliverer) {
+			if(RestaurantService.getInstance().getRestaurantType(o.getRestaurant()).toString().equals(typerequired)) {
+				orderByTypeForDeliverer.add(o);
+			}
+		}
+		return orderByTypeForDeliverer;
+	}
+	public ArrayList<OrdersForManagerDTO> getOrdersForManager(String restaurantsName) {
+		ArrayList<Order> orderForRestaurant = getByRestaurant(restaurantsName);
+		ArrayList<OrdersForManagerDTO> orderWithDeliverers = new ArrayList<OrdersForManagerDTO>();
+		for(Order o : orderForRestaurant) {
+			OrdersForManagerDTO orderManager = new OrdersForManagerDTO(o);
+			OrderCompeting oc = OrderCompetingService.getInstance().getById(o.getId());
+			if(oc.getDisapproveddeliverers()==null) {
+				oc.setDisapproveddeliverers(new ArrayList<String>());
+				OrderCompetingDAO.getInstance().changeOrderCompeting(oc.getOrderId(), oc);
+			}
+			for(String deliverersusername : oc.getDeliverers()){
+				if(!delivererDisapproved(deliverersusername, oc.getDisapproveddeliverers())) {
+				User user = UserService.getInstance().getByUsername(deliverersusername);
+				orderManager.competingdeliverers.add(user);
+				}
+			}
+			orderWithDeliverers.add(orderManager);
+		}
+		return orderWithDeliverers;
+	}
+	
+	private boolean delivererDisapproved(String deliverersusername, ArrayList<String> disapproveddeliverers) {
+		boolean ret = false;
+		for(String s : disapproveddeliverers) {
+			if(s.equals(deliverersusername)) {
+				ret=true;
+				break;
+			}
+		}
+		return ret;
+	}
+	public void addDelivererToOrder(ApproveDisapproveDelivererDTO params) {
+		Order o = GetById(params.id);
+		o.setDeliverer(params.deliverer);
+		o.setOrderState(OrderState.TRANSPORTING);
+		OrdersDAO.getInstance().changeOrder(params.id, o);
+	}
+	
+	public ArrayList<Order> getByDeliverer(String username) {
+		ArrayList<Order> deliverersOrders = new ArrayList<Order>();
+		ArrayList<Order> allOrders = ordersDAO.getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getDeliverer()!=null && o.getDeliverer().equals(username)) {
+				deliverersOrders.add(o);
+			}
+		}
+		return deliverersOrders;
+	}
+	
+	public ArrayList<Order> getOrdersByRestaurantsTypeDeliverer(String username, String typerequired) {
+		ArrayList<Order> ordersByRestaurantsTypeDeliverer = new ArrayList<Order>();
+		ArrayList<Order> deliverersOrders = getByDeliverer(username);
+		for(Order o : deliverersOrders) {
+			if(RestaurantService.getInstance().getRestaurantType(o.getRestaurant()).toString().equals(typerequired)) {
+				ordersByRestaurantsTypeDeliverer.add(o);
+			}
+		}		
+		return ordersByRestaurantsTypeDeliverer;
 	}
 
 

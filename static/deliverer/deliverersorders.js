@@ -9,13 +9,16 @@ Vue.component("deliverersorders",{
             sortDirection: "descending",
             state: 'ALL',
             fromDate: '',
-            toDate: ''
+            toDate: '',
+            restaurant:'',
+            typeofrestaurant: 'ALL',
+            isTypeOk: true
           }
        },
    template: `
    <div class="managersorder">
    <div class="order">
-   <header class="card-header"><h1> All orders from {{loggedUser.restaurant}} </h1></header>
+   <h1>Orders ready to be delivered by {{loggedUser.name}} {{loggedUser.surname}}</h1>
    <div v-for="order in orders" v-if="filter(order)" class="order1">
     <article class="card">
         <div class="card-body">
@@ -54,7 +57,7 @@ Vue.component("deliverersorders",{
                 </li>
             </ul>
             <hr> 
-            <a v-if="managerstatechange(order.orderState)" v-on:click="nextstate(order.id)" class="btn btn-warning" data-abc="true"> Next state</a>
+            <a v-if="order.orderState=='TRANSPORTING'" v-on:click="deliver(order.id)" class="btn btn-warning" data-abc="true"> Delivered</a>
         </div>
     </article>
 </div>
@@ -62,6 +65,10 @@ Vue.component("deliverersorders",{
    <div class="sidebar">
  <h1>Search</h1>
  <table>
+ <tr>
+       <td>Restaurant</td>
+       <td><input type="text" v-model="restaurant"></td>
+ </tr>
   <tr>
        <td>Price from:</td>
        <td><input type="number" min="0" v-model="pricefrom"/></td>
@@ -84,6 +91,7 @@ Vue.component("deliverersorders",{
  <select name="sortby" v-on:change="sort" v-model="sortType">
  <option value="price">Price</option>
  <option value="date">Date</option>
+ <option value="restaurant">Restaurant</option>
 </select>
 <select name="sortdirection" v-on:change="sort" v-model="sortDirection">
  <option value="ascending">Ascending</option>
@@ -105,6 +113,17 @@ Vue.component("deliverersorders",{
 </select>
 </td>
 </tr>
+<tr>
+<td>Type of restaurant</td>
+<td>
+<select name="sortdirection" v-model="typeofrestaurant" v-on:change="getType()">
+ <option value="ALL">All</option>
+ <option value="BARBECUE">Barbecue</option>
+ <option value="ITALIAN">Italian</option>
+ <option value="CHINESE">Chinese</option>
+</select>
+</td>
+</tr>
 </table>
 </div> 
 </div>`,
@@ -113,12 +132,12 @@ Vue.component("deliverersorders",{
     .then(response =>
         { if(response.data!= "Err:UserIsNotLoggedIn"){
             this.loggedUser=response.data;
-            if(this.loggedUser.role == 'MANAGER'){       
+            if(this.loggedUser.role == 'DELIVERER'){       
 
-                   axios.get("rest/getManagersOrders", 
+                   axios.get("rest/getdeliverersorders", 
                     {
                         params: {
-                            restaurant : this.loggedUser.restaurant
+                            username : this.loggedUser.userName
                         }
                     })
                     .then(responsee =>{
@@ -126,12 +145,12 @@ Vue.component("deliverersorders",{
                         this.sort();
                     })
                     .catch(function(error){
-                        alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");
+                        alert("It is impossible to load ready orders - Server error!");
                     }); 
                     
             }
             } else{
-                alert("You don't have a permission to access this site, beacuse you are not a manager!");
+                alert("You don't have a permission to access this site, beacuse you are not a deliverer!");
             }
         })
         .catch(() => {
@@ -173,53 +192,72 @@ Vue.component("deliverersorders",{
          },
          aktivno5: function(stanje){
             if( stanje=='DELIVERED'){
-                return false;
+                return true;
             }
             return false;
          },
          loadLogoItem: function(a){          
             return a.artical.image;
         },
-        managerstatechange: function(state){
-            if(state == 'PREPAIRING' || state== 'PROCESSING'){
-                return true;
-            }
-            return false;
-        },
-        nextstate: function(id){
+        deliver: function(id){
             axios
             .put("rest/nextorderstate", {
                 "id" : id
             })
             .then(response =>{
                 this.loadorders();
+                this.sort();
             })
             .catch(function(error){
-                alert("It is impossible to go to the next state of the delivery, try again later!")
+                alert("It is impossible to deliver the order, try again later!")
             })
         },
         loadorders: function(){
-            axios.get("rest/getManagersOrders", 
+            axios.get("rest/getdeliverersorders", 
                     {
                         params: {
-                            restaurant : this.loggedUser.restaurant
+                            username : this.loggedUser.userName
                         }
                     })
                     .then(responsee =>{
                         this.orders = responsee.data;
+                        this.sort();
                     })
                     .catch(function(error){
-                        alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");
+                        alert("It is impossible to load ready orders - Server error!");
                     }); 
+        },
+        getType : function(){
+            if(this.typeofrestaurant == "ALL"){
+                this.loadorders();
+            }
+            else{
+            axios
+            .get("rest/getrestaurantstypedeliverer", 
+            {
+                params : {
+                    username : this.loggedUser.userName,
+                    restaurantstyperequired : this.typeofrestaurant
+                }
+            })
+            .then(response =>{
+                this.orders= response.data;
+            })
+            .catch(function(error){
+                alert("It is impossible to get the type of the restaurant! Server error!")
+            })
+        }
         },
         filter: function(order){
             if((this.pricefrom == '' || order.priceWithDiscount>=this.pricefrom)
              && (this.priceto == '' || order.priceWithDiscount<=this.priceto)
              && (this.state=='ALL' || order.orderState==this.state) 
              && (this.fromDate=="" || order.date>=this.fromDate)
-             && (this.toDate=="" || order.date<=this.toDate)){
+             && (this.toDate=="" || order.date<=this.toDate)
+             && (this.restaurant=="" || (order.restaurant.toUpperCase()).includes(this.restaurant.toUpperCase()))){
                 return true;
-            }else{
+             }
+            else{
                 return false;
             }
         },
@@ -235,6 +273,12 @@ Vue.component("deliverersorders",{
                     this.orders.sort((a, b) => (a.priceWithDiscount > b.priceWithDiscount) ? 1 : ((b.priceWithDiscount > a.priceWithDiscount) ? -1 : 0));
                 }else{
                     this.orders.sort((b, a) => (a.priceWithDiscount > b.priceWithDiscount) ? 1 : ((b.priceWithDiscount > a.priceWithDiscount) ? -1 : 0));
+                }
+            } else if(this.sortType == "restaurant"){
+                if(this.sortDirection=="ascending"){
+                    this.orders.sort((a, b) => (a.restaurant.toUpperCase() > b.restaurant.toUpperCase()) ? 1 : ((b.restaurant.toUpperCase() > a.restaurant.toUpperCase()) ? -1 : 0));
+                }else{
+                    this.orders.sort((b, a) => (a.restaurant.toUpperCase() > b.restaurant.toUpperCase()) ? 1 : ((b.restaurant.toUpperCase() > a.restaurant.toUpperCase()) ? -1 : 0));
                 }
             }
         }

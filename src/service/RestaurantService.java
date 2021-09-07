@@ -11,11 +11,14 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import com.google.gson.JsonElement;
+
 import beans.Artical;
 import beans.Location;
 import beans.Restaurant;
 import beans.User;
 import beans.Restaurant.Status;
+import beans.Restaurant.TypeOfRestaurant;
 import dao.RestaurantDAO;
 import dto.AddingArticalToRestaurantDTO;
 import dto.ChangeArticalDTO;
@@ -261,6 +264,11 @@ public class RestaurantService {
 			}
 		}
 		return ret;
+	}
+
+	public TypeOfRestaurant getRestaurantType(String restaurantsname) {
+		Restaurant r = getByName(restaurantsname);
+		return r.getTypeRestaurant();
 	}
 
 

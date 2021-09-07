@@ -72,12 +72,24 @@ public class OrderCompetingDAO {
 		readOrderCompetings();
 		return this.ordercompetings;
 	}
-	
-	public void changeOrderCompeting(String name, OrderCompeting changedOrderCompeting) {
+	public void deleteOrderCompeting(String id) {
 		ArrayList<OrderCompeting> allOrderCompetings = getAllOrderCompetings();
 		for(int i=0; i<allOrderCompetings.size(); i++) {
-			if(allOrderCompetings.get(i).getOrderId().equals(name)) {
+			if(allOrderCompetings.get(i).getOrderId().equals(id)) {
+				allOrderCompetings.remove(i);
+				break;
+			}
+		}
+		this.ordercompetings = allOrderCompetings;
+		saveAll();
+	}
+	
+	public void changeOrderCompeting(String id, OrderCompeting changedOrderCompeting) {
+		ArrayList<OrderCompeting> allOrderCompetings = getAllOrderCompetings();
+		for(int i=0; i<allOrderCompetings.size(); i++) {
+			if(allOrderCompetings.get(i).getOrderId().equals(id)) {
 				allOrderCompetings.set(i, changedOrderCompeting);
+				break;
 			}
 		}
 		this.ordercompetings = allOrderCompetings;

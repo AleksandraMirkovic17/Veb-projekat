@@ -16,35 +16,35 @@ Vue.component("managersorders",{
    <div class="managersorder">
    <div class="order">
    <header class="card-header"><h1> All orders from {{loggedUser.restaurant}} </h1></header>
-   <div v-for="order in orders" v-if="filter(order)" class="order1">
+   <div v-for="managersorder in orders" v-if="filter(managersorder.order)" class="order1">
     <article class="card">
         <div class="card-body">
-            <h6>Order ID: {{order.id}}</h6>
+            <h6>Order ID: {{managersorder.order.id}}</h6>
             <article class="card">
                 <div class="card-body row">
-                    <div class="col"> <strong>Date and time:</strong> <br>{{order.date}} </div>
-                    <div class="col"> <strong>Restaurant:</strong> {{order.restaurant}} <br> </div>
-                    <div class="col"> <strong>Status:</strong>  {{order.orderState}} <br> </div>
-                    <div class="col"> <strong>Customer:</strong> {{order.fullName}} ({{order.username}})<br> </div>
-                    <div class="col" v-if="delivering(order)"> <strong>Deliverer:</strong> <span>{{order.deliverer}}</span> <br> </div>
-                    <div class="col"> <strong>Price:</strong> {{order.price}} RSD<br> </div>
-                    <div class="col"> <strong>Price with discount:</strong> {{order.priceWithDiscount}} RSD<br> </div>
+                    <div class="col"> <strong>Date and time:</strong> <br>{{managersorder.order.date}} </div>
+                    <div class="col"> <strong>Restaurant:</strong> {{managersorder.order.restaurant}} <br> </div>
+                    <div class="col"> <strong>Status:</strong>  {{managersorder.order.orderState}} <br> </div>
+                    <div class="col"> <strong>Customer:</strong> {{managersorder.order.fullName}} ({{managersorder.order.username}})<br> </div>
+                    <div class="col" v-if="delivering(managersorder.order)"> <strong>Deliverer:</strong> <span>{{managersorder.order.deliverer}}</span> <br> </div>
+                    <div class="col"> <strong>Price:</strong> {{managersorder.order.price}} RSD<br> </div>
+                    <div class="col"> <strong>Price with discount:</strong> {{managersorder.order.priceWithDiscount}} RSD<br> </div>
 
 
                     
                 </div>
             </article>
             <div class="track">
-                <div v-bind:class='{step : true, active: aktivno1(order.orderState)}'> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Proccessing</span> </div>
-                <div v-bind:class='{step : true, active: aktivno2(order.orderState)}'> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Prepairing</span> </div>
-                <div v-bind:class='{step : true, active: aktivno3(order.orderState)}'> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Ready to deliver </span> </div>
-                <div v-bind:class='{step : true, active: aktivno4(order.orderState)}'> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Trsansporting</span> </div>
-                <div v-bind:class='{step : true, active: aktivno5(order.orderState)}'> <span class="icon"> </span> <span class="text">Delivered</span> </div>
+                <div v-bind:class='{step : true, active: aktivno1(managersorder.order.orderState)}'> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Proccessing</span> </div>
+                <div v-bind:class='{step : true, active: aktivno2(managersorder.order.orderState)}'> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Prepairing</span> </div>
+                <div v-bind:class='{step : true, active: aktivno3(managersorder.order.orderState)}'> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Ready to deliver </span> </div>
+                <div v-bind:class='{step : true, active: aktivno4(managersorder.order.orderState)}'> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Trsansporting</span> </div>
+                <div v-bind:class='{step : true, active: aktivno5(managersorder.order.orderState)}'> <span class="icon"> </span> <span class="text">Delivered</span> </div>
 
             </div>
             <hr>
             <ul class="row">
-                <li v-for="item in order.articles" class="col-md-4">
+                <li v-for="item in managersorder.order.articles" class="col-md-4">
                     <figure class="itemside mb-3">
                         <div class="aside"><img :src="loadLogoItem(item)" class="img-sm border"></div>
                         <figcaption class="info align-self-center">
@@ -54,7 +54,16 @@ Vue.component("managersorders",{
                 </li>
             </ul>
             <hr> 
-            <a v-if="managerstatechange(order.orderState)" v-on:click="nextstate(order.id)" class="btn btn-warning" data-abc="true"> Next state</a>
+            <a v-if="managerstatechange(managersorder.order.orderState)" v-on:click="nextstate(managersorder.order.id)" class="btn btn-warning" data-abc="true"> Next state</a>
+            <table>
+            <h4 v-if="managersorder.order.orderState=='READYTODELIVER'">Competing deliverers:</h4>
+            <tr v-if="managersorder.order.orderState=='READYTODELIVER'" v-for="deliverer in managersorder.competingdeliverers">
+                <td>{{deliverer.name}} {{deliverer.surname}}</td>
+                <td>{{deliverer.userName}}</td>
+                <td><button v-on:click="approvedeliverer(deliverer.userName, managersorder.order.id)">Approve</button></td>
+                <td><button v-on:click="disapprovedeliverer(deliverer.userName, managersorder.order.id)">Disapprove</button></td>
+            </tr>
+            </table>
         </div>
     </article>
 </div>
@@ -84,7 +93,6 @@ Vue.component("managersorders",{
  <select name="sortby" v-on:change="sort" v-model="sortType">
  <option value="price">Price</option>
  <option value="date">Date</option>
- <option value="restaurant">Restaurant</option>
 
 </select>
 <select name="sortdirection" v-on:change="sort" v-model="sortDirection">
@@ -126,7 +134,6 @@ Vue.component("managersorders",{
                     .then(responsee =>{
                         this.orders = responsee.data;
                         this.sort();
-                        this.orders = this.orders;
                     })
                     .catch(function(error){
                         alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");
@@ -143,10 +150,10 @@ Vue.component("managersorders",{
    },
      methods: {
          delivering: function(order){
-             if(order.deliverer=='null'){
-                 return true;
-             }else{
+             if(order.deliverer==null || order.deliverer==""){
                  return false;
+             }else{
+                 return true;
              }
          },
          aktivno1: function(stanje){
@@ -176,7 +183,7 @@ Vue.component("managersorders",{
          },
          aktivno5: function(stanje){
             if( stanje=='DELIVERED'){
-                return false;
+                return true;
             }
             return false;
          },
@@ -196,6 +203,7 @@ Vue.component("managersorders",{
             })
             .then(response =>{
                 this.loadorders();
+                this.sort();
             })
             .catch(function(error){
                 alert("It is impossible to go to the next state of the delivery, try again later!")
@@ -210,10 +218,12 @@ Vue.component("managersorders",{
                     })
                     .then(responsee =>{
                         this.orders = responsee.data;
+                        this.sort();
                     })
                     .catch(function(error){
                         alert("It is impossible to load orders from the "+this.loggedUser.restaurant + " Server error!");
                     }); 
+                    this.sort();
         },
         filter: function(order){
             if((this.pricefrom == '' || order.priceWithDiscount>=this.pricefrom)
@@ -229,17 +239,45 @@ Vue.component("managersorders",{
         sort: function(){
             if(this.sortType == "date"){
                 if(this.sortDirection=="ascending"){
-                    this.orders.sort((a, b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+                    this.orders.sort((a, b) => (a.order.date > b.order.date) ? 1 : ((b.order.date > a.order.date) ? -1 : 0));
                 }else{
-                    this.orders.sort((b, a) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+                    this.orders.sort((b, a) => (a.order.date > b.order.date) ? 1 : ((b.order.date > a.order.date) ? -1 : 0));
                 }
             } else if(this.sortType == "price"){
                 if(this.sortDirection=="ascending"){
-                    this.orders.sort((a, b) => (a.priceWithDiscount > b.priceWithDiscount) ? 1 : ((b.priceWithDiscount > a.priceWithDiscount) ? -1 : 0));
+                    this.orders.sort((a, b) => (a.order.priceWithDiscount > b.order.priceWithDiscount) ? 1 : ((b.order.priceWithDiscount > a.order.priceWithDiscount) ? -1 : 0));
                 }else{
-                    this.orders.sort((b, a) => (a.priceWithDiscount > b.priceWithDiscount) ? 1 : ((b.priceWithDiscount > a.priceWithDiscount) ? -1 : 0));
+                    this.orders.sort((b, a) => (a.order.priceWithDiscount > b.order.priceWithDiscount) ? 1 : ((b.order.priceWithDiscount > a.order.priceWithDiscount) ? -1 : 0));
                 }
             }
+        },
+        approvedeliverer: function(deliverer, id){
+            axios
+            .post("rest/approvedeliverer",
+            {
+                "deliverer" : deliverer,
+                "id" : id
+            })
+            .then(response => {
+                this.loadorders();
+            })
+            .catch(function(error) {
+                alert("It is impossible to approve deliverer!")  ;            
+            });
+        },
+        disapprovedeliverer: function(deliverer, id){
+            axios
+            .post("rest/disapprovedeliverer",
+            {
+                "deliverer" : deliverer,
+                "id" : id
+            })
+            .then(response =>{
+                this.loadorders();
+            })
+            .catch(function(error){
+                alert("It is impossible to disapprove deliverer!")  ;            
+            });
         }
          
 

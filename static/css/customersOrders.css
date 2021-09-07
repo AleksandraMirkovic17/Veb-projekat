@@ -1,0 +1,43 @@
+#div1{
+    background-color:#e0dcdc;
+    width: 80%;
+    height: 100%;
+    float: left;
+    border-radius: 20px;
+}
+h2{
+    margin: 0 auto;
+}
+
+#table1 {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    
+  }
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  #div11{
+    border-radius: 20px; 
+   background-color: azure;
+   
+   width: 95%;
+   margin: 0 auto;
+
+  }
+  #div12{
+     
+ 
+}
+ #div13{
+
+  }

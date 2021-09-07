@@ -18,7 +18,7 @@ public class OrdersDAO {
 	private ArrayList<Order> Orders = new ArrayList<>();
 	public static OrdersDAO OrderDAO = null;
 	
-	private OrdersDAO() {}
+	public OrdersDAO() {}
 	
 	public static OrdersDAO getInstance() {
 		if(OrderDAO == null) {

@@ -22,7 +22,7 @@ import beans.User;
 import dao.OrdersDAO;
 
 public class OrderService {
-	
+	public static OrdersDAO ordersDAO=new OrdersDAO();
 	public static OrderService orderService = null;
 	public static OrderService getInstance() {
 		if(orderService == null) {
@@ -30,7 +30,7 @@ public class OrderService {
 		}
 		return orderService;
 	}
-	private OrderService() {
+	public OrderService() {
 		
 	}
 	public void makeAnOrder(String username) {
@@ -74,5 +74,22 @@ public class OrderService {
 		v.setPriceWithDiscount(priceDiscounted);
 		OrdersDAO.getInstance().addOrder(v);
 	}
+	public ArrayList<Order> getOrders(User user)
+	{
+		ArrayList<Order> orders=ordersDAO.getAllOrders();
+		ArrayList<Order> userOrders=new ArrayList<>();
+		
+		for(Order o:orders)
+		{
+			if(o.username.equals(user.userName))
+			{
+				userOrders.add(o);
+			}
+				
+		}
+
+		return userOrders;
+	}
+	
 
 }

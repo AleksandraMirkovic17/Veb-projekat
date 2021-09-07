@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import beans.Location;
+import beans.Order;
 import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
@@ -45,6 +46,7 @@ public class SparkMain {
 		UserService userService = new UserService();
 		RestaurantService restaurantService = new RestaurantService();
 		ShoppingChartService shoppingChartService = new ShoppingChartService();
+		OrderService orderService = new OrderService();
 		Gson g = new Gson();
 		
 		post("rest/CustomerReg/", (req, res) ->{
@@ -174,6 +176,15 @@ public class SparkMain {
 			return g.toJson(sc);
 		});
 		
+		get("rest/getOrders", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			User loggedInUser = ss.attribute("user");
+			ArrayList<Order> orders=orderService.getOrders(loggedInUser);
+			
+			return g.toJson(orders);
+		});
 		get("rest/logout", (req, res) -> {
 			res.type("application/json");
 			res.status(200);

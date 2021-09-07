@@ -158,13 +158,13 @@ Vue.component("deliverersorders",{
             });	
    },
      methods: {
-         delivering: function(order){
-             if(order.deliverer=='null'){
-                 return true;
-             }else{
-                 return false;
-             }
-         },
+        delivering: function(order){
+            if(order.deliverer==null){
+                return false;
+            }else{
+                return true;
+            }
+        },
          aktivno1: function(stanje){
              if(stanje == 'PREPAIRING' || stanje== 'PROCESSING' || stanje== 'READYTODELIVER' || stanje=='TRANSPORTING' || stanje=='DELIVERED'){
                  return true;
@@ -242,6 +242,7 @@ Vue.component("deliverersorders",{
             })
             .then(response =>{
                 this.orders= response.data;
+                this.sort();
             })
             .catch(function(error){
                 alert("It is impossible to get the type of the restaurant! Server error!")

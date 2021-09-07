@@ -164,6 +164,14 @@ public class SparkMain {
 			return g.toJson(OrderService.getInstance().getOrdersByRestaurantsType(username, typerequired));
 		});
 		
+		get("rest/getrestaurantstypecustomer", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String username = req.queryParams("username");
+			String typerequired = req.queryParams("restaurantstyperequired");
+			return g.toJson(OrderService.getInstance().getOrdersByRestaurantsTypeCustomer(username, typerequired));
+		});
+		
 
 		post("rest/login", (req, res) -> {
 			res.type("application/json");
@@ -190,6 +198,15 @@ public class SparkMain {
 			
 			CompeteToDeliverDTO params = g.fromJson(req.body(), CompeteToDeliverDTO.class);
 			OrderCompetingService.getInstance().addDeliverToOrder(params);
+			return "OK";
+		});
+		
+		post("rest/cancelorder", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			
+			String id = g.fromJson(req.body(), String.class);
+			OrderService.getInstance().cancelOrder(id);
 			return "OK";
 		});
 		

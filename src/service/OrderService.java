@@ -234,6 +234,23 @@ public class OrderService {
 		}		
 		return ordersByRestaurantsTypeDeliverer;
 	}
+	public ArrayList<Order> getOrdersByRestaurantsTypeCustomer(String username, String typerequired) {
+		ArrayList<Order> ordersByRestaurantsTypeCustomer = new ArrayList<Order>();
+		ArrayList<Order> ordersByRestaurantsCustomer = getByCustomer(username);
+		for(Order o : ordersByRestaurantsCustomer) {
+			if(RestaurantService.getInstance().getRestaurantType(o.getRestaurant()).toString().equals(typerequired)) {
+				ordersByRestaurantsTypeCustomer.add(o);
+			}
+		}		
+		return ordersByRestaurantsTypeCustomer;
+	}
+	public void cancelOrder(String id) {
+		Order o = GetById(id);
+		o.setOrderState(OrderState.CANCELED);
+		OrdersDAO.getInstance().changeOrder(id, o);
+		OrderCompetingDAO.getInstance().deleteOrderCompeting(id);
+		
+	}
 
 
 }

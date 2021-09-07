@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.managersorder{
+    display: flex;
+    width: 100%;
+}
+
+.managersorder .sidebar{
+    width: 25%;
+	float: left;
+	height: 450px;
+	border-radius: 5px;
+	background-color: rgb(0,0,0,0.3);
+	padding: 10px 15px 10px 15px;
+	margin: 15px;
+    margin-top: 100px;
+    display: block;
+}
+
+.managersorder .sidebar table td{
+    font-size: 15px;
+    padding: 5px;
+}
+.managersorder .sidebar table input{
+    width: 80%;
+}
+
+.managersorder .sidebar h3{
+    float: left;
+    font-size: 17px;
+}
+
+.managersorder .sidebar .sortby{
+    margin: 10px;
+    font-weight: bolder;
+}
+
+.managersorder selection{
+    margin: 10px;
+}
+
+.order {
+    width: 70%;
+    margin-left: 100px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.order1 {
+    margin: 15 px;
+    padding-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    background-color:#d62d20;
+    margin-top: 25px;
+}
+
+.card {
+    margin-top: 10px;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+}
+
+.card-header:first-child {
+}
+
+.card-header {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    color: whitesmoke;
+    background-color: rgb(0,0,0,0.6);
+}
+
+.track {
+    position: relative;
+    background-color: #ddd;
+    height: 7px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 60px;
+    margin-top: 50px
+}
+
+.track .step {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 25%;
+    margin-top: -18px;
+    text-align: center;
+    position: relative
+}
+
+.track .step.active:before {
+    background: #FF5722
+}
+
+.track .step::before {
+    height: 7px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    top: 18px
+}
+
+.track .step.active .icon {
+    background: #ee5435;
+    color: #fff
+}
+
+.track .icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    border-radius: 100%;
+    background: #ddd
+}
+
+.track .step.active .text {
+    font-weight: 400;
+    color: #000
+}
+
+.track .text {
+    display: block;
+    margin-top: 7px
+}
+
+.itemside {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%
+}
+
+.itemside .aside {
+    position: relative;
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.img-sm {
+    width: 80px;
+    height: 80px;
+    padding: 7px
+}
+
+ul.row,
+ul.row-sm {
+    list-style: none;
+    padding: 0
+}
+
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px
+}
+
+.itemside .title {
+    display: block;
+    margin-bottom: 5px;
+    color: #212529
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem
+}
+
+.btn-warning {
+    color: #ffffff;
+    background-color: #EF392A;
+    margin: 3px;
+    border-radius: 1px;
+    float: right;
+    font-size: 20px;
+}
+
+.btn-warning:hover {
+    color: #ffffff;
+    background-color: #ff2b00;
+    border: 1px solid black;
+    border-color: black;
+    border-radius: 1px
+}

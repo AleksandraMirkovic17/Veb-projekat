@@ -14,7 +14,7 @@ Vue.component("seeUsers",{
       },
   template:
   ` 
-    <div>
+    <div class= "seeusers">
        
         <hr>
         <table>

@@ -81,4 +81,10 @@ public class Restaurant {
 	public void setImageRestaurant(String imageRestaurant) {
 		this.imageRestaurant = imageRestaurant;
 	}
+	@Override
+	public String toString() {
+		return "Restaurant [name=" + name + ", typeRestaurant=" + typeRestaurant + ", status=" + status + ", location="
+				+ location + ", articles=" + articles + ", imageRestaurant=" + imageRestaurant + ", rating=" + rating
+				+ "]";
+	}
 }

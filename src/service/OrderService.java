@@ -15,10 +15,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Order;
+import beans.OrderCompeting;
 import beans.OrderState;
 import beans.ShoppingChart;
 import beans.ShoppingChartItem;
 import beans.User;
+import dao.OrderCompetingDAO;
 import dao.OrdersDAO;
 
 public class OrderService {
@@ -46,6 +48,8 @@ public class OrderService {
 			}else {
 				Order newOrder = new Order();
 				newOrder.setId(UUID.randomUUID().toString());
+				OrderCompeting oc = new OrderCompeting(newOrder.getId());
+				OrderCompetingDAO.getInstance().addOrderCompeting(oc);
 				ArrayList<ShoppingChartItem> articles = new ArrayList<>();
 				articles.add(si);
 				newOrder.setArticles(articles);
@@ -61,7 +65,8 @@ public class OrderService {
 		orders.forEach((k, v) -> {
 		    CalculateAndSaveOrder(v, user.discount);
 		});
-		ShoppingChartService.getInstance().emptyShoppingCart(username);		
+		ShoppingChartService.getInstance().emptyShoppingCart(username);	
+		
 		}
 	
 	private void CalculateAndSaveOrder(Order v, double discount) {
@@ -74,6 +79,7 @@ public class OrderService {
 		v.setPriceWithDiscount(priceDiscounted);
 		OrdersDAO.getInstance().addOrder(v);
 	}
+
 	public ArrayList<Order> getOrders(User user)
 	{
 		ArrayList<Order> orders=ordersDAO.getAllOrders();
@@ -91,5 +97,71 @@ public class OrderService {
 		return userOrders;
 	}
 	
+
+	public ArrayList<Order> getByRestaurant(String restaurant){
+		ArrayList<Order> restaurantsOrders = new ArrayList<Order>();
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getRestaurant().equals(restaurant)) {
+				restaurantsOrders.add(o);
+			}
+		}		
+		return restaurantsOrders;
+	}
+	
+	public ArrayList<Order> getByCustomer(String username){
+		ArrayList<Order> customersOrders = new ArrayList<Order>();
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getUsername().equals(username)) {
+				customersOrders.add(o);
+			}
+		}		
+		return customersOrders;
+	}
+	public void goToNextState(String orderId) {
+		Order order = GetById(orderId);
+		if(order == null) {
+			System.out.println("Ne postoji porudzbina sa prosledjenim Id!");
+		}else {
+			order.setOrderState(getNextState(order.getOrderState()));
+			OrdersDAO.getInstance().changeOrder(orderId, order);
+		}
+		
+	}
+	
+	private OrderState getNextState(OrderState orderState) {
+		OrderState nextState = OrderState.CANCELED;
+		if(orderState.equals(OrderState.PROCESSING)) nextState = OrderState.PREPAIRING;
+		else if(orderState.equals(OrderState.PREPAIRING)) nextState = OrderState.READYTODELIVER;
+		else if(orderState.equals(OrderState.READYTODELIVER)) nextState = OrderState.TRANSPORTING;
+		else if(orderState.equals(OrderState.TRANSPORTING)) nextState = OrderState.DELIVERED;
+		return nextState;
+	}
+	public Order GetById(String orderId) {
+		// TODO Auto-generated method stub
+		Order ret = null;
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		for(Order o : allOrders) {
+			if(o.getId().equals(orderId)) {
+				ret = o;
+				break;
+			}
+		}
+		return ret;
+	}
+	public ArrayList<Order> getReadyOrdersForDeliverer(String username) {
+		ArrayList<Order> allOrders = OrdersDAO.getInstance().getAllOrders();
+		ArrayList<Order> readyOrders = new ArrayList<Order>();
+		for(Order o: allOrders) {
+			if(o.getOrderState().equals(OrderState.READYTODELIVER) 
+					&& o.getDeliverer()==null
+					&& !OrderCompetingService.getInstance().isDelivererCompeted(username, o.getId())) {
+				readyOrders.add(o);
+			}
+		}
+		return readyOrders;
+	}
+
 
 }

@@ -19,6 +19,10 @@ public class UserLoginDTO {
 		super();
 		
 	}
+	@Override
+	public String toString() {
+		return "UserLoginDTO [password=" + password + ", userName=" + userName + "]";
+	}
 	
   
 }

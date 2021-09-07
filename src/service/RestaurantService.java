@@ -90,7 +90,18 @@ public class RestaurantService {
 
 	public ArrayList<Restaurant> getAll() {
 		ArrayList<Restaurant> allRestaurants = restaurantDAO.getAllRestaurants();
-		return allRestaurants;
+		ArrayList<Restaurant> allRestaurantsOpenFirst  = new ArrayList<Restaurant>();
+		for(Restaurant r : allRestaurants) {
+			if(r.getStatus().equals(Status.OPEN)) {
+				allRestaurantsOpenFirst.add(r);
+			}
+		}
+		for(Restaurant r : allRestaurants) {
+			if(r.getStatus().equals(Status.CLOSED)) {
+				allRestaurantsOpenFirst.add(r);
+			}
+		}
+		return allRestaurantsOpenFirst;
 	}
 
 	public void registerRestaurant(RestaurantRegistrationDTO params) {

@@ -137,10 +137,27 @@ public class UserService {
 			if(u.getUserName().equals(oldUser.userName))
 			{
 				User newUser=new User(user.userName,oldUser.password,user.name,user.surname,user.date,user.gender,oldUser.getRole());
-				userDAO.changeUser(u.getUserName(), newUser);
-				if (oldUser.getRole() == Roles.CUSTOMER && !(oldUser.getUserName().equals(user.userName))) {
+				newUser.setLogicalDeletion(oldUser.getLogicalDeletion());
+				if(oldUser.getRole() == Roles.CUSTOMER) {
+					newUser.setCustomerType(oldUser.getCustomerType());
+					newUser.setDiscount(oldUser.getDiscount());
+					newUser.setPoints(oldUser.getPoints());
+				} else if(oldUser.getRole() == Roles.MANAGER) {
+					newUser.setRestaurant(oldUser.getRestaurant());
+				}				
+				if (oldUser.getRole() == Roles.CUSTOMER 
+						&& 
+						(!((oldUser.getUserName().equals(newUser.userName)) 
+								|| !(oldUser.getName().equals(newUser.getName())) 
+								|| !(oldUser.getSurname().equals(newUser.getSurname()))))) {
 					ShoppingChartService.getInstance().changeUserName(oldUser.getUserName(), user.userName);
+					OrderService.getInstance().changeCustomerInfor(oldUser.getUserName(), newUser);
 				}
+				if(oldUser.getRole() == Roles.DELIVERER && !(oldUser.getUserName().equals(user.userName))) {
+					OrderService.getInstance().changeDelivererName(oldUser.getUserName(), newUser);
+					OrderCompetingService.getInstance().changeDelivererName(oldUser.getUserName(), newUser);
+				}
+				userDAO.changeUser(u.getUserName(), newUser);
 				return true;
 			}	
 		}

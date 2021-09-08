@@ -277,6 +277,22 @@ public class OrderService {
 		OrderCompetingDAO.getInstance().deleteOrderCompeting(id);
 		
 	}
+	public void changeCustomerInfor(String userName, User newUser) {
+		ArrayList<Order> customersOrders = getByCustomer(userName);
+		for(Order o : customersOrders) {
+			o.setUsername(newUser.getUserName());
+			o.setFullName(newUser.getName()+" "+newUser.getSurname());
+			OrdersDAO.getInstance().changeOrder(o.getId(), o);
+		}
+		
+	}
+	public void changeDelivererName(String oldUsername, User newUser) {
+		ArrayList<Order> deliverersOrder = getByDeliverer(oldUsername);
+		for(Order o : deliverersOrder) {
+			o.setDeliverer(newUser.getUserName());
+			OrdersDAO.getInstance().changeOrder(o.getId(), o);
+		}	
+	}
 
 
 }

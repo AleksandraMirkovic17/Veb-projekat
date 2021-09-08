@@ -47,7 +47,7 @@ Vue.component("onerestaurant",{
                                   <input min=0 v-on:click="calculatePrice(a)" type="number" v-bind:id="a.nameArtical+'q'">
                                   <button v-on:click="addToChart(a)">Add to chart</button>
                                   <br><br>
-                                  <label>Price: <label v-bind:id="a.nameArtical+'l'">0</label> RSD</label>
+                                  <label>Total price: <label v-bind:id="a.nameArtical+'l'">0</label> RSD</label>
                               </div>
                         </div>               
                 </div>   
@@ -117,7 +117,9 @@ Vue.component("onerestaurant",{
     addToChart: function(artical){
         let inputQuantity = document.getElementById(artical.nameArtical+'q');
         let totalQuatity = inputQuantity.value;
-
+        if(totalQuatity == 0){
+            alert("You can't add zero items to shooping cart!")
+        }else{
         axios.post('rest/addToChart', {
             restaurant: this.thisrestaurant.name,
             nameArtical: artical.nameArtical,
@@ -134,6 +136,7 @@ Vue.component("onerestaurant",{
           }).catch(error => {
             alert('Adding items to chart is temporary unavailable!');
           });
+        }
 
     },
     sortartical: function(){

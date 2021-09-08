@@ -45,12 +45,15 @@ Vue.component("managersorders",{
             <hr>
             <ul class="row">
                 <li v-for="item in managersorder.order.articles" class="col-md-4">
-                    <figure class="itemside mb-3">
-                        <div class="aside"><img :src="loadLogoItem(item)" class="img-sm border"></div>
-                        <figcaption class="info align-self-center">
-                            <p class="title">{{item.artical.nameArtical}} x {{item.quantity}}</p> <span class="text-muted">{{item.artical.price}} RSD </span>
-                        </figcaption>
-                    </figure>
+                <figure class="itemside mb-3">
+                <div class="aside"><img :src="loadLogoItem(item)" class="img-sm border"></div>
+                <figcaption class="info align-self-center">
+                    <p class="title"><strong>{{item.artical.nameArtical}}</strong> x {{item.quantity}}</p> 
+                </figcaption>
+                <span class="text-muted">{{item.artical.price}} RSD </span>
+                <p class ="title">, Total: <strong>{{item.artical.price *item.quantity}} RSD</strong></p>
+
+            </figure>
                 </li>
             </ul>
             <hr> 

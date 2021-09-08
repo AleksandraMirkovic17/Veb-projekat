@@ -18,7 +18,48 @@ Vue.component("customersorders",{
  template: `
  <div class="managersorder">
  <div class="order">
- <h1>Orders made by {{loggedUser.name}} {{loggedUser.surname}}</h1>
+ <div class="info">
+ <div class="profile">
+ <h1>Your profile</h1>
+ <table>
+     <tr>
+        <td>Full name</td>
+        <td>{{loggedUser.name}} {{loggedUser.surname}}</td>
+     </tr>
+     <tr>
+        <td>Username</td>
+        <td>{{loggedUser.userName}}</td>
+     </tr>
+     <tr>
+        <td>Birthday</td>
+        <td>{{loggedUser.date}}</td>
+     </tr>
+     <tr>
+        <td>Role</td>
+        <td>{{loggedUser.role}}</td>
+     </tr>
+ </table>
+ </div>
+ <div class="controlpanel">
+     <h1>Control panel<h1>
+     <table>
+     <tr>
+        <td>Status</td>
+        <td>{{loggedUser.customerType}}</td>
+     <tr>
+     <tr>
+        <td>Discount on every order</td>
+        <td>{{loggedUser.discount}} %</td>
+     <tr>
+     <tr>
+        <td>Score</td>
+        <td>{{loggedUser.points}}</td>
+     <tr>
+     </table>
+ </div>
+ </div>
+ <h1 class="title1">Orders made by {{loggedUser.name}} {{loggedUser.surname}}</h1>
+ 
  <div v-for="order in orders" v-if="filter(order)" class="order1">
   <article class="card">
       <div class="card-body">
@@ -51,13 +92,16 @@ Vue.component("customersorders",{
                   <figure class="itemside mb-3">
                       <div class="aside"><img :src="loadLogoItem(item)" class="img-sm border"></div>
                       <figcaption class="info align-self-center">
-                          <p class="title">{{item.artical.nameArtical}} x {{item.quantity}}</p> <span class="text-muted">{{item.artical.price}} RSD </span>
+                          <p class="title"><strong>{{item.artical.nameArtical}}</strong> x {{item.quantity}}</p> 
                       </figcaption>
+                      <span class="text-muted">{{item.artical.price}} RSD </span>
+                      <p class ="title">, Total: <strong>{{item.artical.price *item.quantity}} RSD</strong></p>
+
                   </figure>
               </li>
           </ul>
           <hr> 
-          <a v-if="order.orderState=='PROCESSING'" v-on:click="cancelorder(order.id)" class="btn btn-warning" data-abc="true"> CANCELED</a>
+          <a v-if="order.orderState=='PROCESSING'" v-on:click="cancelorder(order.id)" class="btn btn-warning" data-abc="true"> CANCEL</a>
       </div>
   </article>
 </div>
@@ -249,12 +293,21 @@ Vue.component("customersorders",{
       cancelorder: function(id){
         axios
         .post("rest/cancelorder", id)
-        .then(response =>{
-          this.loadorders();
-        })
         .catch(function(error){
           alert("It's impossible to cancel the order!")
         })
+
+        axios.get('rest/testlogin')
+        .then(response =>
+            { if(response.data!= "Err:UserIsNotLoggedIn"){
+                this.loggedUser=response.data;
+            }
+            })
+            .catch(() => {
+                alert('Test login is temporary unavailable')
+                });	
+        this.loadorders();
+
      },
       filter: function(order){
           if((this.pricefrom == '' || order.priceWithDiscount>=this.pricefrom)

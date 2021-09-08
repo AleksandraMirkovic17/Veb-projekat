@@ -203,10 +203,13 @@ public class SparkMain {
 		
 		post("rest/cancelorder", (req, res) ->{
 			res.type("application/json");
-			res.status(200);
-			
+			res.status(200);		
 			String id = g.fromJson(req.body(), String.class);
 			OrderService.getInstance().cancelOrder(id);
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			user = UserService.getInstance().getByUsername(user.getUserName());
+			ss.attribute("user", user);	
 			return "OK";
 		});
 		
@@ -421,6 +424,10 @@ public class SparkMain {
 			String username = g.fromJson(req.body(), String.class);
 			System.out.println(username+"is at checkout!");
 			OrderService.getInstance().makeAnOrder(username);
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			user = UserService.getInstance().getByUsername(user.getUserName());
+			ss.attribute("user", user);
 		return "OK";
 		});
 		

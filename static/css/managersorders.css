@@ -5,6 +5,7 @@
     width: 100%;
 }
 
+
 .managersorder .sidebar{
     width: 25%;
 	float: left;
@@ -53,7 +54,7 @@
     border: 1px solid black;
     border-radius: 20px;
     margin-bottom: 20px;
-    background-color:#d62d20;
+    background-color:#fec107;
     margin-top: 25px;
 }
 
@@ -107,7 +108,7 @@
 }
 
 .track .step.active:before {
-    background: #FF5722
+    background: #fec107
 }
 
 .track .step::before {
@@ -120,7 +121,7 @@
 }
 
 .track .step.active .icon {
-    background: #ee5435;
+    background: #fec107;
     color: #fff
 }
 
@@ -178,6 +179,7 @@ ul.row-sm {
 .itemside .title {
     display: block;
     margin-bottom: 5px;
+    margin-right: 20px;
     color: #212529
 }
 
@@ -188,17 +190,20 @@ p {
 
 .btn-warning {
     color: #ffffff;
-    background-color: #EF392A;
-    margin: 3px;
-    border-radius: 1px;
+    background-color: #fec107;
+    margin: 10px;
+    border-radius: 10px;
     float: right;
+    padding: 15px;
     font-size: 20px;
 }
 
 .btn-warning:hover {
+    cursor: pointer;
     color: #ffffff;
-    background-color: #ff2b00;
-    border: 1px solid black;
-    border-color: black;
-    border-radius: 1px
+    background-color: #fec107;
+    border: 2px solid black;
+    border-radius: 10px;
+    float: right;
+    padding: 15px;
 }

@@ -14,11 +14,14 @@ Vue.component("onerestaurant",{
     template:
     ` 
     <div class="onerestaurant">
-        <h1>{{thisrestaurant.name}}</h1>
+    <div class="restaurant-title wow fadeInUp" data-wow-delay="0.1s">
+        <h2>{{thisrestaurant.name}}</h2>
+    </div>
+       
             <div class="post">
             <img :src=thisrestaurant.imageRestaurant class="post-image">
                 <div class="post-preview">
-                    <h2> {{thisrestaurant.name}} basic informations</h2>
+                    <h3> {{thisrestaurant.name}} basic informations</h3>
                     &nbsp;
                     <p class="preview-text">
                         <p>Address: {{thisrestaurant.location.street}} {{thisrestaurant.location.houseNumber}}, {{thisrestaurant.location.city}}</p>
@@ -26,56 +29,73 @@ Vue.component("onerestaurant",{
                         <p>Status: {{thisrestaurant.status}}</p>
                         <p>Average rating: {{thisrestaurant.rating}}</p>
                     </p>
-                </div>			
+                </div>             
             </div>
-            <div class="show-articles">
-            <h3>List of articles</h3>
-                <div v-for="a in articles">
-                        <div class="post" v-if="filtered(a)">
-                        <img :src="loadLogoArtical(a)" class="post-image">
-                            <h2>
-                                {{a.nameArtical}}
-                            </h2>
-                            &nbsp;
-                            <p class="preview-text">
-                            <p>Price: {{a.price}} RSD</p>
-                            <p>Type: {{a.type}} </p>
-                            <p>Description: {{a.description}} </p>
-                            <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>                       
-                            </p>
-                            <div v-if="loggedInUser.role == 'CUSTOMER' && thisrestaurant.status=='OPEN'">
-                                  <input min=0 v-on:click="calculatePrice(a)" type="number" v-bind:id="a.nameArtical+'q'">
-                                  <button v-on:click="addToChart(a)">Add to chart</button>
-                                  <br><br>
-                                  <label>Total price: <label v-bind:id="a.nameArtical+'l'">0</label> RSD</label>
-                              </div>
-                        </div>               
-                </div>   
-            </div>
-            <div class="sidebar">
-            <div class="wrapp">
-                <h3>Filter articles</h3>
-                <div class="sorting"> 
-                    <h4 class="sorting-title">Sort by</h4>
-                    <select name="sortby" v-on:change="sortartical" v-model="sortType">
-                        <option value="name">Name</option>
-                        <option value="price">Price</option>
-                    </select>
-                    <select name="sortdirection" v-on:change="sortartical" v-model="sortDirection">
-                        <option value="ascending">Ascending</option>
-                        <option value="descending">Descending</option>
-                    </select>
-                </div>
-                <div class="filter">
-                    <h4 class="sorting-title">Show me</h4>
-                    
-                    <input type="checkbox" v-model="showDishes" value="dish" checked><label> Dishes</label>
-                    <br>
-                    <input type="checkbox" v-model="showDrinks" value="drink" checked><label> Drinks</label>
-                </div>
-            </div>
+           
+            <div class="menurestaurant">
+                            
+                        <section id="menu" data-stellar-background-ratio="0.5">
+                            <div class="container">
+                                <div class="row">
+                
+                                    <div class="col-md-12 col-sm-12">
+                                            <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
+                                                <h2>Menu</h2>
+                                                <h4>The food that lengthens life.</h4>
+                                            </div>
+                                            <div class="filter">
+                                            <div class="sorting"> 
+                                                <h4 class="sorting-title">Sort by: </h4>
+                                                <select name="sortby" v-on:change="sortartical" v-model="sortType">
+                                                    <option value="name">Name</option>
+                                                    <option value="price">Price</option>
+                                                </select>
+                                                <select name="sortdirection" v-on:change="sortartical" v-model="sortDirection">
+                                                    <option value="ascending">Ascending</option>
+                                                    <option value="descending">Descending</option>
+                                                </select>
+                                            </div>
+                                            <div class="boxes">
+                                                <input type="checkbox" id="box-1" v-model="showDishes" checked>
+                                                <label for="box-1">Dishes</label>
+
+                                                <input type="checkbox" id="box-2" checked v-model="showDrinks" value="drink" checked>
+                                                <label for="box-2">Drinks </label>
+
+                                            </div>
+                                            </div>
+                                    </div>
+                                    <div class="articles">
+                                    <div class="article" v-for="a in articles" v-if="filtered(a)">
+                                    <div class="col-md-4 col-sm-6">
+                                            <div class="menu-thumb">
+                                                <img :src="loadLogoArtical(a)" class="img-responsive"  width="25%" 
+                                                height="300px" alt="">
+                
+                                                    <div class="menu-info">
+                                                        <div class="menu-item">
+                                                                <h3>{{a.nameArtical}}</h3>
+                                                                <p>Description: {{a.description}}</p>
+                                                                <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
+                                                                <p>Type: {{a.type}}</p>
+                                                                <div class="addtocart" v-if="loggedInUser.role == 'CUSTOMER' && thisrestaurant.status=='OPEN'">
+                                                                <input type="number" min="1" v-on:click="calculatePrice(a)" type="number" v-bind:id="a.nameArtical+'q'" name=""/>
+                                                                <button v-on:click="addToChart(a)">Add to cart</button>
+                                                                </div>
+                                                                <span v-if="loggedInUser.role == 'CUSTOMER' && thisrestaurant.status=='OPEN'">Total price:<span v-bind:id="a.nameArtical+'l'">0</span>RSD</span>
+                                                        </div>
+                                                        <div class="menu-price">
+                                                                <span>{{a.price}} RSD</span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                        </section>
             
-        </div>
     </div>
     `
     ,

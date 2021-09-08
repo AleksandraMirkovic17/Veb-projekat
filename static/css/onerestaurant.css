@@ -9,7 +9,7 @@
 	height: 300px;
 	margin: 10px auto;
 	background-color: rgb(0,0,0,0.9);
-	border-radius: 5px;
+	border-radius: 20px;
 	margin: 20px;
 }
 
@@ -19,34 +19,331 @@
 	float: left;
 }
 
-.onerestaurant .show-articles{
-    width: 70%;
-	float:left;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
+.menurestaurant {
+  background: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
 }
 
-.onerestaurant .show-articles .post{
-	width: 95%;
-	background-color: rgb(0,0,0,0.9);
-	height: 250px;
-	margin: 10px auto;
-	border-radius: 5px;
-	margin: 20px;
-    position: relative;
+.menurestaurant .filter{
+	margin: 10px;
+	padding: 10px;
+	justify-content: center;
+	display: flex;
+	border-radius: 20px;
+	background-color: orange;
+	
 }
 
-.onerestaurant .show-articles .post .post-image{
-	width: 40%;
-	height: 100%;
-	float: left;
+.menurestaurant .filter .sorting{
+	display: flex;
+	margin: 10px;
+	justify-content: center;
+	border: 1px dashed yellowgreen;
+	float: right;
+
+
 }
 
-.onerestaurant .sidebar .wrapp{
-	width: 25%;
-	float:left;
-	height: 450px;
-	border-radius: 5px;
-	background-color: rgb(0,0,0,0.9);
-	padding: 10px 15px 10px 15px;
-	margin: 2px;
+.menurestaurant .filter .sorting select{
+	height: 20px;
 }
+
+.menurestaurant .filter .boxes {
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	border: 1px dashed yellowgreen;
+  }
+  
+  /*Checkboxes styles*/
+  .menurestaurant .filter input[type="checkbox"] { display: none; }
+  
+  .menurestaurant .filter input[type="checkbox"] + label {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin-left: 20px;
+	font: 14px/20px 'Open Sans', Arial, sans-serif;
+	color: white;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+  }
+  
+  .menurestaurant .filter input[type="checkbox"] + label:last-child { margin-bottom: 0; }
+  
+  .menurestaurant .filter input[type="checkbox"] + label:before {
+	content: '';
+	display: block;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #6cc0e5;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: .6;
+	-webkit-transition: all .12s, border-color .08s;
+	transition: all .12s, border-color .08s;
+  }
+  
+  .menurestaurant .filter input[type="checkbox"]:checked + label:before {
+	width: 10px;
+	top: -5px;
+	left: 5px;
+	border-radius: 0;
+	opacity: 1;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+  }
+
+.menurestaurant .articles{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.menurestaurant .articles .article{
+	  float: left;
+	  position: relative;
+	  margin: 0px;
+	  overflow: hidden;
+	  width: 33%;
+	  max-height: 300px;
+    align-items: center;
+    justify-content: center;
+	overflow: hidden;
+
+}
+.menurestaurant .articles .article image{
+	width: 30%;
+	height: 350px;
+
+}
+
+
+
+/*---------------------------------------
+   TYPOGRAPHY              
+-----------------------------------------*/
+.onerestaurant h2{
+	font-weight: bold;
+	line-height: inherit;	
+	color: #353535;
+  	font-size: 2em;
+  	padding-bottom: 10px;
+  	font-family: 'Montserrat';
+	  justify-content: center;
+}
+
+.onerestaurant .restaurant-title{
+	padding: 40px;
+	padding-left: 43%;
+
+}
+ #menu h1,  #menu h2,  #menu h3,  #menu h4, #menu h5, #menu h6 {
+  font-weight: bold;
+  line-height: inherit;
+}
+
+ #menu h1 {
+  color: #252525;
+  font-size: 3em;
+  line-height: 50px;
+}
+
+ #menu h2 {
+  color: #353535;
+  font-size: 2em;
+  padding-bottom: 10px;
+}
+
+ #menu h3 {
+  font-size: 1.5em;
+  margin-bottom: 0;
+}
+
+.menurestaurant h3,
+.menurestaurant h3 a {
+  color: #454545;
+}
+
+.menurestaurant p {
+  color: #757575;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
+
+/*---------------------------------------
+   GENERAL               
+-----------------------------------------*/
+
+.menurestaurant{
+  -webkit-font-smoothing: antialiased;
+}
+
+.menurestaurant a {
+  color: #252525;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  text-decoration: none !important;
+}
+
+
+
+.menurestaurant .section-title {
+  padding-bottom: 40px;
+}
+
+.menurestaurant .section-title h2 {
+  margin: 0;
+}
+
+.menurestaurant .section-title h4 {
+  color: #bfbdbd;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+.menurestaurant section {
+  position: relative;
+  padding: 100px 0;
+}
+
+
+#menu{
+  text-align: center;
+}
+
+
+
+/*---------------------------------------
+   MENU              
+-----------------------------------------*/
+
+#menu {
+  padding-bottom: 0;
+}
+
+#menu .container {
+  width: 100%;
+}
+
+#menu .col-md-4 {
+  margin: 0;
+  padding: 0;
+}
+
+.menurestaurant .menu-thumb img {
+  width: 100%;
+  transition: 0.5s;
+}
+
+.menurestaurant .menu-thumb:hover img {
+  transform: scale(1.15);
+}
+
+#menu .menu-thumb {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+}
+
+.menurestaurant .menu-thumb .menu-info {
+  position: absolute;
+  top: 0%;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  text-align: left;
+  padding: 25px 30px;
+  transition: 0.5s 0.2s;
+}
+
+.menurestaurant .menu-info .menu-item {
+  float: left;
+  width: 70%;
+}
+
+.menurestaurant .menu-info .menu-price {
+  float: right;
+  width: 20%;
+  padding-top: 50%;
+  padding-right: 10px;
+  border: 1px solid orange;
+}
+
+.menurestaurant .menu-info .menu-price span {
+  font-size: 20px;
+  line-height: normal;
+}
+
+.menurestaurant .menu-info .addtocart{
+  display: flex;
+}
+
+.menurestaurant .menu-info .addtocart button{
+  background-color: orange;
+}
+
+.menurestaurant .menu-thumb .menu-price,
+.menurestaurant .menu-thumb .menu-info h3,
+.menurestaurant .menu-thumb .menu-info p,
+.menurestaurant .menu-thumb .menu-info button,
+.menurestaurant .menu-thumb .menu-info input{
+  transform: translateY(100%);
+  opacity: 0;
+  display: block;
+  transition: 0.5s 0.2s;
+  color: #ffffff;
+  z-index: 2;
+  position: relative;
+}
+
+.menurestaurant .menu-thumb .menu-info input{
+	color: grey;
+}
+.menurestaurant .menu-thumb .menu-info span{
+	transform: translateY(100%);
+	opacity: 0;
+	transition: 0.5s 0.2s;
+	color: #ffffff;
+	z-index: 2;
+	position: relative;
+}
+
+.menurestaurant .menu-thumb .menu-info h3 {
+  margin-top: 0;
+}
+
+.menurestaurant .menu-thumb .menu-info p {
+  color: #d9d9d9;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: bold;
+}
+.menurestaurant .menu-thumb:hover .menu-price,
+.menurestaurant .menu-thumb:hover .menu-info h3,
+.menu-thumb:hover .menu-info p,
+.menu-thumb:hover .menu-info span,
+.menu-thumb:hover .menu-info input,
+.menu-thumb:hover .menu-info button {
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+.menurestaurant .menu-thumb:hover .menu-info {
+  background: rgba(0,0,0,0.8);
+}
+
 

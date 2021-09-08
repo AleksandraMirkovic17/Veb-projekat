@@ -21,7 +21,7 @@ Vue.component("login",{
             <br>
                <div class="name">
                 <label c>Password:</label>
-                <input type="text" required placeholder="Enter a password" v-model="password"/>
+                <input type="password" required placeholder="Enter a password" v-model="password"/>
             </div>
 
             <br>

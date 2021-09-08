@@ -25,9 +25,10 @@ public class ShoppingChartService {
 		this.chartDAO = ShoppingChartDAO.getInstance();
 	}
 
-	public void addNewShoppingChart(String userName) {
+	public ShoppingChart addNewShoppingChart(String userName) {
 		ShoppingChart newShoppingChart = new ShoppingChart(userName);
 		chartDAO.addShoppingChart(newShoppingChart);
+		return newShoppingChart;
 		
 	}
 

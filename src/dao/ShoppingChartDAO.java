@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import beans.ShoppingChart;
+import service.ShoppingChartService;
 
 public class ShoppingChartDAO {
 	private String path = "data/shoppingcharts.json";
@@ -76,6 +77,9 @@ public class ShoppingChartDAO {
 				ret = sc;
 				break;
 			}
+		}
+		if(ret == null) {
+			ret = ShoppingChartService.getInstance().addNewShoppingChart(username);
 		}
 		return ret;
 	}

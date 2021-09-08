@@ -4,6 +4,7 @@ package service;
 import beans.Restaurant;
 import beans.User;
 import beans.Restaurant.Status;
+import beans.User.CustomerType;
 import beans.User.Roles;
 
 import java.text.ParseException;
@@ -211,6 +212,27 @@ public class UserService {
 			}	
 		}
 		return false;
+	}
+
+
+
+	public User calculateCustomerType(User customer) {
+		if(customer.getPoints()<1500) {
+			customer.setCustomerType(CustomerType.NORMAL);
+			customer.setDiscount(0);
+		}else if(customer.getPoints()>=1500 && customer.getPoints()<2500) {
+			customer.setCustomerType(CustomerType.BRONZE);
+			customer.setDiscount(5);
+		} else if(customer.getPoints()>=2500 && customer.getPoints()<4000) {
+			customer.setCustomerType(CustomerType.SILVER);
+			customer.setDiscount(10);
+		} else if(customer.getPoints()>=4000) {
+			customer.setCustomerType(CustomerType.GOLD);
+			customer.setDiscount(15);
+		}
+		UserDAO.getInstance().changeUser(customer.userName, customer);
+		
+		return customer;
 	}
 	
 }

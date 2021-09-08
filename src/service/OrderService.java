@@ -21,6 +21,7 @@ import beans.OrderState;
 import beans.ShoppingChart;
 import beans.ShoppingChartItem;
 import beans.User;
+import beans.User.CustomerType;
 import dao.OrderCompetingDAO;
 import dao.OrdersDAO;
 import dto.ApproveDisapproveDelivererDTO;
@@ -66,21 +67,30 @@ public class OrderService {
 			}
 		}
 		orders.forEach((k, v) -> {
-		    CalculateAndSaveOrder(v, user.discount);
+		    CalculateAndSaveOrder(v, user);
 		});
 		ShoppingChartService.getInstance().emptyShoppingCart(username);	
 		
 		}
 	
-	private void CalculateAndSaveOrder(Order v, double discount) {
+	private void CalculateAndSaveOrder(Order v, User user) {
 		double price = 0.0;
 		for(ShoppingChartItem si : v.articles) {
 			price+= si.artical.price * si.quantity;	
 	}
-		double priceDiscounted = price * ((100-discount)/100);
+		double priceDiscounted = price * ((100-user.discount)/100);
 		v.setPrice(price);
 		v.setPriceWithDiscount(priceDiscounted);
 		OrdersDAO.getInstance().addOrder(v);
+		double gainedpoints = v.getPrice()/1000*133*4;
+		int points = (int) gainedpoints;
+		if(user.getCustomerType() == null) {
+			user.setCustomerType(CustomerType.NORMAL);
+			user.setPoints(points);
+		} else {
+			user.setPoints(user.getPoints() + points);
+		}
+		UserService.getInstance().calculateCustomerType(user);
 	}
 
 	public ArrayList<Order> getOrders(User user)
@@ -246,6 +256,22 @@ public class OrderService {
 	}
 	public void cancelOrder(String id) {
 		Order o = GetById(id);
+		User customer = UserService.getInstance().getByUsername(o.getUsername());
+		if(customer.getCustomerType()== null ) {
+			customer.setPoints(0);
+			customer.setCustomerType(CustomerType.NORMAL);
+			customer.setDiscount(0);
+		}else {
+			double lostpoints = o.getPrice()/1000*133*4;
+			int lostpointss = (int) lostpoints;
+			if(customer.getPoints()<=lostpointss) {
+				customer.setPoints(0);
+			}
+			else {
+				customer.setPoints(customer.getPoints()-lostpointss);
+			}
+			customer = UserService.getInstance().calculateCustomerType(customer);
+		}
 		o.setOrderState(OrderState.CANCELED);
 		OrdersDAO.getInstance().changeOrder(id, o);
 		OrderCompetingDAO.getInstance().deleteOrderCompeting(id);

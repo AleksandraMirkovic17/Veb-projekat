@@ -1,6 +1,7 @@
 Vue.component("addrestaurant",{
     data: function(){
         return{
+            placesAutocomplete:null,
             loggedInUser: null,
             name: "",
             type: "ITALIAN",
@@ -75,28 +76,32 @@ Vue.component("addrestaurant",{
                 <div class="location">
                     <h2>Location</h2>
                     <div class="inputfield">
+                        <label>Search address</label>
+                        <input type="search" id="searchAddress" class="input"/>
+                    </div>
+                    <div class="inputfield">
                         <label>Longitude</label>
-                        <input type="text" class="input" required v-model="longitude" placeholder="Enter longitude">
+                        <input type="text" class="input" required v-model="longitude" disabled="true" id="longitude" placeholder="Enter longitude">
                     </div>
                     <div class="inputfield">
                         <label>Latitude</label>
-                        <input type="text" class="input" required v-model="latitude" placeholder="Enter latitude">
+                        <input type="text" class="input" required v-model="latitude" disabled="true" id="latitude" placeholder="Enter latitude">
                     </div>
                     <div class="inputfield">
                         <label>Street</label>
-                        <input type="text" class="input" required v-model="street" placeholder="Enter street name">
+                        <input type="text" class="input" required v-model="street" disabled="true" id="true" placeholder="Enter street name">
                     </div>
                     <div class="inputfield">
                         <label>House number</label>
-                        <input type="text" class="input" required v-model="houseNumber" placeholder="Enter house number">
+                        <input type="text" class="input" required v-model="houseNumber" disabled="true" id="houseNumber" placeholder="Enter house number">
                     </div>
                     <div class="inputfield">
                         <label>City</label>
-                        <input type="text" class="input" required v-model="city" placeholder="Enter city name">
+                        <input type="text" class="input" required v-model="city" disabled="true" id="city" placeholder="Enter city name">
                     </div>
                     <div class="inputfield">
                         <label>Postal code</label>
-                        <input type="text" class="input" required v-model="postalCode" placeholder="Enter postal code">
+                        <input type="text" class="input" required v-model="postalCode" disabled="true" id="postalCode" placeholder="Enter postal code">
                     </div>
                     <div class="inputfield">
                         <label>Restaurant's image</label>
@@ -196,6 +201,33 @@ Vue.component("addrestaurant",{
             alert("You don't have a permission to access this page, because you're not an administrator!")
         }
         });
+
+        this.placesAutocomplete = places({
+		    appId: 'plQ4P1ZY8JUZ',
+		    apiKey: 'bc14d56a6d158cbec4cdf98c18aced26',
+		    container: document.querySelector('#searchAddress'),
+		    templates: {
+		      value: function(suggestion) {
+		        return suggestion.name;
+		      }
+		    }
+		  }).configure({
+		    type: 'address'
+		  });
+          
+		this.placesAutocomplete.on('change', function resultSelected(e) {
+			
+			this.street = String(e.suggestion.value);
+			this.city = String(e.suggestion.city);
+			this.postalCode= String(e.suggestion.postcode);
+			this.longitude =  e.suggestion.latlng.lng;
+			this.latitude = e.suggestion.latlng.lat;
+		    document.querySelector('#street').value = e.suggestion.value || '';
+		    document.querySelector('#city').value = e.suggestion.city || '';
+		    document.querySelector('#postalCode').value = e.suggestion.postcode || '';
+		    document.querySelector('#longitude').value = e.suggestion.latlng.lng || '';
+			document.querySelector('#latitude').value = e.suggestion.latlng.lat || '';
+		  });
         
     },
     methods: {

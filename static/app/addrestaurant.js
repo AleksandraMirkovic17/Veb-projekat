@@ -1,6 +1,7 @@
 Vue.component("addrestaurant",{
     data: function(){
         return{
+            loggedInUser: null,
             name: "",
             type: "ITALIAN",
             location: {},
@@ -37,117 +38,165 @@ Vue.component("addrestaurant",{
     },
     template:
     `
-    <div class="restaurant-registration-m">
-    <div class="restaurant-registration">
-    <div class="regrest"><h1>Register a restaurant</h1></div>
-    <div class="main">
-        <h2 class="name">Name</h2>
-        <input type="text" class="restaurantsname" v-model="name" name="name" placeholder="Enter restaurant's name..."><br>
-        <h2 class="nameselection">Type</h2>
-        <select class="input selection" v-model="type">
-            <option value="ITALIAN">Italian</option>
-            <option value="BARBECUE">Barbecue</option>
-            <option value="CHINESE">Chinese</option>
-        </select>
-        <h2 class="nameselection">Manager</h2>
-        <div class="input selection">
-            <div v-if="newMenagerAdded==false">
-                <select v-model=menager id="menagerslist" class="input selection menagersel">
-                    <option v-for="m in freemenagers" v-bind:value="m.userName">
-                        {{m.name}} {{m.surname}}
-                    </option>
-                </select>
-            </div>
-            <div v-else-if="newMenagerAdded==true">
-            <select>
-                <option selected>{{this.firstname}} {{this.surname}}</option>
-            </select>
-            </div>
-        <button v-if="freemenagers==null" v-on:click=MenagerRequired id="addmenager">Add new</button>
-        </div>
-        <div class="location">
-        <h2 class="location">Location</h2>
-        <h2 class="name">Longitude</h2>
-        <input type="text" class="input" v-model="longitude" name="longitude" placeholder="Enter longitude..."><br>
-        <h2 class="name">Latitude</h2>
-        <input type="text" class="input" v-model="latitude" name="latitude" placeholder="Enter latitude..."><br>
-        <h2 class="name">Street</h2>
-        <input type="text" class="input" v-model="street" name="street" placeholder="Enter street name..."><br>
-        <h2 class="name">House number</h2>
-        <input type="text" class="input" v-model="houseNumber" name="houseNumber" placeholder="Enter house number..."><br>
-        <h2 class="name">City</h2>
-        <input type="text" class="input" v-model="city" name="city" placeholder="Enter city name..."><br>
-        <h2 class="name">Postal code</h2>
-        <input type="text" class="input" v-model="postalCode" name="postalCode" placeholder="Enter postal code..."><br>
-        <h2 class="name">Restaurant's image</h2>
-        <div class="container input">
-            <div class="wrapper">
-                <div class="image">
-                    <img :src=this.imagePreview >
+    <div class="restaurant-registration-m" v-if="loggedInUser.role=='ADMINISTRATOR'">
+        <div class="restaurant-registration">
+            <div class="title">Register a restaurant</div>
+            <div class="form">
+                <div class="inputfield">
+                    <label>Name</label>
+                    <input type="text" class="input" required placeholder="Enter your restaurant's name" v-model="name">
                 </div>
-                <div class="content">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <div class="text">No file choosen, yet!</div>
-
+                <div class="inputfield">
+                <label>Type</label>
+                    <div class="custom_select">
+                        <select v-model="type">
+                            <option value="ITALIAN">Italian</option>
+                            <option value="BARBECUE">Barbecue</option>
+                            <option value="CHINESE">Chinese</option>
+                        </select>
+                    </div>
                 </div>
-                <div id="cancel-btn"><i class="fas fa-times">x</i></div>
-            </div>           
-            <input id="custom-btn" type="file" @change="imageSelected">
-        </div>
-        </div class="button">
-        <input type="submit" value="Register" v-on:click=ValidationRestaurant>
-    </div>
-    </div>
-   
-    <div class="registation-menager" v-if="newMenagerRequired==true"> 
-    <div class="registration_form clearfix">
-            <div><h3>Register a new manager</h3>
-            </div>
-                <div class="user-details">
-                    <div class="input-box">
-                        <label class="letters">First name*</label>
-                        <input type="text" required placeholder="Enter your first name" v-model="firstname">
+                <div class="inputfield">
+                <label>Manager</label>
+                    <div class="custom_select" v-if="newMenagerAdded==false">
+                        <select v-model="menager">
+                            <option v-for="m in freemenagers" v-bind:value="m.userName">
+                                    {{m.name}} {{m.surname}}
+                            </option>
+                        </select>
                     </div>
-                    <div class="input-box">
-                        <label class="letters">Last name*</label>
-                        <input type="text" required placeholder="Enter your last name" v-model="surname">
+                    <div class="custom_select" v-else-if="newMenagerAdded==true">
+                        <select>
+                            <option selected>{{this.firstname}} {{this.surname}}</option>
+                        </select>
                     </div>
-                    <div class="input-box">
-                        <label class="letters">Date of birth*</label>
-                        <input type="date" value="1950-01-01" placeholder="dd-mm-yyyy" v-model="date" />
+                    <button v-if="freemenagers==null" v-on:click=MenagerRequired id="addmenager">Add new</button>
+                </div>   
+                <div class="location">
+                    <h2>Location</h2>
+                    <div class="inputfield">
+                        <label>Longitude</label>
+                        <input type="text" class="input" required v-model="longitude" placeholder="Enter longitude">
                     </div>
-                    <div class="input-box">
-                        <label class="letters">Username*</label>
-                        <input type="text" required placeholder="Enter a unique username" v-model="userName" />
+                    <div class="inputfield">
+                        <label>Latitude</label>
+                        <input type="text" class="input" required v-model="latitude" placeholder="Enter latitude">
                     </div>
-                    <div class="input-box">
-                        <label class="letters">Password*</label>
-                        <input type="text" required placeholder="Enter your password" required="" v-model="password"/>
+                    <div class="inputfield">
+                        <label>Street</label>
+                        <input type="text" class="input" required v-model="street" placeholder="Enter street name">
                     </div>
-                    <div class="input-box">
-                        <label class="letters">Confirm password*</label>
-                        <input type="text" required placeholder="Confirm your password" required="" v-model="confirmPassword"/>
+                    <div class="inputfield">
+                        <label>House number</label>
+                        <input type="text" class="input" required v-model="houseNumber" placeholder="Enter house number">
                     </div>
-                     <br>
-                    <label class="letters">Select gender*</label>
-            <select class="gender-selection" v-model="gender" >
-               <option value="" disabled selected hidden>Gender</option>
-               <option value = "MALE">Male</option>
-               <option value = "FEMALE">Female</option>
-            </select>
-            <br>
-                <div class="button">
-                    <input type="submit" value="Register" v-on:click=Validation>
+                    <div class="inputfield">
+                        <label>City</label>
+                        <input type="text" class="input" required v-model="city" placeholder="Enter city name">
+                    </div>
+                    <div class="inputfield">
+                        <label>Postal code</label>
+                        <input type="text" class="input" required v-model="postalCode" placeholder="Enter postal code">
+                    </div>
+                    <div class="inputfield">
+                        <label>Restaurant's image</label>
+                                <div class="container input">
+                                    <div class="wrapper">
+                                            <div class="image">
+                                                <img :src=this.imagePreview >
+                                            </div>
+                                            <div class="content">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <div class="text">No file choosen, yet!</div>
+                                            </div>
+                                    </div>           
+                                <input id="custom-btn" type="file" @change="imageSelected">
+                                </div>
+                    </div>
                 </div>
+                <div class="inputfield">
+                    <input type="submit" value="Register" class="btn" v-on:click="ValidationRestaurant">
+                </div>   
             </div>
-    </div>
-    </div> 
+            </div>
+    
+        <div class="registation-menager" v-if="newMenagerRequired==true"> 
+            <div class="registration_form">
+                <div  class="wrapper">
+                        <div v-if="loggedInUser.role!='ADMINISTRATOR'" class="title">
+                        Registration Form
+                        </div>
+                        <div v-else-if="loggedInUser.role=='ADMINISTRATOR'" class="title">
+                            Register a new manager or deliverer
+                        </div>
+                        <div class="form">
+                                    <div v-if="loggedInUser.role =='ADMINISTRATOR'" class="inputfield">
+                                        <label>Role</label>
+                                        <div class="custom_select">
+                                            <select v-model="role">
+                                                <option value="" disabled selected hidden>Select role</option>
+                                                <option value = "DELIVERER"> Deliverer</option>
+                                                <option value = "MANAGER"> Manager</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <div class="inputfield">
+                                    <label>First Name</label>
+                                    <input type="text" class="input" required placeholder="Enter your first name" v-model="name">
+                                </div>  
+                                <div class="inputfield">
+                                    <label>Last Name</label>
+                                    <input type="text" class="input" required placeholder="Enter your last name" v-model="surname">
+                                </div> 
+                                <div class="inputfield">
+                                    <label>Username</label>
+                                    <input type="text" class="input" required placeholder="Enter username" v-model="userName">
+                                </div> 
+                                <div class="inputfield">
+                                        <label class="letters">Date of birth</label>
+                                        <input type="date"  class="input"  value="1950-01-01" placeholder="dd-mm-yyyy" v-model="date" />
+                                </div>
+                                <div class="inputfield">
+                                    <label>Password</label>
+                                    <input type="password" class="input" required placeholder="Enter your password" required="" v-model="password">
+                                </div>  
+                                <div class="inputfield">
+                                    <label>Confirm Password</label>
+                                    <input type="password" class="input" required placeholder="Confirm your password" required="" v-model="confirmPassword">
+                                </div> 
+                                <div class="inputfield">
+                                    <label>Gender</label>
+                                    <div class="custom_select">
+                                        <select v-model="gender">
+                                        <option value="">Select</option>
+                                        <option value="MALE">Male</option>
+                                        <option value="FEMALE">Female</option>
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="inputfield">
+                                    <input type="submit" value="Register" class="btn" v-on:click="Validation">
+                                </div>
+                        </div>
+                </div>	
+            </div>        
+        </div> 
     </div>
 
     `,
     mounted(){
-        axios.get('rest/freeMenagers')
-        .then(response => (this.freemenagers = response.data));
+        axios.get('rest/testlogin')
+        .then(response => {
+        this.loggedInUser = response.data;
+        if(this.loggedInUser.role == 'ADMINISTRATOR'){
+            axios.get('rest/freeMenagers')
+            .then(response => (this.freemenagers = response.data));
+        }
+        else{
+            alert("You don't have a permission to access this page, because you're not an administrator!")
+        }
+        });
+        
     },
     methods: {
         MenagerRequired: function(){

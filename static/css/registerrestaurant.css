@@ -1,90 +1,142 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+.restaurant-registration-m{
+    margin-top: 100px;
+    margin-left: 15%;
+    display: flex;
+    float: left;
+}
 .restaurant-registration{
-	object-fit: cover;
-	margin: 0;
-	padding: 0;
-	background-position: center;
-	background-size: cover;
-	font-family: sans-serif;
-    color: #FFFFFF;
-	margin-top: 30px ;
- 
-    display: table;
-     
+  max-width: 500px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  float: left;
+  margin: 20px auto;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+  margin-right: 100px;
+  padding: 15px;
 }
 
-.restaurant-registration .regrest{
-	width: 800px;
-	background-color: rgb(0,0,0,0.6);
-		margin: auto;
-        color: #FFFFFF;
-		padding: 10px 0px 10px 0px;
-        text-align: center;
-        border-radius: 15px 15px 0px 0px;
-        width: 650px;
+.restaurant-registration .form{
 }
 
-.restaurant-registration .main{
-    background-color: rgb(0,0,0,0.5);
-    width: 650px;
-    margin: auto;
-    padding: 7px;
+.restaurant-registration .title{
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
 }
 
-.restaurant-registration .main .name{
-    width: 100%;
-    margin-left: 25px;
-    margin-top: 20px;
-    width: 125px;
-    font-size: 18px;
-    font-weight: 700;
+.restaurant-registration .form{
+  width: 100%;
 }
 
-.restaurant-registration .main .restaurantsname{
-    position: relative;
-    left: 200px;
-    top: -37px;
-    line-height: 40px;
-    border-radius: 6px;
-    padding: 0 22px;
-    font-size: 16px;
+.restaurant-registration .form .inputfield{
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 }
 
-.restaurant-registration .main .restaurants-type-selection{
-    position: relative;
-    left: 200px;
-    top: -37px;
-    line-height: 40px;
-    border-radius: 6px;
-    padding: 0 22px;
-    font-size: 16px;
+.restaurant-registration .form .inputfield label{
+   width: 200px;
+   color: whitesmoke;
+   margin-right: 10px;
+  font-size: 14px;
 }
 
-.restaurant-registration .main .input{
-    position: relative;
-    left: 200px;
-    top: -37px;
-    line-height: 40px;
-    border-radius: 6px;
-    padding: 0 22px;
-    font-size: 16px;
+.restaurant-registration    .form .inputfield .input,
+.restaurant-registration    .form .inputfield .textarea{
+  width: 100%;
+  outline: none;
+    font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
 }
 
-.restaurant-registration .main .nameselection{
-    width: 100%;
-    margin-left: 25px;
-    width: 125px;
-    font-size: 18px;
-    font-weight: 700;
-    top: -150px;
+.restaurant-registration   .form .inputfield .textarea{
+  width: 100%;
+  height: 125px;
+  resize: none;
 }
 
+.restaurant-registration   .form .inputfield .custom_select{
+  position: relative;
+  width: 100%;
+  height: 37px;
+}
+
+.restaurant-registration .form .inputfield .custom_select:before{
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  border: 8px solid;
+  border-color: #d5dbd9 transparent transparent transparent;
+  pointer-events: none;
+}
+
+.restaurant-registration .form .inputfield .custom_select select{
+  -webkit-appearance: none;
+  -moz-appearance:   none;
+  appearance:        none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #d5dbd9;
+  border-radius: 3px;
+}
+
+
+.restaurant-registration   .form .inputfield .input:focus,
+.restaurant-registration   .form .inputfield .textarea:focus,
+.restaurant-registration   .form .inputfield .custom_select select:focus{
+  border: 1px solid white;
+}
+
+.restaurant-registration .form .inputfield p{
+   font-size: 14px;
+   color: #757575;
+}
+.restaurant-registration .form .inputfield .check{
+  width: 15px;
+  height: 15px;
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.restaurant-registration .form .inputfield .btn{
+  width: 100%;
+   padding: 8px 10px;
+  font-size: 15px; 
+  border: 0px;
+  background:  #fec107;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  outline: none;
+}
+
+.restaurant-registration    .form .inputfield .btn:hover{
+  background: #ffd658;
+}
+
+.restaurant-registration .form .inputfield:last-child{
+  margin-bottom: 0;
+}
+
+/**Ovo je bilo**/
 .restaurant-registration .container{
-    display: list-item;
-    box-sizing: border-box;
-    place-items: center;
-    text-align: center;
+    padding: 0;
+    margin: 0;
 }
-
 .restaurant-registration .container .wrapper{
     position: relative;
     height: 200px;
@@ -107,66 +159,14 @@
     justify-content: center;
 }
 
-.restaurant-registration .container .wrapper .image img{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-.restaurant-registration .container .wrapper .icon{
-    font-size: 100px;
-    color: whitesmoke;
-}
-
 .restaurant-registration .container .wrapper .text{
     font-size: 20px;
     font-weight: 500;
     color: whitesmoke;
 }
 
-.restaurant-registration .container .wrapper #cancel-btn{
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    font-size: 20px;
-    cursor: pointer;
-    color: whitesmoke;
-}
 
-.restaurant-registration .container .wrapper .file-name{
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    color: whitesmoke;
-    padding: 8px 0;
-    font-size: 18px;
-    background: black;
-}
 
-.restaurant-registration .container #custom-btn{
-    margin-top: 30px;
-    margin-right: 600px;
-    width: 200px;
-    height: 35px;
-    display: block;
-    border: none;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-}
-.registation-form{
-    position: relative;
-    max-width: 150px;
-}
 
-.restaurant-registration-m {
-    display: flex;
-}
-
-.menagersel{
-    position: absolute;
-    margin-top: 20px;
-    margin-right: 200px;
-}
 
 

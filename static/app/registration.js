@@ -15,57 +15,64 @@ Vue.component("registration",{
          correctRepeatedPassword: "OK"
        }
   },
-  template: ` <div class="registration_form clearfix">
-            <div v-if="loggedInUser.role!='ADMINISTRATOR'"><h3>Register</h3></div>
-            <div v-if="loggedInUser.role=='ADMINISTRATOR'"><h3>Register a new manager or deliverer</h3></div>
-                <div class="user-details">
-                    <div class="input-box">
-                        <label class="letters">First name*</label>
-                        <input type="text" required placeholder="Enter your first name" v-model="name">
+  template: ` 
+  <div class="registration_form">
+    <div  class="wrapper">
+        <div v-if="loggedInUser.role!='ADMINISTRATOR'" class="title">
+        Registration Form
+        </div>
+        <div v-else-if="loggedInUser.role=='ADMINISTRATOR'" class="title">
+            Register a new manager or deliverer
+        </div>
+        <div class="form">
+                    <div v-if="loggedInUser.role =='ADMINISTRATOR'" class="inputfield">
+                        <label>Role</label>
+                        <select v-model="role" >
+                            <option value="" disabled selected hidden>Select role</option>
+                            <option value = "DELIVERER"> Deliverer</option>
+                            <option value = "MANAGER"> Manager</option>
+                        </select>
                     </div>
-                    <div class="input-box">
-                        <label class="letters">Last name*</label>
-                        <input type="text" required placeholder="Enter your last name" v-model="surname">
-                    </div>
-                    <div class="input-box">
-                        <label class="letters">Date of birth*</label>
-                        <input type="date" value="1950-01-01" placeholder="dd-mm-yyyy" v-model="date" />
-                    </div>
-                    <div class="input-box">
-                        <label class="letters">Username*</label>
-                        <input type="text" required placeholder="Enter a unique username" v-model="userName" />
-                    </div>
-                    <div class="input-box">
-                        <label class="letters">Password*</label>
-                        <input type="text" required placeholder="Enter your password" required="" v-model="password"/>
-                    </div>
-                    <div class="input-box">
-                        <label class="letters">Confirm password*</label>
-                        <input type="text" required placeholder="Confirm your password" required="" v-model="confirmPassword"/>
-                    </div>
-                     <br>
-             <div v-if="loggedInUser.role =='ADMINISTRATOR'">
-             <label class="letters">Select role:*</label>
-               <select  v-model="role" >
-                  <option value="" disabled selected hidden>Role</option>
-                  <option value = "DELIVERER"> DELIVERER</option>
-                  <option value = "MANAGER"> MANAGER</option>
-               </select>
-            </div>
-                          <br>
-                          <label class="letters">Select gender*</label>
-
-            <select class="gender-selection" v-model="gender" >
-               <option value="" disabled selected hidden>Gender</option>
-               <option value = "MALE">Male</option>
-               <option value = "FEMALE">Female</option>
-            </select>
-            <br>
-                    <div class="button">
-                        <input type="submit" value="Register" v-on:click="Validation">
-                    </div>
+                <div class="inputfield">
+                    <label>First Name</label>
+                    <input type="text" class="input" required placeholder="Enter your first name" v-model="name">
+                </div>  
+                <div class="inputfield">
+                    <label>Last Name</label>
+                    <input type="text" class="input" required placeholder="Enter your last name" v-model="surname">
+                </div> 
+                <div class="inputfield">
+                    <label>Username</label>
+                    <input type="text" class="input" required placeholder="Enter username" v-model="userName">
+                </div> 
+                <div class="inputfield">
+                        <label class="letters">Date of birth</label>
+                        <input type="date"  class="input"  value="1950-01-01" placeholder="dd-mm-yyyy" v-model="date" />
                 </div>
-        </div>        
+                <div class="inputfield">
+                    <label>Password</label>
+                    <input type="password" class="input" required placeholder="Enter your password" required="" v-model="password">
+                </div>  
+                <div class="inputfield">
+                    <label>Confirm Password</label>
+                    <input type="password" class="input" required placeholder="Confirm your password" required="" v-model="confirmPassword">
+                </div> 
+                    <div class="inputfield">
+                    <label>Gender</label>
+                    <div class="custom_select">
+                        <select v-model="gender">
+                        <option value="">Select</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        </select>
+                    </div>
+                </div> 
+                <div class="inputfield">
+                    <input type="submit" value="Register" class="btn" v-on:click="Validation">
+                </div>
+        </div>
+    </div>	
+</div>        
    `
  ,
  	mounted()
@@ -143,13 +150,12 @@ Vue.component("registration",{
  		.then(response => {
                 alert('Successful customer registration!');
                 if(this.role==="CUSTOMER"){
-                axios.get('rest/login',{
-                    params:
+                axios.post('rest/login',
                     {
-                    userName: this.userName,
-                    password: this.password
+                    "userName": this.userName,
+                    "password": this.password
                     }
-                })
+                )
                .then(response => {
                     if (response.data == 'YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!') {
                     alert('Err: YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER');

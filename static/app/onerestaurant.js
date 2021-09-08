@@ -12,7 +12,7 @@ Vue.component("onerestaurant",{
 
     },
     template:
-    `
+    ` 
     <div class="onerestaurant">
         <h1>{{thisrestaurant.name}}</h1>
             <div class="post">

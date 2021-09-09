@@ -22,6 +22,7 @@ public class User{
 	public String gender;
 	public String restaurant; //if menager
 	public Boolean logicalDeletion;
+	public Boolean blocked;
 	
 	
 	public User(String userName, String password, String name, String surname, String date, Roles role, String gender,
@@ -38,6 +39,7 @@ public class User{
 		this.points = 0;
 		this.customerType = CustomerType.NORMAL;
 		this.discount = 0;
+		this.blocked = false;
 	}
 	
 	public User(String userName, String password, String name, String surname, String date,String gender,Roles role) {
@@ -53,6 +55,8 @@ public class User{
 		this.points = 0;
 		this.customerType = CustomerType.NORMAL;
 		this.discount = 0;
+		this.blocked = false;
+
 	}
 	public User(String userName, String name, String surname, String date, String gender) {
 		super();
@@ -64,7 +68,18 @@ public class User{
 		this.points = 0;
 		this.customerType = CustomerType.NORMAL;
 		this.discount = 0;
+		this.blocked = false;
+
 	}
+	
+	public Boolean getBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(Boolean blocked) {
+		this.blocked = blocked;
+	}
+
 	public int getPoints() {
 		return points;
 	}

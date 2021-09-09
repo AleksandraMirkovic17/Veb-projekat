@@ -192,7 +192,9 @@ public class SparkMain {
 			UserLoginDTO user = g.fromJson(req.body(), UserLoginDTO.class);
 		    if(!userService.isExistUser(user))
 		    	return "YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!";
-		    
+		    if(userService.getInstance().isUserBlocke(user.userName)) {
+		    	return "Blocked";
+		    }
 		    User loginUser=userService.loginUser(user);
 		    res.cookie("userCOOKIE", loginUser.getUserName());             // set cookie with a value
 			
@@ -549,6 +551,20 @@ public class SparkMain {
 			NextStateDTO id = g.fromJson(req.body(), NextStateDTO.class);
 			CommentService.getInstance().disapproveComment(id);
 			return "OK";
+		});
+		
+		put("rest/blockuser", (req, res) ->{
+			res.type("application/json");
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			if(user.getRole()!=Roles.ADMINISTRATOR) {
+				res.status(300);
+				return "Err";
+			}
+			NextStateDTO username = g.fromJson(req.body(), NextStateDTO.class);
+			UserService.getInstance().blockUser(username.id);
+			res.status(200);
+			return "OK";			
 		});
 		}
 	}

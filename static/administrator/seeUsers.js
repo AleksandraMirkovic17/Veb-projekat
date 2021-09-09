@@ -103,6 +103,7 @@ Vue.component("seeUsers",{
                         <th>Username</th>
                         <th>Role</th>
                         <th>Customer type</th>
+                        <th>Block</th>
                     </tr>
                     <tr v-for="u in users" v-on:click="selectedUser(u)">
                         <td>{{u.name}}</td>
@@ -111,7 +112,9 @@ Vue.component("seeUsers",{
                         <td>{{u.gender}}</td>
                         <td>{{u.userName}}</td>
                         <td>{{u.role}}</td>
-                        <td v-if="u.role=='CUSTOMER'" style="border-top: 1px solid white;">{{u.customerType}}</td>
+                        <td><label v-if="u.role=='CUSTOMER'"> {{u.customerType}} </label></td>
+                        <td v-if="u.role!='ADMINISTRATOR' && (u.blocked==false || u.blocked==null)"><button class="btn" v-on:click="block(u)">Block</button></td>
+                        <td v-else-if="u.blocked==true">Blocked</td>
                     </tr>    
                 </table>
                 </div>
@@ -184,6 +187,23 @@ Vue.component("seeUsers",{
     }     
   });       
 
+  },
+  block: function(user){
+      alert(user.userName)
+    axios
+    .put("rest/blockuser", {
+        "id": user.userName
+    })
+    .then(response =>{
+        if(response.data == "Err"){
+            alert("You don't have a permission to block users!")
+        } else{
+            alert("Successfully blocked!")
+        }
+    })
+    .catch(function(error){
+        alert("Server error! Blocking users is temporery unavailable!")
+    })
   }
     }
 });      

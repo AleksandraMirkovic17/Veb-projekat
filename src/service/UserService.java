@@ -238,6 +238,25 @@ public class UserService {
 		
 		return customer;
 	}
+
+
+
+	public void blockUser(String id) {
+		User user = getByUsername(id);
+		user.setBlocked(true);
+		UserDAO.getInstance().changeUser(id, user);
+	}
+
+
+
+	public boolean isUserBlocke(String userName) {
+		boolean ret = false;
+		User user = getByUsername(userName);
+		if(user.getBlocked() != null && user.getBlocked() == true) {
+			ret = true;
+		}
+		return ret;
+	}
 	
 }
 	

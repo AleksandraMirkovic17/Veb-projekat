@@ -52,6 +52,11 @@ Vue.component("login",{
           if (response.data == 'YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER!') {
             alert('Err: YOUR ACCOUNT DOES NOT EXIST IN THE SYSTEM, PLEASE REGISTER');
             }
+            else if(response.data == "Blocked"){
+              alert("You are blocked cannot login!")
+              this.password ="";
+              this.userName="";
+            }
             else{
             alert('Successful user login!')
             window.location.href = "/";

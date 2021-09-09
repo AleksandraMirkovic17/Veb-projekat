@@ -41,7 +41,7 @@ Vue.component("restaurants", {
 					&nbsp;
 					<p class="preview-text">
                         <p>{{r.location.street}} {{r.location.houseNumber}}, {{r.location.city}}</p>
-						<p>{{r.typeOfRestaurant}}</p>
+						<p>{{r.typeRestaurant}}</p>
 						<p>{{r.status}}</p>
 						<p>{{r.rating}}</p>
 					</p>

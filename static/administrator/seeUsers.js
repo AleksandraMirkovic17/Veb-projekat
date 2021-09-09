@@ -102,6 +102,7 @@ Vue.component("seeUsers",{
                         <th>Gender</th>
                         <th>Username</th>
                         <th>Role</th>
+                        <th>Customer type</th>
                     </tr>
                     <tr v-for="u in users" v-on:click="selectedUser(u)">
                         <td>{{u.name}}</td>
@@ -110,6 +111,7 @@ Vue.component("seeUsers",{
                         <td>{{u.gender}}</td>
                         <td>{{u.userName}}</td>
                         <td>{{u.role}}</td>
+                        <td v-if="u.role=='CUSTOMER'" style="border-top: 1px solid white;">{{u.customerType}}</td>
                     </tr>    
                 </table>
                 </div>

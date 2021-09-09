@@ -385,35 +385,43 @@ public class SparkMain {
 			
 			
 			ChangeProfileUsersDTO params = g.fromJson(req.body(), ChangeProfileUsersDTO.class);
-			
-			System.out.print(params.toString());
-			
-			if(params.userName.equals(params.userName1))
+			User changingUser = UserService.getInstance().getByUsername(params.userNameOld);
+			System.out.println("User: "+user.userName+" is trying to change" +params.userNameOld+"'s profile!");
+			ChangeProfilUserDTO justparams = new ChangeProfilUserDTO(params.userName, params.name, params.surname, params.date, params.gender);			
+			if(params.userName.equals(params.userNameOld))
 			{
-				if(userService.ChangeUserInformationUsers(params,params.userName1))
+				System.out.println("Ovde sam0");
+
+				if(userService.ChangeUserInformation(justparams, changingUser))
 				{
-					ArrayList<User> users=userService.getAllWithoutAdministrator();
+					System.out.println("Ovde sam1");
+					ArrayList<User> users = userService.getAllWithoutAdministrator();
 					return g.toJson(users);
 				}
 				else
 				{
+					System.out.println("Ovde sam2");
 					return "ERR";
-				}
-					
+				}				
 			}
 			else
 			{
 				if(userService.UsernameExists(params.userName))
 				{
+					System.out.println("Ovde sam3");
 					return "Username exists";
 				}
-				else if(userService.ChangeUserInformationUsers(params,params.userName1))
+				else if(userService.ChangeUserInformation(justparams,changingUser))
 				{
+					System.out.println("Ovde sam4");
+
 					ArrayList<User> users=userService.getAllWithoutAdministrator();
 					return g.toJson(users);
 				}
 				else
 				{
+					System.out.println("Ovde sam5");
+
 					return "ERR";
 				}
 	
@@ -457,11 +465,8 @@ public class SparkMain {
 			res.type("application/json");
 			res.status(200);
 			Session ss = req.session(true);
-			User user = ss.attribute("user");
-			
-			ChangeProfilUserDTO params = g.fromJson(req.body(), ChangeProfilUserDTO.class);
-			 
-	
+			User user = ss.attribute("user");			
+			ChangeProfilUserDTO params = g.fromJson(req.body(), ChangeProfilUserDTO.class);	
 			if(userService.UsernameExists(params.userName) && !user.userName.equals(params.userName))
 			{
 				return "Username exists";

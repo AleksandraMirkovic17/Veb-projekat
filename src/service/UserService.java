@@ -152,6 +152,7 @@ public class UserService {
 								|| !(oldUser.getSurname().equals(newUser.getSurname()))))) {
 					ShoppingChartService.getInstance().changeUserName(oldUser.getUserName(), user.userName);
 					OrderService.getInstance().changeCustomerInfor(oldUser.getUserName(), newUser);
+					CommentService.getInstance().changeCustomerUsername(oldUser.getUserName(), newUser.getUserName());
 				}
 				if(oldUser.getRole() == Roles.DELIVERER && !(oldUser.getUserName().equals(user.userName))) {
 					OrderService.getInstance().changeDelivererName(oldUser.getUserName(), newUser);
@@ -163,21 +164,7 @@ public class UserService {
 		}
 		return false;
 	 }
-	
-	public boolean ChangeUserInformationUsers(ChangeProfileUsersDTO user,String userName1)
-	 {
-		ArrayList<User> allUsers = userDAO.getAllUsers();
-		for(User u : allUsers)
-		{
-			if(u.getUserName().equals(userName1))
-			{
-				User newUser=new User(user.userName,u.password,user.name,user.surname,user.date,user.gender,u.getRole());
-				userDAO.changeUser(userName1, newUser);
-				return true;
-			}	
-		}
-		return false;
-	 }
+
 
 	public User getByRestaurant(String restaurantName) {
 		User ret = null;

@@ -1,16 +1,27 @@
+.seeusers{
+  all: unset;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 7%;
+}
 
+.seeusers .listofusers{
+  width: 70%;
+
+}
+
+.seeusers .other{
+  margin: unset;
+  float: left;
+  margin: 30px;
+  margin-top: 0;
+  width: 25%;
+}
 .seeusers table{
-  background-color: rgba(0,0,0,0.4);
-    position:absolute;
-  
-    top: 50%;
-    transform: translate(-50%,-50%);
-    border-collapse: collapse;
-    width: 800px;
-    height: 200px;
- 
+  background-color: rgba(0,0,0,0.4); 
+  width: 100%;
     box-shadow: 2px 2px 12px rgba(151, 11, 11, 0.2),-1px -1px 8px rgba(0, 0, 0, 0.2);
-    right:-300px;
 }
 .seeusers tr{
     transition:all .2s ease-in;
@@ -40,140 +51,159 @@
     box-shadow: 2px 2px 12px rgba(214, 146, 146, 0.2),-1px -1px 8px rgba(0, 0, 0, 0.2);
 
 }
-.seeusers div.mainn{
-  top: 8%;
-  right: 160px; 
-  width: 400px;
-  margin: auto ;
-  margin-top: 100px;
-  position: absolute;
-  left: -900px;
-}
 .seeusers h3
 {
   text-align: center;
   padding: 20px;
   font-family: sans-serif;
   margin-top: 10px;
+}
+
+.seeusers .buttons{
+  display: flex;
+  flex-direction: row;
 }
 .seeusers div.profiln
 {
   background-color: rgba(0,0,0,0.4);
-  width: 73%;
-  height: 400px;
   font-size: 18px;
   border-radius: 20px;
-  border: 1px soid rgba(255,255,255,0.3);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 50px;
+  margin: 10px;
   box-shadow:2px 2px 15px rgba(0,0,0,0.3) ;
-  color: #fff;
- 
+  color: #fff; 
 }
-.seeusers div.profilmn
-{
-  margin: 0 auto;
-  margin:40px;
-  margin-top: -10px;
-}
-.seeusers label
-{
-font-family: sans-serif;
-font-size: 18px;
-font-style: italic;
-}
-.seeusers input{
- width:200px;
- border: 1px solid #ddd;
- border-radius: 3px;
- outline: 0;
- padding: 7px;
- background-color: #fff;
- box-shadow: inset 1px 1px 5px rgba(0,0,0,0.3);
 
+.seeusers .form{
+  width: 100%;
 }
-.seeusers input.button
-{
-  width:200px;
-  padding: 7px;
-  font-size: 16px;
-  font-family: sans-serif;
-  font-weight: 600;
 
+.seeusers .form .inputfield{
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.seeusers .form .inputfield label{
+   width: 200px;
+   color: whitesmoke;
+   margin-right: 10px;
+  font-size: 14px;
+}
+
+.seeusers .form .inputfield input,
+.seeusers .form .inputfield textarea{
+  width: 100%;
+  outline: none;
+  border: 1px solid #d5dbd9;
+  font-size: 15px;
+  padding: 8px 10px;
   border-radius: 3px;
-  background-color:#fec107;
-  color: #fff;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.3);
-  box-shadow:  1px 1px 5px rgba(0,0,0,0.4);
-  margin-bottom: 20px;
-
-
+  transition: all 0.3s ease;
 }
-.seeusers div.mainnn{
-  top: 100%;
-  right: 160px; 
-  width: 400px;
-  margin: auto ;
-  margin-top: 100px;
+
+.seeusers .form .inputfield textarea{
+  width: 100%;
+  height: 125px;
+  resize: none;
+}
+
+.seeusers .form .inputfield select{
+  position: relative;
+  width: 100%;
+  height: 37px;
+}
+
+.seeusers .form .inputfield .custom_select:before{
+  content: "";
   position: absolute;
+  top: 12px;
+  right: 10px;
+  border: 8px solid;
+  border-color: #d5dbd9 transparent transparent transparent;
+  pointer-events: none;
+}
 
-}
-.seeusers h3
-{
-  text-align: center;
-  padding: 20px;
-  font-family: sans-serif;
-  margin-top: 10px;
-}
-.seeusers div.profilnnn
-{
-  background-color: rgba(0,0,0,0.4);
-  width: 73%;
-  height: 400px;
-  font-size: 18px;
-  border-radius: 20px;
-  border: 1px soid rgba(255,255,255,0.3);
-  box-shadow:2px 2px 15px rgba(0,0,0,0.3) ;
-  color: #fff;
- 
-}
-.seeusers div.profilmnn
-{
-  margin: 0 auto;
-  margin:40px;
-  margin-top: -10px;
-}
-.seeusers label
-{
-font-family: sans-serif;
-font-size: 18px;
-font-style: italic;
-}
-.seeusers input{
- width:200px;
- border: 1px solid #ddd;
- border-radius: 3px;
- outline: 0;
- padding: 7px;
- background-color: #fff;
- box-shadow: inset 1px 1px 5px rgba(0,0,0,0.3);
-
-}
-.seeusers input.button
-{
-  width:200px;
-  padding: 7px;
-  font-size: 16px;
-  font-family: sans-serif;
-  font-weight: 600;
-
+.seeusers .form .inputfield  select{
+  -webkit-appearance: none;
+  -moz-appearance:   none;
+  appearance:        none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #d5dbd9;
   border-radius: 3px;
-  background-color:#fec107;
+}
+
+
+.seeusers .form .inputfield .input:focus,
+.seeusers .form .inputfield .textarea:focus,
+.seeusers .form .inputfield .custom_select select:focus{
+  border: 1px solid white;
+}
+
+.seeusers .form .inputfield p{
+   font-size: 14px;
+   color: #757575;
+}
+.seeusers .form .inputfield .check{
+  width: 15px;
+  height: 15px;
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.seeusers .form .inputfield .check input[type="checkbox"]{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.seeusers .form .inputfield .check input[type="checkbox"]:checked ~ .checkmark{
+  background: #fec107;
+}
+
+.seeusers .form .inputfield .check input[type="checkbox"]:checked ~ .checkmark:before{
+  display: block;
+}
+
+.seeusers .form .inputfield .buttons{
+  width: 100%;
+   padding: 8px 10px;
+  font-size: 15px; 
+  border: 0px;
+  background:  #fec107;
   color: #fff;
   cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.3);
-  box-shadow:  1px 1px 5px rgba(0,0,0,0.4);
-  margin-bottom: 20px;
-
-
+  border-radius: 3px;
+  outline: none;
 }
+
+.seeusers .btn{
+  width: 80%;
+  padding: 8px 10px;
+  margin: 10px;
+  font-size: 15px; 
+  border: 0px;
+  background:  #fec107;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  outline: none;
+}
+
+.seeusers .form .inputfield .btn:hover{
+  background: #ffd658;
+}
+
+.seeusers .form .inputfield:last-child{
+  margin-bottom: 0;
+}
+
 

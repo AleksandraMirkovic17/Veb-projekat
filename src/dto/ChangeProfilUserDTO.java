@@ -7,6 +7,15 @@ public class ChangeProfilUserDTO {
 	public String surname;
 	public String date;
 	public String gender;
+	
+	public ChangeProfilUserDTO(String userName, String name, String surname, String date, String gender) {
+		super();
+		this.userName = userName;
+		this.name = name;
+		this.surname = surname;
+		this.date = date;
+		this.gender = gender;
+	}
 	public String getUserName() {
 		return userName;
 	}

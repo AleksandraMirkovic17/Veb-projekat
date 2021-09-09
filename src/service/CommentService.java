@@ -41,6 +41,17 @@ public class CommentService {
 		return restaurantsComments;
 	}
 	
+	public ArrayList<Comment> getByUser(String username){
+		ArrayList<Comment> allComments = CommentDAO.getInstance().getAllComments();
+		ArrayList<Comment> customersComments = new ArrayList<Comment>();
+		for(Comment c : allComments) {
+			if(c.getCustomer().equals(username)) {
+				customersComments.add(c);
+			}
+		}
+		return customersComments;
+	}
+	
 	public Comment getByOrderId(String id) {
 		Comment ret =null;
 		ArrayList<Comment> allComments = CommentDAO.getInstance().getAllComments();
@@ -63,6 +74,14 @@ public class CommentService {
 		Comment c = getByOrderId(id.id);
 		c.setStatus(CommentStatus.Disapproved);
 		CommentDAO.getInstance().changeComment(id.id, c);		
+	}
+
+	public void changeCustomerUsername(String oldusername, String newusername) {
+		ArrayList<Comment> usersComments = getByUser(oldusername);
+		for(Comment c : usersComments) {
+			c.setCustomer(newusername);
+			CommentDAO.getInstance().changeComment(c.getOrderId(), c);
+		}
 	}
 
 }

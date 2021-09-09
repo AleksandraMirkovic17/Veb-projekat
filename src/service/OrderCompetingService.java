@@ -80,19 +80,12 @@ public class OrderCompetingService {
 		OrderCompetingDAO.getInstance().changeOrderCompeting(params.id, oc);	
 	}
 	public void changeDelivererName(String oldUsername, User newUser) {
-		ArrayList<OrderCompeting> deliverersCompetings = getDeliverersComepings(oldUsername);
+		changeDelivererInCometings(oldUsername, newUser);
+		changeDelivererInDisapprovedCompetings(oldUsername, newUser);		
+	}
+	
+	private void changeDelivererInDisapprovedCompetings(String oldUsername, User newUser) {
 		ArrayList<OrderCompeting> delivererDisapprovedCompetings = getDelivererDisapprovedCompetings(oldUsername);
-		for(OrderCompeting oc : deliverersCompetings) {
-			for(int i= 0; i<oc.getDeliverers().size(); i++) {
-				if(oc.getDeliverers().get(i).equals(oldUsername)) {
-					ArrayList<String> oldDeliverers = oc.getDeliverers();
-					oldDeliverers.set(i, newUser.getUserName());
-					oc.setDeliverers(oldDeliverers);
-					OrderCompetingDAO.getInstance().changeOrderCompeting(oc.getOrderId(), oc);
-					break;
-				}
-			}
-		}
 		for(OrderCompeting oc : delivererDisapprovedCompetings) {
 			for(int i=0; i<oc.getDisapproveddeliverers().size(); i++) {
 				if(oc.getDisapproveddeliverers().get(i).equals(oldUsername)) {
@@ -105,6 +98,20 @@ public class OrderCompetingService {
 			}
 		}
 		
+	}
+	private void changeDelivererInCometings(String oldUsername, User newUser) {
+		ArrayList<OrderCompeting> deliverersCompetings = getDeliverersComepings(oldUsername);
+		for(OrderCompeting oc : deliverersCompetings) {
+			for(int i= 0; i<oc.getDeliverers().size(); i++) {
+				if(oc.getDeliverers().get(i).equals(oldUsername)) {
+					ArrayList<String> oldDeliverers = oc.getDeliverers();
+					oldDeliverers.set(i, newUser.getUserName());
+					oc.setDeliverers(oldDeliverers);
+					OrderCompetingDAO.getInstance().changeOrderCompeting(oc.getOrderId(), oc);
+					break;
+				}
+			}
+		}
 		
 	}
 	private ArrayList<OrderCompeting> getDelivererDisapprovedCompetings(String userName) {
@@ -125,12 +132,14 @@ public class OrderCompetingService {
 		ArrayList<OrderCompeting> deliverersCompetings = new ArrayList<OrderCompeting>();
 		for(OrderCompeting oc : allCompetings) {
 			for(String s : oc.getDeliverers()) {
+				System.out.println("Order "+oc.getOrderId()+" competitors "+oc.getDeliverers());
 				if(s.equals(userName)) {
 					deliverersCompetings.add(oc);
 					break;
 				}
 			}
 		}
+		System.out.println("The deliverer"+userName+ "that is changing his username competed for "+deliverersCompetings.size()+" deliveries!");
 		return deliverersCompetings;
 	}
 

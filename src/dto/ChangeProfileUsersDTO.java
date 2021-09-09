@@ -3,18 +3,19 @@ package dto;
 public class ChangeProfileUsersDTO {
 
 	public String userName;
-	public String userName1;
+	public String userNameOld;
 	
 	public String name;
 	public String surname;
 	public String date;
 	public String gender;
 	
-	public String getUserName1() {
-		return userName1;
+
+	public String getUserNameOld() {
+		return userNameOld;
 	}
-	public void setUserName1(String userName1) {
-		this.userName1 = userName1;
+	public void setUserNameOld(String userNameOld) {
+		this.userNameOld = userNameOld;
 	}
 	public String getUserName() {
 		return userName;
@@ -48,7 +49,7 @@ public class ChangeProfileUsersDTO {
 	}
 	@Override
 	public String toString() {
-		return "ChangeProfileUsersDTO [userName=" + userName + ", userName1=" + userName1 + ", name=" + name
+		return "ChangeProfileUsersDTO [userName=" + userName + ", userNameOld=" + userNameOld + ", name=" + name
 				+ ", surname=" + surname + ", date=" + date + ", gender=" + gender + "]";
 	}
 

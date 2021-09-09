@@ -5,6 +5,7 @@ Vue.component("managersrestaurant",{
         thisrestaurant:{},
         restaurantname:'',
         openclosed: '',
+        comments: null,
 
         articalName:'',
         price:'',
@@ -34,71 +35,77 @@ Vue.component("managersrestaurant",{
     },
     template:
     `
-    <div class="manager-content clearfix">
+    <div class="manager-content">
 
     <div class="restaurant-info">
         <div class="post">
-            <img :src="restaurantImageLogo(thisrestaurant)" class="post-image">
-                <h2>
-                    {{thisrestaurant.name}}
-                </h2>
-                &nbsp;
-                <p class="preview-text">
-                    <p>{{thisrestaurant.location.street}} {{thisrestaurant.location.houseNumber}}, {{thisrestaurant.location.city}}</p>
-                    <p>{{thisrestaurant.typeRestaurant}}</p>
-                    <select v-model="openclosed" @change="statusUpload">
-                        <option value = "OPEN">Open</option>
-                        <option value = "CLOSED">Closed</option>
-                    </select>
-                    <p>{{thisrestaurant.rating}}</p>
-                </p>
-            </div>				
-        </div>
+            <div class="post-image">
+                <img :src="restaurantImageLogo(thisrestaurant)">
+            </div>
+            <div class="info">
+                    <h2>
+                        {{thisrestaurant.name}}
+                    </h2>
+                    &nbsp;
+                    <p class="preview-text">
+                        <p>Location: {{thisrestaurant.location.street}} {{thisrestaurant.location.houseNumber}}, {{thisrestaurant.location.city}}</p>
+                        <p>Type: {{thisrestaurant.typeRestaurant}}</p>
+                        <select v-model="openclosed" @change="statusUpload">
+                            <option value = "OPEN">Open</option>
+                            <option value = "CLOSED">Closed</option>
+                        </select>
+                        <p>Rating: {{thisrestaurant.rating}}</p>
+                    </p>
+            </div>
+        </div>				
+    </div>
         
     
     <div class="add-article">
         <div class="post">
             <div class="wrapper">
-            <div class="article-image">
-                <img :src=this.imagePreview>
-            </div>
-            <div class="content">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <div class="text">No file choosen, yet!</div>
-
-            </div>
-            <div id="cancel-btn"><i class="fas fa-times">x</i></div>
-        </div> 
-            <h2>Add a new article</h2>
-            <div class="input">
-                <label>Name*</label>
-                <input type="text" placeholder="Enter a name" v-model="articalName">					
-            </div>
-            <div class="input">
-                <label>Price*</label>
-                <input type="number" min=0 name="" v-model="price">					
-            </div>
-            <div class="input">
-                <label>Type*</label>
-                <select v-model="type">
-                    <option value="DISH" selected="">DISH</option>
-                    <option value="DRINK">DRINK</option>
-                </select>
-            </div>
-            <div class="input">
-                <label>Quantity</label>
-                <input type="number" v-model="quantity" min="0" name="">					
-            </div>
-            <div class="input">
-                <label>Description</label>
-                <textarea v-model="description"></textarea>
-            </div>
-            <div class="input">
-                <label>Photo*</label>
-                <input type="file" name="" @change="imageSelected">
-                
-            </div>
-            <button v-on:click="Validation">Add</button>    
+                <div class="article-image">
+                    <img :src=this.imagePreview>
+                </div>
+                <div class="content">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <div class="text">No file choosen, yet!</div>
+                </div>
+            </div> 
+            <div class="form">
+                <h2>Add a new article</h2>
+                <div class="inputfiled">
+                    <label>Name*</label>
+                    <input type="text" placeholder="Enter a name" v-model="articalName">					
+                </div>
+                <div class="inputfiled">
+                    <label>Price*</label>
+                    <input type="number" min=0 name="" v-model="price">					
+                </div>
+                <div class="inputfiled">
+                    <label>Type*</label>
+                    <select v-model="type">
+                        <option value="DISH" selected="">DISH</option>
+                        <option value="DRINK">DRINK</option>
+                    </select>
+                </div>
+                <div class="inputfiled">
+                    <label>Quantity</label>
+                    <input type="number" v-model="quantity" min="0" name="">					
+                </div>
+                <div class="inputfiled">
+                    <label>Description</label>
+                    <textarea v-model="description"></textarea>
+                </div>
+                <div class="inputfiled">
+                    <label>Photo*</label>
+                    <input type="file" name="" @change="imageSelected">              
+                </div>
+                <div class="inputfield">
+                <button v-on:click="Validation" class="btn">Add</button>
+                </div>
+            </div> 
+            <!--form-->    
         			
         </div>			
     </div>
@@ -108,7 +115,10 @@ Vue.component("managersrestaurant",{
         <h3>List of articles</h3>
         <div v-for="a in thisrestaurant.articles">
             <div class="post" v-if="editartical!=a.nameArtical">
-            <img :src="loadLogoArtical(a)" class="post-image">
+            <div class="post-image">
+            <img :src="loadLogoArtical(a)">
+            </div>
+            <div class ="info">
                 <h2>
                     {{a.nameArtical}}
                 </h2>
@@ -119,50 +129,52 @@ Vue.component("managersrestaurant",{
                 <p>Description: {{a.description}} </p>
                 <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
                 <div v-if="editartical=='none'">
-                    <button v-on:click="editart(a)">Edit</button>
+                    <button v-on:click="editart(a)" class="btn">Edit</button>
                 </div>
                    
                 </p>
             </div>
+            </div>
 
-            <div class="post" v-else-if="editartical==a.nameArtical">
-                <div class="wrapper">
+            <div class="edit" v-else-if="editartical==a.nameArtical">
                     <div class="article-image">
-                    <img :src=editarticalImagePreview class="post-image">
+                        <img v-if="editarticalImagePreview!=null" :src=editarticalImagePreview class="post-image">
+                        <img v-if="editarticalImagePreview==null" :src="loadLogoArtical(a)">
                     </div>
-                </div> 
-            <h4>Edit article</h4>
-            <div class="input">
-                <label>Name*</label>
-                <input type="text" placeholder=this.editarticalnewname v-model="editarticalnewname">					
-            </div>
-            <div class="input">
-                <label>Price*</label>
-                <input type="number" min=0 name="" v-model="editarticalnewprice">					
-            </div>
-            <div class="input">
-                <label>Type*</label>
-                <select v-model="editarticalnewtype">
-                    <option value="DISH">DISH</option>
-                    <option value="DRINK">DRINK</option>
-                </select>
-            </div>
-            <div class="input">
-                <label>Quantity</label>
-                <input type="number" v-model="editarticalnewquantity" min="0" name="">					
-            </div>
-            <div class="input">
-                <label>Description</label>
-                <textarea v-model="editarticalnewdescription"></textarea>
-            </div>
-            <div class="input">
-                <label>Photo*</label>
-                <input type="file" name="" @change="editImageSelected">              
-            </div>
-            <div class="buttons">
-                <button v-on:click="cancelediting">Cancel</button>
-                <button v-on:click="saveediting">Save</button>
-            </div>
+                <div class="form">
+                    <h4>Edit article</h4>
+                    <div class="inputfield">
+                        <label>Name*</label>
+                        <input type="text" placeholder=this.editarticalnewname v-model="editarticalnewname">					
+                    </div>
+                    <div class="inputfield">
+                        <label>Price*</label>
+                        <input type="number" min=0 name="" v-model="editarticalnewprice">					
+                    </div>
+                    <div class="inputfield">
+                        <label>Type*</label>
+                        <select v-model="editarticalnewtype">
+                            <option value="DISH">DISH</option>
+                            <option value="DRINK">DRINK</option>
+                        </select>
+                    </div>
+                    <div class="inputfield">
+                        <label>Quantity</label>
+                        <input type="number" v-model="editarticalnewquantity" min="0" name="">					
+                    </div>
+                    <div class="inputfield">
+                        <label>Description</label>
+                        <textarea v-model="editarticalnewdescription"></textarea>
+                    </div>
+                    <div class="inputfield">
+                        <label>Photo*</label>
+                        <input type="file" name="" @change="editImageSelected">              
+                    </div>
+                    <div class="inputfield">
+                        <button v-on:click="cancelediting" class="btn">Cancel</button>
+                        <button v-on:click="saveediting" class="btn">Save</button>
+                    </div>
+                </div>
             </div>  
         </div>   
     </div>
@@ -173,8 +185,30 @@ Vue.component("managersrestaurant",{
         </div>
         
     </div>
-    
+
+<div class="menurestaurant  comment-section">
+    <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
+        <h2>Comments</h2>
+    </div>
+<div class="comment-table">
+<table v-if="comments!=null">
+    <tr v-for="comment in comments" v-if="comment.text!='' && (loggedUser.restaurant==thisrestaurant.name)">
+        <td class="comment-username">{{comment.customer}} </td>
+        <td class="comment-text">"{{comment.text}}"</td>
+        <td class="comment-status"  v-if="loggedUser.restaurant==thisrestaurant.name">{{comment.status}}</td>
+        <td class="approvesection" v-if="loggedUser.restaurant==thisrestaurant.name && comment.status=='Waiting'">
+        <div class="inputfield">
+             <button class ="btn" v-on:click="approveComment(comment)">Approve</button>
+             <button class ="btn"  v-on:click="disapproveComment(comment)">Disapprove</button>
+        </div>
+        </td>
+    </tr>
+</table>
+</div>  
+</div>  
+
 </div>
+
     `,
     mounted() {
         axios.get('rest/testlogin')
@@ -182,8 +216,7 @@ Vue.component("managersrestaurant",{
                 { if(response.data!= "Err:UserIsNotLoggedIn"){
                     this.loggedUser=response.data;
                     if(this.loggedUser.role == 'MANAGER'){
-                        this.loadRestaurant();
-                   
+                        this.loadRestaurant();                 
                     }
                     } else{
                         alert("You don't have a permission to access this site, beacuse you are not a manager!");
@@ -226,6 +259,7 @@ Vue.component("managersrestaurant",{
                         this.thisrestaurant = responsee.data;
                         this.openclosed = this.thisrestaurant.status;
                         alert("Restaurant successfully found!");
+                        this.loadComments();
                     }
                     else{
                         alert("The restaurant you are looking no loger exsists!")
@@ -237,6 +271,20 @@ Vue.component("managersrestaurant",{
             .catch(() => {
                 alert('Searching for restaurant is temporary unavailable')
                 });	
+        },
+        loadComments : function(){
+            axios.get('rest/getrestaurantscomments', {
+                params:
+                {
+                    restaurant : this.thisrestaurant.name
+                }
+            })
+            .then(resp =>{
+                this.comments = resp.data;
+            })
+            .catch(function(error){
+                alert("It is impossible to load restaurant's comments!")
+            })
         },
         Validation: function(){
             if(this.name == '' || this.imageArtical=='' || this.price=='' || this.type=='' ){
@@ -393,6 +441,30 @@ Vue.component("managersrestaurant",{
                     alert('Changing an artical is temporary unavailable!')
                     });	
 
+        },
+        approveComment: function(comment){
+            axios.put("rest/approvecomment", {
+                "id" : comment.orderId
+            })
+            .then(response =>{
+                alert("Comment is successfully approved!");
+                this.loadComments();
+            })
+            .catch(function(error){
+                alert("Server error!")
+            })
+        },
+        disapproveComment: function(comment){
+            axios.put("rest/disapprovecomment", {
+                "id" : comment.orderId
+            })
+            .then(response =>{
+                alert("Comment is successfully disapproved!");
+                this.loadComments();
+            })
+            .catch(function(error){
+                alert("Server error!")
+            })
         }
         
     }

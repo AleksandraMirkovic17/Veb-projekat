@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import com.google.gson.JsonElement;
 
 import beans.Artical;
+import beans.Comment;
 import beans.Location;
 import beans.Restaurant;
 import beans.User;
@@ -23,6 +24,7 @@ import dao.RestaurantDAO;
 import dto.AddingArticalToRestaurantDTO;
 import dto.ChangeArticalDTO;
 import dto.ChangeRestaurantsStatusDTO;
+import dto.CommentDTO;
 import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import spark.utils.StringUtils;
@@ -269,6 +271,20 @@ public class RestaurantService {
 	public TypeOfRestaurant getRestaurantType(String restaurantsname) {
 		Restaurant r = getByName(restaurantsname);
 		return r.getTypeRestaurant();
+	}
+
+	public void calculateRating(CommentDTO comment) {
+		Restaurant restaurant = getByName(comment.restaurant);
+		ArrayList<Comment> restaurantsComments = CommentService.getInstance().getByRestaurant(comment.restaurant);
+		int ratingSum = 0;
+		int numberOfComments = restaurantsComments.size();
+		for(Comment c : restaurantsComments) {
+			ratingSum+=c.getMark();
+		}
+		double newRate = ((double) ratingSum)/ numberOfComments;
+		newRate = Math.round(newRate*100.0)/100.0;
+		restaurant.setRating(newRate);
+		RestaurantDAO.getInstance().changeRestaurant(comment.restaurant, restaurant);
 	}
 
 

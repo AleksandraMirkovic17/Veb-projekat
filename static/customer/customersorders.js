@@ -12,7 +12,7 @@ Vue.component("customersorders",{
           toDate: '',
           restaurant:'',
           typeofrestaurant: 'ALL',
-          isTypeOk: true
+          isTypeOk: true,
         }
      },
  template: `
@@ -41,20 +41,20 @@ Vue.component("customersorders",{
  </table>
  </div>
  <div class="controlpanel">
-     <h1>Control panel<h1>
+     <h1>Control panel</h1>
      <table>
      <tr>
         <td>Status</td>
         <td>{{loggedUser.customerType}}</td>
-     <tr>
+     </tr>
      <tr>
         <td>Discount on every order</td>
         <td>{{loggedUser.discount}} %</td>
-     <tr>
+     </tr>
      <tr>
         <td>Score</td>
         <td>{{loggedUser.points}}</td>
-     <tr>
+     </tr>
      </table>
  </div>
  </div>
@@ -66,7 +66,7 @@ Vue.component("customersorders",{
           <h6>Order ID: {{order.id}}</h6>
           <article class="card">
               <div class="card-body row">
-                  <div class="col"> <strong>Date and time:</strong> <br>{{order.date}} </div>
+                  <div class="col"> <strong>Date and time:</strong>{{order.date}} </div>
                   <div class="col"> <strong>Restaurant:</strong> {{order.restaurant}} <br> </div>
                   <div class="col"> <strong>Status:</strong>  {{order.orderState}} <br> </div>
                   <div class="col"> <strong>Customer:</strong> {{order.fullName}} ({{order.username}})<br> </div>
@@ -102,6 +102,46 @@ Vue.component("customersorders",{
           </ul>
           <hr> 
           <a v-if="order.orderState=='PROCESSING'" v-on:click="cancelorder(order.id)" class="btn btn-warning" data-abc="true"> CANCEL</a>
+          <hr>
+          <div class="addComment" v-if="(order.commented==null || order.commented==false) && order.orderState == 'DELIVERED' && loggedUser.userName == order.username">
+          <div class="card">
+            <div class="row">
+                    <div class="col-10">
+                        <div class="comment-box ml-2">
+                            <h4>Review</h4>
+                        <div class="rating"> 
+                            <input type="checkbox" v-bind:name="order.id+'rate5'" id="5">
+                            <label for="5">☆</label> 
+                            <input type="checkbox" name="rating" v-bind:name="order.id+'rate4'" id="4">
+                            <label for="4">☆</label> 
+                            <input type="checkbox" name="rating" v-bind:name="order.id+'rate3'" id="3">
+                            <label for="3">☆</label> 
+                            <input type="checkbox" name="rating" v-bind:name="order.id+'rate2'"id="2">
+                            <label for="2">☆</label> 
+                            <input type="checkbox" name="rating" v-bind:name="order.id+'rate1'" id="1">
+                            <label for="1">☆</label> 
+                        </div>
+                        <div class="comment-area"> 
+                            <textarea class="form-control" v-bind:id="order.id+'c'" placeholder="Leave a comment..." rows="4">
+                            </textarea> 
+                        </div>
+                        <div class="comment-btns mt-2">
+                            <div class="row">
+                                <div class="col-6">
+                                        <div class="pull-right"> 
+                                            <button class="btn btn-success send btn-sm" v-on:click="sendreview(order)">
+                                                Send 
+                                            </button> 
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+             </div>
+         </div>
+        </div>
+
+          </div>
       </div>
   </article>
 </div>
@@ -342,6 +382,114 @@ Vue.component("customersorders",{
                   this.orders.sort((b, a) => (a.restaurant.toUpperCase() > b.restaurant.toUpperCase()) ? 1 : ((b.restaurant.toUpperCase() > a.restaurant.toUpperCase()) ? -1 : 0));
               }
           }
+      },
+      sendreview: function(order){
+        let rate1in = document.getElementsByName(order.id+'rate1')[0];
+        let rate2in = document.getElementsByName(order.id+'rate2')[0];
+        let rate3in = document.getElementsByName(order.id+'rate3')[0];
+        let rate4in = document.getElementsByName(order.id+'rate4')[0];
+        let rate5in = document.getElementsByName(order.id+'rate5')[0];
+
+        let  rate1 = rate1in.checked;
+        let rate2 = rate2in.checked;
+        let rate3 = rate3in.checked;
+        let rate4 = rate4in.checked;
+        let rate5 = rate5in.checked;
+
+        let commentArea= document.getElementById(order.id+'c');
+        let comment = commentArea.value;
+        alert(order.id)
+
+        if(rate5){
+            axios
+            .post("rest/leavereview",{
+                "orderID" : order.id,
+                "restaurant" : order.restaurant,
+                "rate" : "5",
+                "comment" : comment,
+                "username" : this.loggedUser.userName
+            })
+            .then(response =>{
+                this.loadorders();
+                return;
+            })
+            .catch(function(error){
+                alert("It's impossible to leave a review now, try again later!")
+            })
+        }
+        else if(rate4){
+            axios
+            .post("rest/leavereview",{
+                "orderID" : order.id,
+                "restaurant" : order.restaurant,
+                "rate" : "4",
+                "comment" : comment,
+                "username" : this.loggedUser.userName
+
+            })
+            .then(response =>{
+                this.loadorders();
+            })
+            .catch(function(error){
+                alert("It's impossible to leave a review now, try again later!");
+            })
+        }
+        else if(rate3){
+            axios
+            .post("rest/leavereview",{
+                "orderID" : order.id,
+                "restaurant" : order.restaurant,
+                "rate" : "3",
+                "comment" : comment,
+                "username" : this.loggedUser.userName
+
+            })
+            .then(response =>{
+                this.loadorders();
+                return;
+            })
+            .catch(function(error){
+                alert("It's impossible to leave a review now, try again later!");
+            })
+        }        
+        else if(rate2){
+            axios
+            .post("rest/leavereview",{
+                "orderID" : order.id,
+                "restaurant" : order.restaurant,
+                "rate" : "2",
+                "comment" : comment,
+                "username" : this.loggedUser.userName
+
+            })
+            .then(response =>{
+                this.loadorders();
+                return;
+            })
+            .catch(function(error){
+                alert("It's impossible to leave a review now, try again later!")
+            })
+        }        
+        else if(rate1){
+            axios
+            .post("rest/leavereview",{
+                "orderID" : order.id,
+                "restaurant" : order.restaurant,
+                "rate" : "1",
+                "comment" : comment,
+                "username" : this.loggedUser.userName
+
+            })
+            .then(response =>{
+                this.loadorders();
+                return;
+            })
+            .catch(function(error){
+                alert("It's impossible to leave a review now, try again later!")
+            })
+        } else{
+            alert("Please rate the restaurant first then try again!")
+        }
       }
        
 

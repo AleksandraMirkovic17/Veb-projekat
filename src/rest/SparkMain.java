@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+import beans.Comment;
 import beans.Location;
 import beans.Order;
 import beans.Restaurant;
@@ -25,6 +26,7 @@ import dto.ChangeProfileUsersDTO;
 import dto.ChangeQuantityInCartDTO;
 import dto.ChangeRestaurantsStatusDTO;
 import dto.CheckRestourantNameDTO;
+import dto.CommentDTO;
 import dto.CompeteToDeliverDTO;
 import dto.NextStateDTO;
 import dto.OrdersForManagerDTO;
@@ -32,6 +34,7 @@ import dto.RestaurantRegistrationDTO;
 import dto.SearchForRestaurantsParamsDTO;
 import dto.SearchUsersDTO;
 import dto.UserLoginDTO;
+import service.CommentService;
 import service.OrderCompetingService;
 import service.OrderService;
 import service.RestaurantService;
@@ -84,6 +87,15 @@ public class SparkMain {
 			System.out.println("Looking for restaurant "+name);
 			Restaurant restaurant = restaurantService.getByName(name);
 			return g.toJson(restaurant);
+		});
+		
+		get("rest/getrestaurantscomments", (req, res)->{
+			res.type("application/json");
+			res.status(200);
+			String restaurant = req.queryParams("restaurant");
+			ArrayList<Comment> comments = CommentService.getInstance().getByRestaurant(restaurant);
+			System.out.println("Broj komentara"+comments.size());
+			return g.toJson(comments);
 		});
 		
 		get("rest/ArticalNameExists", (req, res) -> {
@@ -431,6 +443,15 @@ public class SparkMain {
 		return "OK";
 		});
 		
+		post("rest/leavereview", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			CommentDTO comment = g.fromJson(req.body(), CommentDTO.class);
+			System.out.println(comment);
+			CommentService.getInstance().saveComment(comment);
+			return "OK";
+		});
+		
 
 		put("rest/ChangeInformation/", (req,res)->{
 			res.type("application/json");
@@ -507,6 +528,22 @@ public class SparkMain {
 			shoppingChartService.deleteArtical(params);
 			ret="OK";
 			return ret;	
+		});
+		
+		put("rest/approvecomment", (req, res)->{
+			res.type("application/json");
+			res.status(200);
+			NextStateDTO id = g.fromJson(req.body(), NextStateDTO.class);
+			CommentService.getInstance().approveComment(id);
+			return "OK";
+		});
+		
+		put("rest/disapprovecomment", (req, res)->{
+			res.type("application/json");
+			res.status(200);
+			NextStateDTO id = g.fromJson(req.body(), NextStateDTO.class);
+			CommentService.getInstance().disapproveComment(id);
+			return "OK";
 		});
 		}
 	}

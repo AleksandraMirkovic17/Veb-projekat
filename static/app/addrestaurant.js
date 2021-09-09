@@ -228,6 +228,7 @@ Vue.component("addrestaurant",{
 		    document.querySelector('#longitude').value = e.suggestion.latlng.lng || '';
 			document.querySelector('#latitude').value = e.suggestion.latlng.lat || '';
 		  });
+          
         
     },
     methods: {

@@ -293,6 +293,11 @@ public class OrderService {
 			OrdersDAO.getInstance().changeOrder(o.getId(), o);
 		}	
 	}
+	public void addComment(String orderID) {
+		Order o = GetById(orderID);
+		o.setCommented(true);
+		OrdersDAO.getInstance().changeOrder(orderID, o);		
+	}
 
 
 }

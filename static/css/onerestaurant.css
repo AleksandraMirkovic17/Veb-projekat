@@ -143,7 +143,7 @@
 
 .onerestaurant .restaurant-title{
 	padding: 40px;
-	padding-left: 43%;
+  text-align: center;
 
 }
  #menu h1,  #menu h2,  #menu h3,  #menu h4, #menu h5, #menu h6 {
@@ -344,6 +344,41 @@
 
 .menurestaurant .menu-thumb:hover .menu-info {
   background: rgba(0,0,0,0.8);
+}
+
+.comment-section {
+  margin-top: 50px;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-section .section-title{
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+
+}
+
+.comment-section .comment-table{
+  width: 100%;
+  border: 2px solid orange;
+  border-radius: 20px;
+}
+
+.comment-section .comment-table table{
+  width: 100%;
+  color: gray;
+  font-style: oblique;
+  font-weight: 400;
+}
+
+.comment-section .comment-table table .comment-username{
+  font-weight: 600;
+}
+
+.comment-section .comment-table table .comment-text{
+  font-style: italic;
 }
 
 

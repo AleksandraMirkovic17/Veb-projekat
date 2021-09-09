@@ -13,6 +13,7 @@ public class Order {
 	public String fullName;
 	public String username;
 	public String deliverer;
+	public Boolean commented;
 	public OrderState orderState;
 	public Order(String id, ArrayList<ShoppingChartItem> articles, String restaurant, String date, double price,
 			double priceWithDiscount, String fullName, String username, String deliverer, OrderState orderState) {
@@ -27,6 +28,13 @@ public class Order {
 		this.username = username;
 		this.deliverer = deliverer;
 		this.orderState = orderState;
+		this.commented = false;
+	}
+	public Boolean getCommented() {
+		return commented;
+	}
+	public void setCommented(Boolean commented) {
+		this.commented = commented;
 	}
 	public Order() {
 		super();

@@ -55,3 +55,109 @@
     border: 1px solid whitesmoke;
 }
 
+/**Comment and rate**/
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+
+.addComment {
+    height: 100%
+}
+
+.addComment {
+    display: grid;
+    place-items: left;
+    font-family: 'Manrope', sans-serif;
+}
+
+.addComment .card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+    width: 90%;
+    padding-left: 2%;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border-radius: 6px;
+    -moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1)
+}
+
+.addComment .row{
+    width: 100%;
+
+}
+
+.addComment .comment-box {
+    width: 100%;
+    padding: 5px
+}
+
+.addComment .comment-area textarea {
+    resize: none;
+    width: 100%;
+    border: 1px solid #ad9f9f
+}
+
+.addComment .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #ffffff;
+    outline: 0;
+    box-shadow: 0 0 0 1px rgb(255, 0, 0) !important
+}
+
+.addComment .send {
+    color: #fff;
+    background-color: orange;
+    border-color: orangered;
+    padding: 10px;
+    border-radius: 20px;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.addComment .send:hover {
+    color: #fff;
+    background-color: #f50202;
+    border-color: #f50202
+}
+
+.addComment .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-left: -4px;
+    float: left
+}
+
+.addComment .rating>input {
+    display: none
+}
+
+.addComment .rating>label {
+    position: relative;
+    width: 19px;
+    font-size: 25px;
+    color: #ff0000;
+    cursor: pointer
+}
+
+.addComment .rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.addComment .rating>label:hover:before,
+.addComment .rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.addComment .rating>input:checked~label:before {
+    opacity: 1
+}
+
+.addComment .rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+

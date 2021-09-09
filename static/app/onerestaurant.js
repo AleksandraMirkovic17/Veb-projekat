@@ -3,6 +3,7 @@ Vue.component("onerestaurant",{
         return{
             loggedInUser: null,
             thisrestaurant: null,
+            comments: null,
             articles:'',
             sortType: "name",
             sortDirection: "ascending",
@@ -94,9 +95,25 @@ Vue.component("onerestaurant",{
                                 </div>
                             </div>
                        </div>
-                        </section>
+                    </section>
             
-    </div>
+            </div> <!--Menu restaurant-->
+            <div class="menurestaurant  comment-section">
+                    <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
+                        <h2>Comments</h2>
+                        <h4>The food that lengthens life.</h4>
+                    </div>
+                    <div class="comment-table">
+                        <table>
+                            <tr v-for="comment in comments" v-if="comment.text!='' && (comment.status=='Approved' || loggedInUser.role=='ADMINISTRATOR' || loggedInUser.restaurant==thisrestaurant.name)">
+                                <td class="comment-username">{{comment.customer}} </td>
+                                <td class="comment-text">"{{comment.text}}"</td>
+                                <td class="comment-status"  v-if="(loggedInUser.role=='ADMINISTRATOR' || loggedInUser.restaurant==thisrestaurant.name)">{{comment.status}}</td>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+        </div>
     `
     ,
     mounted() {
@@ -118,6 +135,18 @@ Vue.component("onerestaurant",{
             .then(response => {
               this.thisrestaurant = response.data;
               this.articles = this.thisrestaurant.articles;
+              axios.get('rest/getrestaurantscomments', {
+                  params:
+                  {
+                      restaurant : this.thisrestaurant.name
+                  }
+              })
+              .then(resp =>{
+                  this.comments = resp.data;
+              })
+              .catch(function(error){
+                  alert("It is impossible to load restaurant's comments!")
+              })
             });
     },
     methods:{

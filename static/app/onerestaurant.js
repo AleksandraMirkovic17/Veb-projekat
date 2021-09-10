@@ -2,7 +2,7 @@ Vue.component("onerestaurant",{
     data : function(){
         return{
             loggedInUser: null,
-            thisrestaurant:null,
+            thisrestaurant: null,
             comments: null,
             articles:'',
             sortType: "name",
@@ -14,8 +14,14 @@ Vue.component("onerestaurant",{
     },
     template:
     ` 
-    <div>
-     <div class="onerestaurant">
+    <div >
+              <br><br><br>
+        <div>
+         <div id="js-map" style="height:300px; width:100%;"></div>
+        </div>
+       
+         <div class="onerestaurant"  v-if="thisrestaurant!=null">
+        
       <div class="restaurant-title wow fadeInUp" data-wow-delay="0.1s">
         <h2>{{thisrestaurant.name}}</h2>
        </div>
@@ -80,7 +86,7 @@ Vue.component("onerestaurant",{
                                                                 <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
                                                                 <p>Type: {{a.type}}</p>
                                                                 <div class="addtocart" v-if="loggedInUser.role == 'CUSTOMER' && thisrestaurant.status=='OPEN'">
-                                                                <input type="number" min="1" v-on:click="calculatePrice(a)" type="number" v-bind:id="a.nameArtical+'q'" name=""/>
+                                                                <input type="number" min="1" v-on:click="calculatePrice(a)" v-bind:id="a.nameArtical+'q'" name=""/>
                                                                 <button v-on:click="addToChart(a)">Add to cart</button>
                                                                 </div>
                                                                 <span v-if="loggedInUser.role == 'CUSTOMER' && thisrestaurant.status=='OPEN'">Total price:<span v-bind:id="a.nameArtical+'l'">0</span>RSD</span>
@@ -114,16 +120,17 @@ Vue.component("onerestaurant",{
                     </div>
             </div>
         </div>
-        <div id="js-map" style="height:500px; width:100%;"></div>
-        </div>
+      
+       </div>
     `
     ,
     mounted() {
+   
         axios.get('rest/testlogin')
             .then(response => {
             this.loggedInUser = response.data;
           });
-          init();
+      
         
           var path = window.location.href;
           var restaurantName = path.split('/onerestaurant/')[1];
@@ -151,6 +158,8 @@ Vue.component("onerestaurant",{
                   alert("It is impossible to load restaurant's comments!")
               })
             });
+         init(this.thisrestaurant)
+       
     },
     methods:{
         loadLogoArtical: function(r){
@@ -218,7 +227,7 @@ Vue.component("onerestaurant",{
 
 
 });
-function init(){
+function init(restaurants){
 	const map = new ol.Map({
 		view: new ol.View({
 			center: [2208254.0327390945,5661276.834908611],
@@ -238,18 +247,25 @@ function init(){
 		console.log(latLong);
 		this.longitude = latLong[0]
 		this.latitude = latLong[1]
-		
-		var layer = new ol.layer.Vector({
-			source: new ol.source.Vector({
-				features: [
-					new ol.Feature({
-						geometry: new ol.geom.Point(ol.proj.fromLonLat(latLong))
-					})
-				]
-			})
-		});	
-		previousLayer = layer;
-		map.addLayer(layer);
-	  //simpleReverseGeocoding(this.longitude, this.latitude)
+		 var layer = new ol.layer.Vector({
+         source: new ol.source.Vector({
+         features: [
+             new ol.Feature({
+                 geometry: new ol.geom.Point(ol.proj.fromLonLat([restaurants.location.latitudel, restaurants.location.latitudel]))
+             })
+         ]
+     })
+    });
+    map.addLayer(layer);
+
+	   //simpleReverseGeocoding(this.longitude, this.latitude)
 	})
 }
+
+function simpleReverseGeocoding(lon, lat) {
+	fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+	  	return response.json();
+	}).then(function(json) {
+		//writeAdress(json, lon, lat);
+	})
+  }

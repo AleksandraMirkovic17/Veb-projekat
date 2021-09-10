@@ -54,7 +54,24 @@ public class UserService {
 
 		for(User u : users)
 		{
-			if(u.name.contains(parametres.name) && u.surname.contains(parametres.surname) && u.userName.contains(parametres.userName)) searchUsers.add(u);
+			if(parametres.role.equals(Roles.CUSTOMER))
+			{
+				 if(u.name.contains(parametres.name) && u.surname.contains(parametres.surname) && u.userName.contains(parametres.userName) && u.customerType!=null) 
+				 {
+					 if(u.customerType.equals(parametres.customerType))
+					 searchUsers.add(u);
+				 }
+				
+			}
+			else
+			{
+				if(u.name.contains(parametres.name) && u.surname.contains(parametres.surname) && u.userName.contains(parametres.userName)) 
+				 {
+					 searchUsers.add(u);
+				 }
+
+			}
+				
 		}
 		
 		return searchUsers;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import beans.Comment;
+
 import beans.Location;
 import beans.Order;
 import beans.Restaurant;
@@ -14,6 +15,7 @@ import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
 import beans.ShoppingChart;
 import beans.User;
+import beans.User.CustomerType;
 import beans.User.Roles;
 import dao.RestaurantDAO;
 import dto.UserRegistrationDTO;
@@ -138,8 +140,9 @@ public class SparkMain {
 			String surname= req.queryParams("surname");
 			String role = req.queryParams("role");
 			String userName = req.queryParams("userName");
+			String customerType = req.queryParams("customerType");
 			
-			SearchUsersDTO parametres = new SearchUsersDTO(name, userName, Roles.valueOf(role), surname);
+			SearchUsersDTO parametres = new SearchUsersDTO(name, userName, Roles.valueOf(role), surname,CustomerType.valueOf(customerType));
 			ArrayList<User> searchUsers = userService.searchUsers(parametres);
 			return g.toJson(searchUsers);
 		});

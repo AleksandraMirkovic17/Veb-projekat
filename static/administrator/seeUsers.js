@@ -9,6 +9,7 @@ Vue.component("seeUsers",{
          userName: '',
          userName1: '',
          role: 'ALL',
+         customerType:'ALL',
          mode: 'FALSE'
          }
       },
@@ -17,7 +18,7 @@ Vue.component("seeUsers",{
     <div class= "seeusers">
         <div class = "other">
             <div class="profiln">
-                     <h3>Searh users</h3>                 
+                     <h3>Search users</h3>                 
                      <br>
                      <div class="form">
                             <div class="inputfield">
@@ -37,7 +38,8 @@ Vue.component("seeUsers",{
                                 <input type="text" required placeholder="" v-model="userName"/>
                             </div>
                             <br>
-                            <div class = "inputfield">
+
+                            <div class = "inputfield" >
                             <label >Roles:</label>                        
                                     <select  v-model="role" >              
                                         <option value = "ALL" selected> ALL</option>
@@ -48,6 +50,17 @@ Vue.component("seeUsers",{
                                     <br>
                             <br>
                             </div>
+                           <div class = "inputfield" v-if="role=='CUSTOMER'">
+                            <label >Type roles:</label>                        
+                                    <select  v-model="customerType" >              
+                                        <option value = "ALL" selected> ALL</option>
+                                        <option value = "NORMAL"> NORMAL</option>
+                                        <option value = "BRONZE"> BRONZE</option>
+                                        <option value = "SILVER"> SILVER</option>
+                                         <option value = "GOLD"> GOLD</option>
+                                    </select>
+                            </div>
+                            
                             <div class="inputfield">
                                 <button class="btn" v-on:click="searchUsers" >Search</button>    
                             </div>
@@ -132,7 +145,9 @@ Vue.component("seeUsers",{
 				 "name": this.name,
 				 "surname": this.surname,
 				 "userName": this.userName,
-				 "role": this.role
+				 "role": this.role,
+				 "customerType":this.customerType
+				 
 			} 
 			})
 				.then(response => (this.users = response.data))

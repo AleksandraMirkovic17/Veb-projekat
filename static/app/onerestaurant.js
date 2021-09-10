@@ -2,7 +2,7 @@ Vue.component("onerestaurant",{
     data : function(){
         return{
             loggedInUser: null,
-            thisrestaurant: null,
+            thisrestaurant:null,
             comments: null,
             articles:'',
             sortType: "name",
@@ -14,10 +14,11 @@ Vue.component("onerestaurant",{
     },
     template:
     ` 
-    <div class="onerestaurant">
-    <div class="restaurant-title wow fadeInUp" data-wow-delay="0.1s">
+    <div>
+     <div class="onerestaurant">
+      <div class="restaurant-title wow fadeInUp" data-wow-delay="0.1s">
         <h2>{{thisrestaurant.name}}</h2>
-    </div>
+       </div>
        
             <div class="post">
             <img :src=thisrestaurant.imageRestaurant class="post-image">
@@ -59,12 +60,11 @@ Vue.component("onerestaurant",{
                                             <div class="boxes">
                                                 <input type="checkbox" id="box-1" v-model="showDishes" checked>
                                                 <label for="box-1">Dishes</label>
-
                                                 <input type="checkbox" id="box-2" checked v-model="showDrinks" value="drink" checked>
                                                 <label for="box-2">Drinks </label>
-
                                             </div>
                                             </div>
+                                          
                                     </div>
                                     <div class="articles">
                                     <div class="article" v-for="a in articles" v-if="filtered(a)">
@@ -114,6 +114,8 @@ Vue.component("onerestaurant",{
                     </div>
             </div>
         </div>
+        <div id="js-map" style="height:500px; width:100%;"></div>
+        </div>
     `
     ,
     mounted() {
@@ -121,6 +123,7 @@ Vue.component("onerestaurant",{
             .then(response => {
             this.loggedInUser = response.data;
           });
+          init();
         
           var path = window.location.href;
           var restaurantName = path.split('/onerestaurant/')[1];
@@ -215,3 +218,38 @@ Vue.component("onerestaurant",{
 
 
 });
+function init(){
+	const map = new ol.Map({
+		view: new ol.View({
+			center: [2208254.0327390945,5661276.834908611],
+			zoom: 15
+		}),
+		layers: [
+			new ol.layer.Tile({
+				source: new ol.source.OSM()
+			})
+		],
+		target: 'js-map'
+	})
+	var previousLayer = null;
+	map.on('click', function(e){
+		if(previousLayer!=null) {map.removeLayer(previousLayer)}
+		var latLong = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
+		console.log(latLong);
+		this.longitude = latLong[0]
+		this.latitude = latLong[1]
+		
+		var layer = new ol.layer.Vector({
+			source: new ol.source.Vector({
+				features: [
+					new ol.Feature({
+						geometry: new ol.geom.Point(ol.proj.fromLonLat(latLong))
+					})
+				]
+			})
+		});	
+		previousLayer = layer;
+		map.addLayer(layer);
+	  //simpleReverseGeocoding(this.longitude, this.latitude)
+	})
+}

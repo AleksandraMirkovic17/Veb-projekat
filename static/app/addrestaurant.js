@@ -2,7 +2,7 @@ Vue.component("addrestaurant",{
     data: function(){
         return{
             placesAutocomplete:null,
-            loggedInUser: null,
+            loggedInUser: {},
             name: "",
             type: "ITALIAN",
             location: {},
@@ -32,25 +32,27 @@ Vue.component("addrestaurant",{
 
             image: null,
             imagePreview: null,
-            file:''
+            file:'',
+            mode:'false'
 
             
         }
     },
     template:
     `
+   <div>
     <div class="restaurant-registration-m" v-if="loggedInUser.role=='ADMINISTRATOR'">
         <div class="restaurant-registration">
             <div class="title">Register a restaurant</div>
             <div class="form">
                 <div class="inputfield">
                     <label>Name</label>
-                    <input type="text" class="input" required placeholder="Enter your restaurant's name" v-model="name">
+                    <input type="text" class="input" required placeholder="Enter your restaurant's name" v-model="name" v-bind:disabled="mode=='false'" >
                 </div>
                 <div class="inputfield">
                 <label>Type</label>
                     <div class="custom_select">
-                        <select v-model="type">
+                        <select v-model="type" v-bind:disabled="mode=='false'" >
                             <option value="ITALIAN">Italian</option>
                             <option value="BARBECUE">Barbecue</option>
                             <option value="CHINESE">Chinese</option>
@@ -59,14 +61,14 @@ Vue.component("addrestaurant",{
                 </div>
                 <div class="inputfield">
                 <label>Manager</label>
-                    <div class="custom_select" v-if="newMenagerAdded==false">
+                    <div class="custom_select" v-if="newMenagerAdded==false" v-bind:disabled="mode=='false'" >
                         <select v-model="menager">
                             <option v-for="m in freemenagers" v-bind:value="m.userName">
                                     {{m.name}} {{m.surname}}
                             </option>
                         </select>
                     </div>
-                    <div class="custom_select" v-else-if="newMenagerAdded==true">
+                    <div class="custom_select" v-else-if="newMenagerAdded==true" v-bind:disabled="mode=='true'">
                         <select>
                             <option selected>{{this.firstname}} {{this.surname}}</option>
                         </select>
@@ -89,7 +91,7 @@ Vue.component("addrestaurant",{
                     </div>
                     <div class="inputfield">
                         <label>Street</label>
-                        <input type="text" class="input" required v-model="street" disabled="true" id="true" placeholder="Enter street name">
+                        <input type="text" class="input" required v-model="street" disabled="true" id="street" placeholder="Enter street name">
                     </div>
                     <div class="inputfield">
                         <label>House number</label>
@@ -106,7 +108,7 @@ Vue.component("addrestaurant",{
                     <div class="inputfield">
                         <label>Restaurant's image</label>
                                 <div class="container input">
-                                    <div class="wrapper">
+                                    <div class="wrapper" v-bind:disabled="mode=='true'" >
                                             <div class="image">
                                                 <img :src=this.imagePreview >
                                             </div>
@@ -120,10 +122,15 @@ Vue.component("addrestaurant",{
                     </div>
                 </div>
                 <div class="inputfield">
-                    <input type="submit" value="Register" class="btn" v-on:click="ValidationRestaurant">
+                                    <input type="submit" value="Save data" class="btn" v-on:click="Save">
+                  </div>
+                <div class="inputfield">
+                    <input type="submit" value="Register" v-bind:disabled="mode=='false'"  class="btn" v-on:click="ValidationRestaurant">
                 </div>   
             </div>
+            
             </div>
+                
     
         <div class="registation-menager" v-if="newMenagerRequired==true"> 
             <div class="registration_form">
@@ -147,7 +154,7 @@ Vue.component("addrestaurant",{
                                     </div>
                                 <div class="inputfield">
                                     <label>First Name</label>
-                                    <input type="text" class="input" required placeholder="Enter your first name" v-model="name">
+                                    <input type="text" class="input" required placeholder="Enter your first name" v-model="firstname">
                                 </div>  
                                 <div class="inputfield">
                                     <label>Last Name</label>
@@ -186,8 +193,10 @@ Vue.component("addrestaurant",{
                 </div>	
             </div>        
         </div> 
+    <br><br>
     </div>
-
+    <div id="js-map" style="height:500px; width:50%;"></div>
+    </div>
     `,
     mounted(){
         axios.get('rest/testlogin')
@@ -202,33 +211,7 @@ Vue.component("addrestaurant",{
         }
         });
 
-        this.placesAutocomplete = places({
-		    appId: 'plQ4P1ZY8JUZ',
-		    apiKey: 'bc14d56a6d158cbec4cdf98c18aced26',
-		    container: document.querySelector('#searchAddress'),
-		    templates: {
-		      value: function(suggestion) {
-		        return suggestion.name;
-		      }
-		    }
-		  }).configure({
-		    type: 'address'
-		  });
-          
-		this.placesAutocomplete.on('change', function resultSelected(e) {
-			
-			this.street = String(e.suggestion.value);
-			this.city = String(e.suggestion.city);
-			this.postalCode= String(e.suggestion.postcode);
-			this.longitude =  e.suggestion.latlng.lng;
-			this.latitude = e.suggestion.latlng.lat;
-		    document.querySelector('#street').value = e.suggestion.value || '';
-		    document.querySelector('#city').value = e.suggestion.city || '';
-		    document.querySelector('#postalCode').value = e.suggestion.postcode || '';
-		    document.querySelector('#longitude').value = e.suggestion.latlng.lng || '';
-			document.querySelector('#latitude').value = e.suggestion.latlng.lat || '';
-		  });
-          
+      init();
         
     },
     methods: {
@@ -289,6 +272,17 @@ Vue.component("addrestaurant",{
 
            }).catch()
         
+    },
+     Save: function(){
+   this.longitude=document.getElementById("longitude").value;
+	this.latitude=document.getElementById("latitude").value;
+
+	this.city=document.getElementById("city").value;
+	this.street=document.getElementById("street").value;
+	this.houseNumber=document.getElementById("houseNumber").value;
+	this.postalCode=document.getElementById("postalCode").value;
+	this.mode='true';
+
     },
 
     RegisterMenager: function(){
@@ -401,3 +395,65 @@ Vue.component("addrestaurant",{
 }
 }
 );
+function init(){
+	const map = new ol.Map({
+		view: new ol.View({
+			center: [2208254.0327390945,5661276.834908611],
+			zoom: 15
+		}),
+		layers: [
+			new ol.layer.Tile({
+				source: new ol.source.OSM()
+			})
+		],
+		target: 'js-map'
+	})
+	var previousLayer = null;
+	map.on('click', function(e){
+		if(previousLayer!=null) {map.removeLayer(previousLayer)}
+		var latLong = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
+		console.log(latLong);
+		this.longitude = latLong[0]
+		this.latitude = latLong[1]
+		
+		var layer = new ol.layer.Vector({
+			source: new ol.source.Vector({
+				features: [
+					new ol.Feature({
+						geometry: new ol.geom.Point(ol.proj.fromLonLat(latLong))
+					})
+				]
+			})
+		});	
+		previousLayer = layer;
+		map.addLayer(layer);
+	   simpleReverseGeocoding(this.longitude, this.latitude)
+	})
+}
+
+function simpleReverseGeocoding(lon, lat) {
+	fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+	  	return response.json();
+	}).then(function(json) {
+		writeAdress(json, lon, lat);
+	})
+  }
+  function writeAdress(json, lon, lat) {
+	var adresa = json.address;
+	document.getElementById("longitude").value = lon;
+	document.getElementById("latitude").value = lat;
+	var city = adresa.city
+	if(city.includes("City")){
+		city = city.replace(' City', "")
+	}else if(city.includes("Municipality")){
+		city = city.replace(' Municipality', "")
+	}
+	document.getElementById("city").value = city;
+	document.getElementById("street").value = adresa.road;
+	document.getElementById("houseNumber").value = adresa.house_number;
+	document.getElementById("postalCode").value = adresa.postcode;
+
+}
+
+
+

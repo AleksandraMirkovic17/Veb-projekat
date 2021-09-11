@@ -33,7 +33,7 @@ Vue.component("addrestaurant",{
             image: null,
             imagePreview: null,
             file:'',
-            mode:'false'
+            mode:'true'
 
             
         }
@@ -47,12 +47,12 @@ Vue.component("addrestaurant",{
             <div class="form">
                 <div class="inputfield">
                     <label>Name</label>
-                    <input type="text" class="input" required placeholder="Enter your restaurant's name" v-model="name" v-bind:disabled="mode=='false'" >
+                    <input type="text" class="input" required placeholder="Enter your restaurant's name" v-model="name"  >
                 </div>
                 <div class="inputfield">
                 <label>Type</label>
                     <div class="custom_select">
-                        <select v-model="type" v-bind:disabled="mode=='false'" >
+                        <select v-model="type"  >
                             <option value="ITALIAN">Italian</option>
                             <option value="BARBECUE">Barbecue</option>
                             <option value="CHINESE">Chinese</option>
@@ -68,7 +68,7 @@ Vue.component("addrestaurant",{
                             </option>
                         </select>
                     </div>
-                    <div class="custom_select" v-else-if="newMenagerAdded==true" v-bind:disabled="mode=='true'">
+                    <div class="custom_select" v-else-if="newMenagerAdded==true" >
                         <select>
                             <option selected>{{this.firstname}} {{this.surname}}</option>
                         </select>
@@ -108,7 +108,7 @@ Vue.component("addrestaurant",{
                     <div class="inputfield">
                         <label>Restaurant's image</label>
                                 <div class="container input">
-                                    <div class="wrapper" v-bind:disabled="mode=='true'" >
+                                    <div class="wrapper"  >
                                             <div class="image">
                                                 <img :src=this.imagePreview >
                                             </div>
@@ -125,7 +125,7 @@ Vue.component("addrestaurant",{
                                     <input type="submit" value="Save location" class="btn" v-on:click="Save">
                   </div>
                 <div class="inputfield">
-                    <input type="submit" value="Register" v-bind:disabled="mode=='false'"  class="btn" v-on:click="ValidationRestaurant">
+                    <input type="submit" value="Register"  class="btn" v-on:click="ValidationRestaurant">
                 </div>   
             </div>
             

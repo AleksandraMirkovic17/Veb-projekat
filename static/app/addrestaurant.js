@@ -61,7 +61,7 @@ Vue.component("addrestaurant",{
                 </div>
                 <div class="inputfield">
                 <label>Manager</label>
-                    <div class="custom_select" v-if="newMenagerAdded==false" v-bind:disabled="mode=='false'" >
+                    <div class="custom_select" v-if="newMenagerAdded==false"  >
                         <select v-model="menager">
                             <option v-for="m in freemenagers" v-bind:value="m.userName">
                                     {{m.name}} {{m.surname}}
@@ -73,7 +73,7 @@ Vue.component("addrestaurant",{
                             <option selected>{{this.firstname}} {{this.surname}}</option>
                         </select>
                     </div>
-                    <button v-if="freemenagers==null" v-on:click=MenagerRequired id="addmenager">Add new</button>
+                    <button v-if="freemenagers==null" v-on:click="MenagerRequired" id="addmenager">Add new</button>
                 </div>   
                 <div class="location">
                     <h2>Location</h2>
@@ -95,7 +95,7 @@ Vue.component("addrestaurant",{
                     </div>
                     <div class="inputfield">
                         <label>House number</label>
-                        <input type="text" class="input" required v-model="houseNumber" disabled="true" id="houseNumber" placeholder="Enter house number">
+                        <input type="text" class="input" required v-model="houseNumber" id="houseNumber" placeholder="Enter house number">
                     </div>
                     <div class="inputfield">
                         <label>City</label>
@@ -122,7 +122,7 @@ Vue.component("addrestaurant",{
                     </div>
                 </div>
                 <div class="inputfield">
-                                    <input type="submit" value="Save data" class="btn" v-on:click="Save">
+                                    <input type="submit" value="Save location" class="btn" v-on:click="Save">
                   </div>
                 <div class="inputfield">
                     <input type="submit" value="Register" v-bind:disabled="mode=='false'"  class="btn" v-on:click="ValidationRestaurant">
@@ -139,19 +139,9 @@ Vue.component("addrestaurant",{
                         Registration Form
                         </div>
                         <div v-else-if="loggedInUser.role=='ADMINISTRATOR'" class="title">
-                            Register a new manager or deliverer
+                            Register a new manager
                         </div>
                         <div class="form">
-                                    <div v-if="loggedInUser.role =='ADMINISTRATOR'" class="inputfield">
-                                        <label>Role</label>
-                                        <div class="custom_select">
-                                            <select v-model="role">
-                                                <option value="" disabled selected hidden>Select role</option>
-                                                <option value = "DELIVERER"> Deliverer</option>
-                                                <option value = "MANAGER"> Manager</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                 <div class="inputfield">
                                     <label>First Name</label>
                                     <input type="text" class="input" required placeholder="Enter your first name" v-model="firstname">
@@ -274,15 +264,15 @@ Vue.component("addrestaurant",{
         
     },
      Save: function(){
-   this.longitude=document.getElementById("longitude").value;
+    this.longitude=document.getElementById("longitude").value;
 	this.latitude=document.getElementById("latitude").value;
 
 	this.city=document.getElementById("city").value;
 	this.street=document.getElementById("street").value;
 	this.houseNumber=document.getElementById("houseNumber").value;
 	this.postalCode=document.getElementById("postalCode").value;
+    alert("Pretvaram u true")
 	this.mode='true';
-
     },
 
     RegisterMenager: function(){
@@ -315,6 +305,11 @@ Vue.component("addrestaurant",{
             return false;
         }
 
+        if(this.imageRestaurant==''){
+            alert("You must add restaurant's logo!");
+            return false;
+        }
+
         if(this.menager=='no'){
             this.allFilled='You must choose the restaurants manager!';
             alert(this.allFilled);
@@ -340,10 +335,15 @@ Vue.component("addrestaurant",{
             }).catch()
             },
     RegisterRestaurant: function(){
-        axios.post('rest/registerRestaurant/', {"name":this.name, "menager":this.menager, 
-                                "type":this.type, "latitude":this.latitude, "longitude":this.longitude, 
-                                "street":this.street,"houseNumber":this.houseNumber, "city":this.city,
-                                "postalCode":this.postalCode,"imageRestaurant": this.imageRestaurant })
+        axios.post('rest/registerRestaurant/', {"name":this.name, 
+                                                "menager":this.menager, 
+                                "type":this.type, 
+                                "latitude":this.latitude, "longitude":this.longitude, 
+                                "street": this.translate(this.street),
+                                "houseNumber": this.houseNumber, 
+                                "city": this.translate(this.city),
+                                "postalCode":this.postalCode,
+                                "imageRestaurant": this.imageRestaurant })
         .then(response => {
                alert('Successful restaurant registration!');
                        //upload an image
@@ -376,6 +376,7 @@ Vue.component("addrestaurant",{
         this.password ="";
         this.confirmPassword ="";
         this.gender="";
+        this.imageRestaurant="";
 
         this.allFilled = "";
         this.nameUnique= "";
@@ -391,6 +392,17 @@ Vue.component("addrestaurant",{
             this.imageRestaurant = e.target.result;
         }
         reader.readAsDataURL(file);
+    },
+    translate: function(string){
+        var cyrillic = 'А_Б_В_Г_Д_Ђ_Е_Ё_Ж_З_И_Й_Ј_К_Л_Љ_М_Н_Њ_О_П_Р_С_Т_Ћ_У_Ф_Х_Ц_Ч_Џ_Ш_Щ_Ъ_Ы_Ь_Э_Ю_Я_а_б_в_г_д_ђ_е_ё_ж_з_и_й_ј_к_л_љ_м_н_њ_о_п_р_с_т_ћ_у_ф_х_ц_ч_џ_ш_щ_ъ_ы_ь_э_ю_я'.split('_')
+        var latin = 'A_B_V_G_D_Dj_E_Ë_Z_Z_I_J_J_K_L_Lj_M_N_Nj_O_P_R_S_T_C_U_F_H_C_C_Dz_S_Ŝ_ʺ_Y_ʹ_È_Û_Â_a_b_v_g_d_dj_e_ë_z_z_i_j_j_k_l_lj_m_n_nj_o_p_r_s_t_c_u_f_h_c_c_dz_s_s_ʺ_y_ʹ_è_û_â'.split('_')
+    
+        return string.split('').map(function(char) {
+          var index = cyrillic.indexOf(char)
+          if (!~index)
+            return char
+          return latin[index]
+        }).join('')
     }
 }
 }

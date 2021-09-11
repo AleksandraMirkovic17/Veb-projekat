@@ -126,8 +126,8 @@ Vue.component("managersrestaurant",{
                 <p class="preview-text">
                 <p>Price: {{a.price}} RSD</p>
                 <p>Type: {{a.type}} </p>
-                <p>Description: {{a.description}} </p>
-                <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
+                <p v-if="a.description!=''">Description: {{a.description}} </p>
+                <p v-if="a.quantity!=-1">Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
                 <div v-if="editartical=='none'">
                     <button v-on:click="editart(a)" class="btn">Edit</button>
                 </div>
@@ -291,6 +291,9 @@ Vue.component("managersrestaurant",{
                 this.allFilled='You must enter all required fields!';
                 alert(this.allFilled);
                  return false;
+             } else if(this.quantity!="" && this.quantity<1){
+                alert("Please enter a valid number for quantity! Quantity cannot be zero or less!");
+                return;
              }
              axios.get('rest/ArticalNameExists', {
                 params:
@@ -402,6 +405,10 @@ Vue.component("managersrestaurant",{
                 alert("You must enter all required fields!");
                 return;
             }
+            else if(this.editarticalnewquantity!="" && this.editarticalnewquantity!=-1 && this.editarticalnewquantity<1){
+                alert("Please enter a valid number for quantity! Quantity cannot be zero or less!");
+                return;
+             }
             axios.get('rest/ChangeArticalNameExists', {
                 params:
                    {

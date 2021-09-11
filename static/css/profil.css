@@ -2,7 +2,7 @@ div.main{
   width: 400px;
   margin: auto ;
   margin-top: 50px;
-       height:100vh;
+   height:100vh;
  
 
 
@@ -19,7 +19,6 @@ div.profil
 
   background-color: rgba(0,0,0,0.4);
   width: 73%;
-  height: 400px;
   font-size: 18px;
   border-radius: 20px;
   border: 1px soid rgba(255,255,255,0.3);

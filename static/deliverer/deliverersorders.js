@@ -12,7 +12,8 @@ Vue.component("deliverersorders",{
             toDate: '',
             restaurant:'',
             typeofrestaurant: 'ALL',
-            isTypeOk: true
+            isTypeOk: true,
+            seejustnotdelivered: false
           }
        },
    template: `
@@ -67,6 +68,10 @@ Vue.component("deliverersorders",{
    </div>
    <div class="sidebar">
  <h1>Search</h1>
+ <div class="buttons-to-filter">
+<button v-on:click="loadAll" class="btn">See all orders</button>
+<button class="btn" v-on:click="loadOnlyNotDeliveredOrders">See not delivered orders</button>
+</div>
  <table>
  <tr>
        <td>Restaurant</td>
@@ -251,6 +256,12 @@ Vue.component("deliverersorders",{
                 alert("It is impossible to get the type of the restaurant! Server error!")
             })
         }
+        },        
+        loadOnlyNotDeliveredOrders: function(){
+            this.seejustnotdelivered = true;
+        },
+        loadAll: function(){
+            this.seejustnotdelivered = false;
         },
         filter: function(order){
             if((this.pricefrom == '' || order.priceWithDiscount>=this.pricefrom)
@@ -258,7 +269,8 @@ Vue.component("deliverersorders",{
              && (this.state=='ALL' || order.orderState==this.state) 
              && (this.fromDate=="" || order.date>=this.fromDate)
              && (this.toDate=="" || order.date<=this.toDate)
-             && (this.restaurant=="" || (order.restaurant.toUpperCase()).includes(this.restaurant.toUpperCase()))){
+             && (this.restaurant=="" || (order.restaurant.toUpperCase()).includes(this.restaurant.toUpperCase()))
+             &&(!this.seejustnotdelivered || (order.orderState!='DELIVERED'))){
                 return true;
              }
             else{

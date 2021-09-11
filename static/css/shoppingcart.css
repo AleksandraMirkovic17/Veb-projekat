@@ -2,6 +2,10 @@
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600);
 
+.scart{
+  margin-top: 70px;
+}
+
 .scart html,
 .scart html a {
   -webkit-font-smoothing: antialiased;

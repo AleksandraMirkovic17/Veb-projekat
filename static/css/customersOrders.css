@@ -1,0 +1,18 @@
+.buttons-to-filter{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons-to-filter .btn{
+    width: 100%;
+    padding: 8px 10px;
+    margin: 3px;
+   font-size: 15px; 
+   border: 0px;
+   background:  #fec107;
+   color: #fff;
+   cursor: pointer;
+   border-radius: 3px;
+   outline: none;
+}

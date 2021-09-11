@@ -30,6 +30,20 @@ Vue.component("profile",{
             </div>
             <br>
             <div class="name">
+                <label >Role:</label>
+                <label>{{loggedInUser.role}}</label>
+            </div>
+            <br>
+            <div v-if="loggedInUser.role == 'MANAGER'">
+              <label >Restaurant:</label>
+              <label>{{loggedInUser.restaurant}}</label>
+            </div>
+            <div v-if="loggedInUser.role == 'CUSTOMER'">
+              <label >Type:</label>
+              <label>{{loggedInUser.customerType}}</label>
+            </div>
+            <br>
+            <div class="name">
                 <label >Date of birth:</label>
                 <input type="date"  v-model="loggedInUser.date" v-bind:disabled="mode=='TRUE'"/>
             </div>
@@ -72,11 +86,26 @@ Vue.component("profile",{
 	    })
 },
 methods: {
-
+  loadloggeduser: function(){
+    axios
+    .get('rest/testlogin')
+    .then(response =>
+    {
+    if(response.data !="Err:UserIsNotLoggedIn")
+        {
+          this.loggedInUser=response.data;
+        }
+       })
+  },
   ChangeInformation: function () {
  
     axios
-    .put('rest/ChangeInformation/', { "name": this.loggedInUser.name, "userName" : this.loggedInUser.userName,"surname" : this.loggedInUser.surname,"gender": this.loggedInUser.gender,"date": this.loggedInUser.date })
+    .put('rest/ChangeInformation/', { 
+          "name": this.loggedInUser.name, 
+          "userName" : this.loggedInUser.userName,
+          "surname" : this.loggedInUser.surname,
+          "gender": this.loggedInUser.gender,
+          "date": this.loggedInUser.date })
         .then(response => {
 
       if(response.data == "Username exists"){
@@ -86,6 +115,7 @@ methods: {
     {
      alert('Successful user change profile');
      this.mode='TRUE';
+     this.loadloggeduser();
      }
      else
      {

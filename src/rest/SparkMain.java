@@ -21,6 +21,7 @@ import dto.AddItemToChartDTO;
 import dto.AddingArticalToRestaurantDTO;
 import dto.ApproveDisapproveDelivererDTO;
 import dto.ChangeArticalDTO;
+import dto.ChangePasswordDTO;
 import dto.ChangeProfilUserDTO;
 import dto.ChangeProfileUsersDTO;
 import dto.ChangeQuantityInCartDTO;
@@ -182,6 +183,18 @@ public class SparkMain {
 			String username = req.queryParams("username");
 			String typerequired = req.queryParams("restaurantstyperequired");
 			return g.toJson(OrderService.getInstance().getOrdersByRestaurantsTypeCustomer(username, typerequired));
+		});
+		
+		get("rest/restaurantscustomers", (req, res) ->{
+			res.type("application/json");
+			res.status(200);
+			String username = req.queryParams("username");
+			User user = userService.getByUsername(username);
+			if(user.getRestaurant()==null) {
+				return "err1";
+			}
+			ArrayList<User> customers = UserService.getInstance().getRestaurantsCustomers(user.getRestaurant());
+			return g.toJson(customers);
 		});
 		
 
@@ -349,6 +362,7 @@ public class SparkMain {
 			res.type("application/json");
 			res.status(200);
 			AddingArticalToRestaurantDTO params = g.fromJson(req.body(), AddingArticalToRestaurantDTO.class);
+			System.out.println(params);
 			restaurantService.addArticleToRestaurant(params);
 		return "OK";
 		});
@@ -475,12 +489,36 @@ public class SparkMain {
 			}
 			else if(userService.ChangeUserInformation(params,user))
 			{
-				
+				User changedUser = userService.getByUsername(params.userName);
+				ss.attribute("user", changedUser);
 				return "OK";
 			}
 
 		return "Err:SomethingIsWrong";
-		});	
+		});
+		
+		put("rest/changepassword", (req, res)->{
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			String ret = "";
+			User user = ss.attribute("user");
+			ChangePasswordDTO params = g.fromJson(req.body(), ChangePasswordDTO.class);
+			System.out.println(params);
+			if(!user.getUserName().equals(params.username)) {
+				ret ="error3";
+			} 
+			else if(!user.getPassword().equals(params.oldpassword)) {
+				ret="error1";
+			} else if(!params.newpassword.equals(params.repeatedpassword)) {
+				ret="error2";
+			} else {
+				UserService.getInstance().changePassword(params, user);
+			}
+			User changedUser = UserService.getInstance().getByUsername(user.getUserName());
+			ss.attribute("user", changedUser);
+			return "OK";
+		});
 		
 		put("rest/changerestaurantstatus", (req,res) ->{
 			String ret="";

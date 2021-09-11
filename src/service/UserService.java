@@ -1,6 +1,7 @@
 package service;
 
 
+import beans.Order;
 import beans.Restaurant;
 import beans.User;
 import beans.Restaurant.Status;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 import dao.UserDAO;
 import dto.UserRegistrationDTO;
+import dto.ChangePasswordDTO;
 import dto.ChangeProfilUserDTO;
 import dto.ChangeProfileUsersDTO;
 import dto.SearchForRestaurantsParamsDTO;
@@ -254,6 +256,40 @@ public class UserService {
 		User user = getByUsername(userName);
 		if(user.getBlocked() != null && user.getBlocked() == true) {
 			ret = true;
+		}
+		return ret;
+	}
+
+
+
+	public void changePassword(ChangePasswordDTO params, User user) {
+		user.setPassword(params.newpassword);
+		System.out.println("User with changed pass:"+user);
+		UserDAO.getInstance().changeUser(user.userName, user);		
+	}
+
+
+
+	public ArrayList<User> getRestaurantsCustomers(String restaurant) {
+		ArrayList<User> customers = new ArrayList<User>();
+		ArrayList<Order> allOrders = OrderService.getInstance().getByRestaurant(restaurant);
+		for(Order o : allOrders) {
+			if(!customerAlreadyInList(customers, o.getUsername())) {
+				customers.add(getByUsername(o.getUsername()));
+			}
+		}
+		return customers;
+	}
+
+
+
+	private boolean customerAlreadyInList(ArrayList<User> customers, String username) {
+		boolean ret = false;
+		for(User u : customers) {
+			if(u.getUserName().equals(username)) {
+				ret=true;
+				break;
+			}
 		}
 		return ret;
 	}

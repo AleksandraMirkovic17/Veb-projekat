@@ -1,3 +1,5 @@
+
+
 Vue.component("onerestaurant",{
     data : function(){
         return{
@@ -16,7 +18,7 @@ Vue.component("onerestaurant",{
     ` 
     <div >
               <br><br><br>
-        <div>
+        <div class="map-container">
          <div id="js-map" style="height:300px; width:100%;"></div>
         </div>
        
@@ -82,8 +84,8 @@ Vue.component("onerestaurant",{
                                                     <div class="menu-info">
                                                         <div class="menu-item">
                                                                 <h3>{{a.nameArtical}}</h3>
-                                                                <p>Description: {{a.description}}</p>
-                                                                <p>Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
+                                                                <p v-if="a.description!=''">Description: {{a.description}}</p>
+                                                                <p v-if="a.quantity!=-1">Quantity: {{a.quantity}} <span v-if="a.type=='DISH'">gr</span><span v-else-if="a.type=='DRINK'">ml</span></p>
                                                                 <p>Type: {{a.type}}</p>
                                                                 <div class="addtocart" v-if="loggedInUser.role == 'CUSTOMER' && thisrestaurant.status=='OPEN'">
                                                                 <input type="number" min="1" v-on:click="calculatePrice(a)" v-bind:id="a.nameArtical+'q'" name=""/>
@@ -126,40 +128,39 @@ Vue.component("onerestaurant",{
     ,
     mounted() {
    
+        var path = window.location.href;
+        var restaurantName = path.split('/onerestaurant/')[1];
+        var name = restaurantName.replaceAll('%20', ' ');
+        axios.get('rest/getRestaurantByName', {
+          params:
+              {
+                  name : name
+              }
+       }
+        )
+          .then(response => {
+            this.thisrestaurant = response.data;
+            this.articles = this.thisrestaurant.articles;
+            this.init(this.thisrestaurant);
+            axios.get('rest/getrestaurantscomments', {
+                params:
+                {
+                    restaurant : this.thisrestaurant.name
+                }
+            })
+            .then(resp =>{
+                this.comments = resp.data;
+            })
+            .catch(function(error){
+                alert("It is impossible to load restaurant's comments!")
+            })
+          });
+
         axios.get('rest/testlogin')
             .then(response => {
             this.loggedInUser = response.data;
           });
-      
-        
-          var path = window.location.href;
-          var restaurantName = path.split('/onerestaurant/')[1];
-          var name = restaurantName.replace('%20', ' ');
-          axios.get('rest/getRestaurantByName', {
-            params:
-                {
-                    name : name
-                }
-         }
-          )
-            .then(response => {
-              this.thisrestaurant = response.data;
-              this.articles = this.thisrestaurant.articles;
-              axios.get('rest/getrestaurantscomments', {
-                  params:
-                  {
-                      restaurant : this.thisrestaurant.name
-                  }
-              })
-              .then(resp =>{
-                  this.comments = resp.data;
-              })
-              .catch(function(error){
-                  alert("It is impossible to load restaurant's comments!")
-              })
-            });
-         init(this.thisrestaurant)
-       
+             
     },
     methods:{
         loadLogoArtical: function(r){
@@ -180,7 +181,14 @@ Vue.component("onerestaurant",{
         let totalQuatity = inputQuantity.value;
         if(totalQuatity == 0){
             alert("You can't add zero items to shooping cart!")
-        }else{
+        }
+        else if(totalQuatity<0){
+            alert("You can't add a negative value of items")
+        }
+        else if(totalQuatity.includes('.')){
+            alert("The number of items should be a whole number!")
+        }
+        else{
         axios.post('rest/addToChart', {
             restaurant: this.thisrestaurant.name,
             nameArtical: artical.nameArtical,
@@ -222,16 +230,49 @@ Vue.component("onerestaurant",{
         else{
             return false;
         }
+    },
+    init: function(restaurants){
+        var lat = this.thisrestaurant.location.latitude;
+        var long = this.thisrestaurant.location.longitude;
+        console.log("Long: " + long + " Lat: " + lat);
+        const map = new ol.Map({
+            view: new ol.View({
+                center: ol.proj.fromLonLat([this.thisrestaurant.location.latitude, this.thisrestaurant.longitude]),
+                zoom: 12
+            }),
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            target: 'js-map'
+        })
+
+            var layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+             features: [
+                 new ol.Feature({
+                     geometry: new ol.geom.Point(ol.proj.fromLonLat([this.thisrestaurant.location.longitude,this.thisrestaurant.location.latitude]))
+                 })
+             ]
+         })
+        });
+        map.addLayer(layer);
+        map.getView().setCenter(ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857'));
+        map.getView().setZoom(15);
+    
+           //simpleReverseGeocoding(this.longitude, this.latitude)      
     }
 }
-
-
 });
-function init(restaurants){
+/**
+ * function init(restaurants){
+    alert("Ovde")
 	const map = new ol.Map({
 		view: new ol.View({
-			center: [2208254.0327390945,5661276.834908611],
-			zoom: 15
+			center: [restaurant.latitude,this.thisrestaurants.longitude],
+            //center: ol.proj.fromLonLat([restaurants.latitude, restaurants.longitude])
+			zoom: 6
 		}),
 		layers: [
 			new ol.layer.Tile({
@@ -251,7 +292,7 @@ function init(restaurants){
          source: new ol.source.Vector({
          features: [
              new ol.Feature({
-                 geometry: new ol.geom.Point(ol.proj.fromLonLat([restaurants.location.latitudel, restaurants.location.latitudel]))
+                 geometry: new ol.geom.Point(ol.proj.fromLonLat([restaurants.location.latitude, restaurants.location.latitude]))
              })
          ]
      })
@@ -269,3 +310,4 @@ function simpleReverseGeocoding(lon, lat) {
 		//writeAdress(json, lon, lat);
 	})
   }
+ */

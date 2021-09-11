@@ -3,6 +3,7 @@ const registration={template: '<registration></registration>'}
 const login={template: '<login></login>'}
 const addrestaurant={template:'<addrestaurant></addrestaurant>'}
 const profile={template: '<profile></profile>'}
+const password={template: '<password></password>'}
 const managersrestaurant={template:'<managersrestaurant></managersrestaurant>'}
 const seeUsers={template:'<seeUsers></seeUsers>'}
 const onerestaurant={template:'<onerestaurant></onerestaurant>'}
@@ -11,6 +12,7 @@ const shoppingcart={template:'<shoppingcart></shoppingcart>'}
 const customersorders={template:'<customersorders></customersorders>'}
 
 const managersorders={template:'<managersorders></managersorders>'}
+const restaurantscustomers={template:'<restaurantscustomers></restaurantscustomers>'}
 const readyorders = {template: '<readyorders></readyorders>'}
 const deliverersorders = {template: '<deliverersorders></deliverersorders>'}
 
@@ -24,9 +26,11 @@ const router= new VueRouter({
 	  {path: '/addrestaurant', component: addrestaurant},
 	  {path: '/managersrestaurant', component: managersrestaurant},
 	  {path: '/profile',component: profile},
+	  {path: '/password', component: password},
 	  {path: '/seeUsers',component: seeUsers},
 	  {path: '/onerestaurant/:name', component: onerestaurant},
 	  {path: '/shoppingcart', component: shoppingcart},
+	  {path: '/restaurantscustomers', component: restaurantscustomers},
 
 	  {path: '/customersorders', component: customersorders},
 

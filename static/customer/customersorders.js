@@ -13,6 +13,7 @@ Vue.component("customersorders",{
           restaurant:'',
           typeofrestaurant: 'ALL',
           isTypeOk: true,
+          seejustnotdelivered: false
         }
      },
  template: `
@@ -148,6 +149,10 @@ Vue.component("customersorders",{
  </div>
  <div class="sidebar">
 <h1>Search</h1>
+<div class="buttons-to-filter">
+<button v-on:click="loadAll" class="btn">See all orders</button>
+<button class="btn" v-on:click="loadOnlyNotDeliveredOrders">See not delivered orders</button>
+</div>
 <table>
 <tr>
      <td>Restaurant</td>
@@ -307,6 +312,12 @@ Vue.component("customersorders",{
         alert("You don't have a permission to access this site, beacuse you are not a customer!");
     }
         },
+        loadOnlyNotDeliveredOrders: function(){
+            this.seejustnotdelivered = true;
+        },
+        loadAll: function(){
+            this.seejustnotdelivered = false;
+        },
       getType : function(){
           if(this.typeofrestaurant == "ALL"){
               this.loadorders();
@@ -355,7 +366,8 @@ Vue.component("customersorders",{
            && (this.state=='ALL' || order.orderState==this.state) 
            && (this.fromDate=="" || order.date>=this.fromDate)
            && (this.toDate=="" || order.date<=this.toDate)
-           && (this.restaurant=="" || (order.restaurant.toUpperCase()).includes(this.restaurant.toUpperCase()))){
+           && (this.restaurant=="" || (order.restaurant.toUpperCase()).includes(this.restaurant.toUpperCase()))
+           &&(!this.seejustnotdelivered || (order.orderState!='DELIVERED'))){
               return true;
            }
           else{

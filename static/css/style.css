@@ -6,6 +6,16 @@
     margin: 0;
 
 }
+
+.map-container{
+  margin-top: -70px;
+  padding-top: 50px;
+  background-color: orange;
+}
+#js-map{
+  margin-top: 50px;
+  position: relative;
+}
 .backgroundFirstPage{
     background-attachment: fixed;
     background-size:  cover;
@@ -22,6 +32,7 @@
 .logoFastFood{
     width: 140px;
     height: auto;
+    position: relative;
     padding: 20px 100px;
 }
 .navbar ul{

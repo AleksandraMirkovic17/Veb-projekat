@@ -190,7 +190,7 @@ public class RestaurantService {
 
 	public void addArticleToRestaurant(AddingArticalToRestaurantDTO params) {
 		Restaurant r = getByName(params.restaurant);
-		Artical newArtical = new Artical(params.nameArtical, Double.parseDouble(params.price), params.type, 
+		Artical newArtical = new Artical(params.nameArtical, params.price, params.type, 
 				params.restaurant, covertToDoubleValue(params.quantity), params.description, null);
 		newArtical = saveArticalsImage(newArtical, params.image);
 		r.articles.add(newArtical);
@@ -229,7 +229,7 @@ public class RestaurantService {
 	}
 
 	private double covertToDoubleValue(String quantity) {
-		if(quantity==null || quantity=="") {
+		if(quantity==null || quantity.equals("")) {
 			return -1;
 		}else {
 			return Double.parseDouble(quantity);

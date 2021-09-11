@@ -139,6 +139,10 @@ Vue.component("seeUsers",{
         .then(response =>(this.users = response.data));
     },
     methods: {
+        loadusers: function(){
+            axios.get('rest/seeUsers')
+            .then(response =>(this.users = response.data));
+        },
        searchUsers: function () {
 			axios.get('rest/searchUsers', { 
 			params: {
@@ -214,6 +218,7 @@ Vue.component("seeUsers",{
             alert("You don't have a permission to block users!")
         } else{
             alert("Successfully blocked!")
+            this.loadusers();
         }
     })
     .catch(function(error){

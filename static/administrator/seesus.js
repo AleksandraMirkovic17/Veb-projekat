@@ -48,6 +48,10 @@ Vue.component("seesus",{
     .then(response =>(this.users = response.data));
 },
 methods:{
+loadusers: function(){
+    axios.get('rest/seeSus')
+    .then(response =>(this.users = response.data));
+},
 block: function(user){
       alert(user.userName)
     axios
@@ -72,15 +76,13 @@ block: function(user){
         if(response.data == "Err"){
             alert("You don't have a permission to block users!")
         } else{
-            alert("Successfully blocked!")
+            alert("Successfully blocked!");
+            this.loadusers();
         }
     })
     .catch(function(error){
         alert("Server error! Blocking users is temporery unavailable!")
     })
-    
-      axios.get('rest/seeSus')
-    .then(response =>(this.users = response.data));
 
   }
     }

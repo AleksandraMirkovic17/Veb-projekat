@@ -46,6 +46,7 @@
                         <li><a  href="#/registration">Registration</a></li>
                         <li><a href="#/seeUsers">See Users</a></li>
                         <li><a href="#/addrestaurant">Add restaurant</a></li>
+                          <li><a href="#/seesus">See suspicious users</a></li>
                     </ul>
                     <ul v-else-if="loggedInUser.role=='MANAGER' && loggedInUser.restaurant!=null" class="functionlist">
                         <li><a  href="#/managersrestaurant">See {{loggedInUser.restaurant}}</a></li>
@@ -91,6 +92,7 @@
 <script src="app/profile.js"></script>
 <script src="app/password.js"></script>
 <script src="administrator/seeUsers.js"></script>
+<script src="administrator/seesus.js"></script>
 <script src="manager/managersorders.js"></script>
 <script src="manager/restaurantscustomers.js"></script>
 <script src="customer/shoppingcart.js"></script>

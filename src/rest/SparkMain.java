@@ -2,7 +2,9 @@ package rest;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gson.Gson;
 
@@ -14,6 +16,7 @@ import beans.Restaurant;
 import beans.Restaurant.Status;
 import beans.Restaurant.TypeOfRestaurant;
 import beans.ShoppingChart;
+import beans.SuspiciousUser;
 import beans.User;
 import beans.User.CustomerType;
 import beans.User.Roles;
@@ -81,6 +84,13 @@ public class SparkMain {
 			res.status(200);
 			String name= req.queryParams("name");
 		return restaurantService.NameExists(name);
+		});
+		get("rest/seeSus", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ArrayList<SuspiciousUser> users=userService.sumnjiviKorisnici();
+			
+		return g.toJson(users);
 		});
 		
 		get("rest/getRestaurantByName", (req, res) ->{
@@ -240,6 +250,17 @@ public class SparkMain {
 			User user = ss.attribute("user");
 			user = UserService.getInstance().getByUsername(user.getUserName());
 			ss.attribute("user", user);	
+            SuspiciousUser sus=new SuspiciousUser();
+		    
+            sus.setBlocked(false);
+            sus.setRole(Roles.CUSTOMER);
+			sus.setName(user.name);
+			sus.setUserName(user.userName);
+			sus.setPoints(user.points);
+			sus.setSurname(user.surname);
+			userService.addSuspiciousUser(sus);
+
+					
 			return "OK";
 		});
 		
@@ -604,6 +625,21 @@ public class SparkMain {
 			}
 			NextStateDTO username = g.fromJson(req.body(), NextStateDTO.class);
 			UserService.getInstance().blockUser(username.id);
+			
+			res.status(200);
+			return "OK";			
+		});
+		put("rest/blockuserS", (req, res) ->{
+			res.type("application/json");
+			Session ss = req.session(true);
+			User user = ss.attribute("user");
+			if(user.getRole()!=Roles.ADMINISTRATOR) {
+				res.status(300);
+				return "Err";
+			}
+			NextStateDTO username = g.fromJson(req.body(), NextStateDTO.class);
+			
+			UserService.getInstance().blockUserS(username.id);
 			res.status(200);
 			return "OK";			
 		});

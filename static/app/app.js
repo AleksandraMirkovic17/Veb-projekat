@@ -15,6 +15,7 @@ const managersorders={template:'<managersorders></managersorders>'}
 const restaurantscustomers={template:'<restaurantscustomers></restaurantscustomers>'}
 const readyorders = {template: '<readyorders></readyorders>'}
 const deliverersorders = {template: '<deliverersorders></deliverersorders>'}
+const seesus = {template: '<seesus></seesus>'}
 
 
 const router= new VueRouter({
@@ -32,7 +33,7 @@ const router= new VueRouter({
 	  {path: '/shoppingcart', component: shoppingcart},
 	  {path: '/restaurantscustomers', component: restaurantscustomers},
 	  {path: '/customersorders', component: customersorders},
-
+	  {path: '/seesus', component: seesus},
 	  {path: '/managersorders', component: managersorders},
 	  {path: '/readyorders', component: readyorders},
 	  {path: '/deliverersorders', component: deliverersorders}

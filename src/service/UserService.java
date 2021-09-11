@@ -5,14 +5,17 @@ import beans.Order;
 import beans.Restaurant;
 import beans.User;
 import beans.Restaurant.Status;
+import beans.SuspiciousUser;
 import beans.User.CustomerType;
 import beans.User.Roles;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
+import dao.SuspiciousUserDAO;
 import dao.UserDAO;
 import dto.UserRegistrationDTO;
 import dto.ChangePasswordDTO;
@@ -24,6 +27,7 @@ import dto.UserLoginDTO;
 
 public class UserService {
 	private UserDAO userDAO;
+	
 	public static UserService userService= null;
 	public static UserService getInstance() {
 		if(userService == null) {
@@ -208,6 +212,18 @@ public class UserService {
 		}
 		return ret;
 	}
+	public SuspiciousUser getByUsernameS(String username) {
+		SuspiciousUser ret = null;
+		SuspiciousUserDAO suspiciousUserDAO = new SuspiciousUserDAO();
+		ArrayList<SuspiciousUser> allUsers= suspiciousUserDAO.getInstance().getAllUsers();
+		for(SuspiciousUser u : allUsers) {
+			if (u.getUserName().equals(username)) {
+				ret = u;
+				break;
+			}
+		}
+		return ret;
+	}
 	
 	public ArrayList<User> getAllWithoutAdministrator() {
 		ArrayList<User> allUsers = userDAO.getAllUsers();
@@ -265,6 +281,13 @@ public class UserService {
 		user.setBlocked(true);
 		UserDAO.getInstance().changeUser(id, user);
 	}
+	
+	public void blockUserS(String id) {
+		SuspiciousUser user = getByUsernameS(id);
+		
+		user.setBlocked(true);
+		SuspiciousUserDAO.getInstance().changeSuspiciousUser(id, user);
+	}
 
 
 
@@ -310,6 +333,102 @@ public class UserService {
 		}
 		return ret;
 	}
-	
+	public void addSuspiciousUser(SuspiciousUser sus)
+	{
+		SuspiciousUserDAO suspiciousUserDAO=new SuspiciousUserDAO();
+		ArrayList<SuspiciousUser> users=suspiciousUserDAO.getInstance().getAllUsers();
+		SuspiciousUser sus1= new SuspiciousUser();
+		int brojac=0;
+		if(users!=null)
+		{
+		for(SuspiciousUser s : users)
+		{
+			if(s.userName!=null)
+			{
+			if(s.userName.equals(sus.userName))
+			{
+				Date date = new Date();  
+		        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+		        String strDate = formatter.format(date);
+				for(String ss : s.dates)
+				{
+                    sus1.dates.add(ss);
+				}
+				 sus1.setBlocked(false);
+		        sus1.setRole(Roles.CUSTOMER);
+				sus1.dates.add(strDate);
+				sus1.numberCenc=s.numberCenc+1;
+				sus1.points=s.points;
+				sus1.userName=s.userName;
+				sus1.surname=s.surname;
+				sus1.name=s.name;
+	            suspiciousUserDAO.changeSuspiciousUser(sus1.userName,sus1);
+				brojac++;
+				break;
+			}
+			}
+
+		}
+		}
+		if(brojac==0)
+		{
+	  
+				Date date = new Date();  
+		        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+		        String strDate = formatter.format(date);
+		        sus1.setBlocked(false);
+	            sus1.setRole(Roles.CUSTOMER);
+				sus1.dates.add(strDate);
+				sus1.setNumberCenc(1);
+				sus1.setPoints(sus.points);
+				sus1.setSurname(sus.surname);
+				sus1.setUserName(sus.userName);
+				sus1.setName(sus.name);
+
+	            suspiciousUserDAO.addUser(sus1);
+
+		}
+
+	}
+	public ArrayList<SuspiciousUser> sumnjiviKorisnici()
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, -30);
+		Date datumPre30Dana = cal.getTime();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date datumPorudzbine = null;
+		SuspiciousUserDAO suspiciousUserDAO=new SuspiciousUserDAO();
+		ArrayList<SuspiciousUser> users=suspiciousUserDAO.getInstance().getAllUsers();
+		ArrayList<SuspiciousUser> users1=new ArrayList<SuspiciousUser>();
+		int brojac=0;
+		for(SuspiciousUser s : users)
+		{
+			if(s.numberCenc>=5)
+			{
+				for(String str: s.dates)
+				{
+					try {
+						datumPorudzbine=formatter.parse(str);
+					} catch (ParseException e) {
+						
+						e.printStackTrace();
+					}
+					if(datumPre30Dana.before(datumPorudzbine)) brojac++;
+				}
+
+			}
+			if(brojac>=5)
+			{
+				users1.add(s);
+				brojac=0;
+
+			}
+		}
+		return users1;
+	}
 }
+	
+	
+
 	
